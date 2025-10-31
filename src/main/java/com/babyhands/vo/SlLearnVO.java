@@ -1,5 +1,7 @@
 package com.babyhands.vo;
 
+import java.util.Date;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,11 +11,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class MemberVO {
-	// DB 테이블의 하나의 행을 표현할 수 있는 형태를 만들어보자!
-	// 필드 == 테이블의 column
+public class SlLearnVO {
+	private int slLearnId;
+	private Date slLearnDate;
+	private int slId;
 	private String memberId;
-	private String pw;
-	private String nickname;
-	private String email;
 }
