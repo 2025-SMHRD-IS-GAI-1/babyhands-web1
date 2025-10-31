@@ -7,6 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	${loginVO.email}
+	${loginVO.memberId}
+	${loginVO.nickname}
 </body>
 </html>

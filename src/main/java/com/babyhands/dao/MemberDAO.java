@@ -23,7 +23,7 @@ public class MemberDAO {
 	public MemberVO login(MemberVO mvo) {
 		
 		SqlSession sqlSession = factory.openSession();
-		
+				
 		MemberVO loginVO = sqlSession.selectOne("login", mvo);
 		
 		sqlSession.close();

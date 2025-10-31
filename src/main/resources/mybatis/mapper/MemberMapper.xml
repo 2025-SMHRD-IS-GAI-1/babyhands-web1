@@ -18,11 +18,9 @@
 	</insert>
 	
 	<select id="login" parameterType="com.babyhands.vo.MemberVO" resultType="com.babyhands.vo.MemberVO">
-		<![CDATA[
-			SELECT EMAIL
-			FROM MEMBER
-			WHERE EMAIL = #{email} AND PW = #{pw}
-		]]>
+		SELECT MEMBER_ID, NICKNAME
+		FROM MEMBER
+		WHERE MEMBER_ID = #{memberId} AND PW = #{pw}
 	</select>
 	
 	

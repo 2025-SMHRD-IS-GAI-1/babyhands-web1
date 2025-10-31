@@ -23,30 +23,28 @@ public class LoginService implements Command {
 		String moveUrl = "";
 		
 		// 2. 요청 객체로 부터 데이터 꺼내오기
-		String email = request.getParameter("email");
+		String memberId = request.getParameter("id");
 		String pw = request.getParameter("pw");
 		
 		// 3. DB에 해당하는 내용이 전달되도록 작업! => DAO 클래스
-		MemberVO mvo = MemberVO.builder()
-				.email(email)
-				.pw(pw)
-				.build();
+		
+		MemberVO mvo = new MemberVO();
+		mvo.setMemberId(memberId);
+		mvo.setPw(pw);
 		
 		MemberDAO dao = new MemberDAO();
 		MemberVO loginVO = dao.login(mvo);
 		
-		// 4. 로그인 성공했다면,
-		// 4-1) 세션에 email 정보를 저장해서
-		// 4-2) main.jsp로 이동
+		// 로그인에 성공하면 session에 값 저장
 		HttpSession session = request.getSession();
 		if(loginVO != null) {
 			session.setAttribute("loginVO", loginVO);
+            return "redirect:/Gomain.do";
 		} else {
 			session.removeAttribute("loginVO");
+			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 401
+            return null;
 		}
-		moveUrl = "redirect:/Gohello.do";
-		
-		return moveUrl;
 	}
 
 }
