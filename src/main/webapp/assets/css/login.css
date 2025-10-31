@@ -157,6 +157,6 @@ body{
   .hero img{ width:300px; }
 }
 
-#id_message, #pw_message {
+#idMsg, #pwMsg {
 	color: red;
 }

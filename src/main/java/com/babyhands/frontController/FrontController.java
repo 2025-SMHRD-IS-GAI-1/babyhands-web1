@@ -57,18 +57,32 @@ public class FrontController extends HttpServlet {
 			moveUrl = com.execute(request, response);
 		}
 		
-		// 비동기 통신
-		if(moveUrl.startsWith("fetch:/") || moveUrl.startsWith("axios:/")) {
-			response.setContentType("application/json;charset=UTF-8");
-			PrintWriter out = response.getWriter();
-			out.print(moveUrl.substring(7));
-		} else if(moveUrl.startsWith("redirect:/")) {
-			// 2. redirect:/Gomain.do --> 
-			response.sendRedirect(moveUrl.substring(10));
-		} else {
-			RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/views/" + moveUrl);
-			rd.forward(request, response);
+		// moveUrl이 null이면(이미 Service에서 응답 끝낸 경우) 더 진행하지 않음
+		if (moveUrl == null) {
+		    return;
 		}
+
+		// 비동기(JSON 문자열) 응답
+		if (moveUrl.startsWith("fetch:/") || moveUrl.startsWith("axios:/")) {
+		    response.setContentType("application/json; charset=UTF-8");
+		    try (PrintWriter out = response.getWriter()) {
+		        // "fetch:/" == 7글자, 뒤는 순수 JSON 텍스트라고 가정
+		        out.print(moveUrl.substring(7));
+		    }
+		    return;
+		}
+
+		// 리다이렉트: 컨텍스트 경로 + "/Gomain.do" 형태로
+		if (moveUrl.startsWith("redirect:/")) {
+		    String ctx = request.getContextPath();    // 예: /ExMessageSystem
+		    // "redirect:/"는 9글자 → substring(9) 결과는 "/Gomain.do"
+		    response.sendRedirect(ctx + moveUrl.substring(9));
+		    return;
+		}
+
+		// 그 외엔 JSP forward (WEB-INF 아래로 안전하게)
+		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/" + moveUrl);
+		rd.forward(request, response);
 		
 	}
 
