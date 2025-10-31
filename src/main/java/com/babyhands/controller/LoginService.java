@@ -39,7 +39,7 @@ public class LoginService implements Command {
 		HttpSession session = request.getSession();
 		if(loginVO != null) {
 			session.setAttribute("loginVO", loginVO);
-            return "redirect:/Gohello.do";
+            return "redirect:/Gomain.do";
 		} else {
 			session.removeAttribute("loginVO");
 			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 401
