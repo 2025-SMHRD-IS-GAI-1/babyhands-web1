@@ -238,7 +238,7 @@
             <div class="menu-item">랭킹</div>
             <div class="menu-item">마이페이지</div>
         </div>
-        <div class="nickname">수정필요한부분</div>
+        <div class="nickname">${LoginMember.nickname}</div>
         <button class="logout-btn">로그아웃</button>
     </div>
 
@@ -246,23 +246,23 @@
         <div class="title">지난 학습결과</div>
 
         <div class="top-boxes">
-            <div class="top-box">총 학습일 수 : 수정필요한부분</div>
-            <div class="top-box">평균 : 수정필요한부분</div>
-        </div>
+    		<div class="top-box">총 학습일 수 : ${TotalDays}일</div>
+    		<div class="top-box">평균 : ${AverageScore}점</div>
+		</div>
 
         <div class="main-grid">
             <!-- 왼쪽 -->
             <div class="left-panel">
                 <div class="day-row">
-                    <div class="day-text">수정이-필요한-부분 · 1 / 10</div>
+                    <div class="day-text">지난학습결과날짜뭐라적어야할까.. · 1 / 10</div>
                     <button class="move-btn">이동</button>
                 </div>
                 <div class="day-row">
-                    <div class="day-text">수정이-필요한-부분 · 1 / 10</div>
+                    <div class="day-text">지난학습결과날짜뭐라적어야할까..  · 1 / 10</div>
                     <button class="move-btn">이동</button>
                 </div>
                 <div class="day-row">
-                    <div class="day-text">수정이-필요한-부분 · 1 / 10</div>
+                    <div class="day-text">지난학습결과날짜뭐라적어야할까..  · 1 / 10</div>
                     <button class="move-btn">이동</button>
                 </div>
             </div>
