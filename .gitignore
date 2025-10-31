@@ -1,0 +1,8 @@
+src/main/webapp/META-INF/context.xml
+target/
+.project
+.classpath
+.settings/
+Servers/
+.idea/
+*.iml
