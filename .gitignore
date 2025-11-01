@@ -1,8 +1,39 @@
-src/main/webapp/META-INF/context.xml
+# ==== OS ====
+.DS_Store
+Thumbs.db
+
+# ==== Maven build ====
 target/
+*.log
+hs_err_pid*
+replay_pid*
+
+# ==== Eclipse / WTP ====
+.metadata/
+.factorypath
 .project
 .classpath
 .settings/
 Servers/
+*.launch
+.mtj.tmp/
+wtpwebapps/
+.tmp/
+.work/
+
+# ==== IntelliJ / VS Code ====
 .idea/
 *.iml
+.vscode/
+
+# ==== App secrets / env ====
+.env
+.env.*
+
+# ==== (선택) 프런트엔드 산출물 ====
+node_modules/
+dist/
+build/
+
+# ==== 프로젝트 특화 (이미 있으므로 유지) ====
+src/main/webapp/META-INF/context.xml

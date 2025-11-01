@@ -30,5 +30,40 @@ public class MemberDAO {
 		
 		return loginVO;
 	}
+	
+	// 아이디 중복 체크
+	public MemberVO idCheck(String memberId) {
+		SqlSession sqlSession = factory.openSession();
+		
+		MemberVO loginVO = sqlSession.selectOne("idCheck", memberId);
+		
+		sqlSession.close();
+		
+		return loginVO;
+	}
+	
+	// 닉네임 중복 체크
+	public MemberVO nickNameCheck(String nickname) {
+		SqlSession sqlSession = factory.openSession();
+		
+		MemberVO loginVO = sqlSession.selectOne("nicknameCheck", nickname);
+		
+		sqlSession.close();
+		
+		return loginVO;
+	}
+	
+	// 회원 가입
+	public int join(MemberVO mvo) {
+		SqlSession sqlSession = factory.openSession();
+		
+		int row = sqlSession.insert("join", mvo);
+		
+		sqlSession.commit(); // 커밋 필수
+		
+		sqlSession.close();
+		
+		return row;
+	}
 
 }

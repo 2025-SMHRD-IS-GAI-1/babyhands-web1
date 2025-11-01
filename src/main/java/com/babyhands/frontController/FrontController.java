@@ -12,7 +12,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.babyhands.controller.IdCheckService;
+import com.babyhands.controller.JoinService;
 import com.babyhands.controller.LoginService;
+import com.babyhands.controller.NickNameCheckService;
 
 @WebServlet("*.do")
 public class FrontController extends HttpServlet {
@@ -27,6 +30,9 @@ public class FrontController extends HttpServlet {
 	public void init(ServletConfig config) throws ServletException {
 		map = new HashMap<String, Command>();
 		map.put("Login.do", new LoginService());
+		map.put("IdCheck.do", new IdCheckService());
+		map.put("NickNameCheck.do", new NickNameCheckService());
+		map.put("Join.do", new JoinService());
 	}
 
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

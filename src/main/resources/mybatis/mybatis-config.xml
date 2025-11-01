@@ -28,5 +28,6 @@
 	<mappers>
 		<!-- mapper파일이 여러개 생긴다면? 그 개수만큼 mapper태그 추가해주기 -->
 		<mapper resource="mybatis/mapper/MemberMapper.xml" />
+		<mapper resource="mybatis/mapper/AttendanceMapper.xml" />
 	</mappers>
 </configuration>
