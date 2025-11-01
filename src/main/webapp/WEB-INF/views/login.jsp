@@ -46,7 +46,7 @@
 
 				<div class="divider"></div>
 
-				<form action="${ctx}/Join.do" method="get">
+				<form action="${ctx}/Gojoin.do" method="get">
 					<button type="submit" class="btn btn-accent">회원가입</button>
 				</form>
 

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace : 해당하는 파일을 구분할 수 있는 고유의 이름을 정해주는 작업 해당하는 공간에는, mapper 파일을 
+	사용하게 될 DAO의 full name을 기술하는 것을 원칙으로 한다. -->
+<mapper namespace="com.babyhands.dao.AttendanceDAO">
+
+	<!-- SQL 구문들을 기술할 수 있는 공간 -->
+	<!-- * \#{} : JDBC기준 ?인자를 대신해서 사용하는 방식 : Java에서 전달받은 매개변수를 채울 때, 사용하는 mybatis만의 
+		방식 -->
+
+	<!-- 출석 -->
+	<insert id="attendance" parameterType="string">
+		MERGE INTO ATTENDANCE t
+		USING (SELECT #{memberId} AS MEMBER_ID FROM dual) s
+			ON (t.MEMBER_ID = s.MEMBER_ID AND TRUNC(t.LOGIN_DATE) = TRUNC(SYSDATE))
+		WHEN NOT MATCHED THEN
+			INSERT (ATTENDANCE_ID, MEMBER_ID, LOGIN_DATE)
+			VALUES (ATTENDANCE_SEQ.NEXTVAL, s.MEMBER_ID, SYSDATE)
+	</insert>
+
+
+</mapper>
