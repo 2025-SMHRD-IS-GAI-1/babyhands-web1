@@ -25,10 +25,10 @@ public class IdCheckService implements Command {
 		// 3. DB에 해당하는 내용이 전달되도록 작업! => DAO 클래스
 		
 		MemberDAO dao = new MemberDAO();
-		MemberVO loginVO = dao.idCheck(memberId);
+		String result = dao.idCheck(memberId);
 		Map<String, Object> payload = new HashMap<>();
 		
-		if(loginVO != null) {
+		if(result != null) {
             payload.put("ok", true);
 		} else {
 			payload.put("ok", false);

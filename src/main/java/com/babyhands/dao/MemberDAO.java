@@ -32,25 +32,36 @@ public class MemberDAO {
 	}
 	
 	// 아이디 중복 체크
-	public MemberVO idCheck(String memberId) {
+	public String idCheck(String memberId) {
 		SqlSession sqlSession = factory.openSession();
 		
-		MemberVO loginVO = sqlSession.selectOne("idCheck", memberId);
+		String result = sqlSession.selectOne("idCheck", memberId);
 		
 		sqlSession.close();
 		
-		return loginVO;
+		return result;
 	}
 	
 	// 닉네임 중복 체크
-	public MemberVO nickNameCheck(String nickname) {
+	public String nickNameCheck(String nickname) {
 		SqlSession sqlSession = factory.openSession();
 		
-		MemberVO loginVO = sqlSession.selectOne("nicknameCheck", nickname);
+		String result = sqlSession.selectOne("nicknameCheck", nickname);
 		
 		sqlSession.close();
 		
-		return loginVO;
+		return result;
+	}
+	
+	// 이메일 중복 체크
+	public String emailCheck(String email) {
+		SqlSession sqlSession = factory.openSession();
+		
+		String result = sqlSession.selectOne("emailCheck", email);
+		
+		sqlSession.close();
+		
+		return result;
 	}
 	
 	// 회원 가입
@@ -78,14 +89,25 @@ public class MemberDAO {
 	}
 	
 	// 회원 수정 페이지에서 닉네임 중복 체크
-	public MemberVO updateNickCheck(MemberVO mvo) {
+	public String updateNickCheck(MemberVO mvo) {
 		SqlSession sqlSession = factory.openSession();
 		
-		MemberVO loginVO = sqlSession.selectOne("updateNickCheck", mvo);
+		String result = sqlSession.selectOne("updateNickCheck", mvo);
 		
 		sqlSession.close();
 		
-		return loginVO;
+		return result;
+	}
+	
+	// 회원 수정 페이지에서 이메일 중복 체크
+	public String updateEmailCheck(MemberVO mvo) {
+		SqlSession sqlSession = factory.openSession();
+		
+		String result = sqlSession.selectOne("updateEmailCheck", mvo);
+		
+		sqlSession.close();
+		
+		return result;
 	}
 	
 	// 회원 수정
@@ -135,5 +157,9 @@ public class MemberDAO {
 		
 		return pw;
 	}
+
+	
+
+	
 
 }
