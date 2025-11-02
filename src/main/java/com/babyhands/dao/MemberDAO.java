@@ -65,5 +65,40 @@ public class MemberDAO {
 		
 		return row;
 	}
+	
+	// 회원 수정 전 로그인 회원 정보 가져오기
+	public MemberVO selectById(String memberId) {
+		SqlSession sqlSession = factory.openSession();
+		
+		MemberVO member = sqlSession.selectOne("selectById", memberId);
+		
+		sqlSession.close();
+		
+		return member;
+	}
+	
+	// 회원 수정 페이지에서 닉네임 중복 체크
+	public MemberVO updateNickCheck(MemberVO mvo) {
+		SqlSession sqlSession = factory.openSession();
+		
+		MemberVO loginVO = sqlSession.selectOne("updateNickCheck", mvo);
+		
+		sqlSession.close();
+		
+		return loginVO;
+	}
+	
+	// 회원 수정
+	public int update(MemberVO mvo) {
+		SqlSession sqlSession = factory.openSession();
+		
+		int row = sqlSession.insert("update", mvo);
+		
+		sqlSession.commit(); // 커밋 필수
+		
+		sqlSession.close();
+		
+		return row;
+	}
 
 }

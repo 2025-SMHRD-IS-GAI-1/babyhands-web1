@@ -28,7 +28,7 @@
 			<section class="card" aria-labelledby="loginTitle">
 				<h1 id="loginTitle" class="title">로그인</h1>
 
-				<form method="post" id="loginForm">
+				<form id="loginForm">
 					<label class="label" for="id">아이디 <span id="idMsg"></span></label>
 					<input id="id" name="id" type="text" class="input"
 						placeholder="example" autocomplete="username" /> <label

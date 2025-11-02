@@ -12,10 +12,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.babyhands.controller.GomemberUpdateService;
 import com.babyhands.controller.IdCheckService;
 import com.babyhands.controller.JoinService;
 import com.babyhands.controller.LoginService;
 import com.babyhands.controller.NickNameCheckService;
+import com.babyhands.controller.UpdateMemberService;
+import com.babyhands.controller.UpdateNickCheckService;
 
 @WebServlet("*.do")
 public class FrontController extends HttpServlet {
@@ -33,6 +36,9 @@ public class FrontController extends HttpServlet {
 		map.put("IdCheck.do", new IdCheckService());
 		map.put("NickNameCheck.do", new NickNameCheckService());
 		map.put("Join.do", new JoinService());
+		map.put("GomemberUpdate.do", new GomemberUpdateService());
+		map.put("UpdateNickCheck.do", new UpdateNickCheckService());
+		map.put("UpdateMember.do", new UpdateMemberService());
 	}
 
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -57,7 +63,14 @@ public class FrontController extends HttpServlet {
 			// ex) Gomain.do
 			// main.jsp 파일로 forward 방식 이동
 			// 최종적으로 이동해야하는 경로를 만들어주는 작업
-			moveUrl = finalUri.substring(2).replaceAll("do", "jsp");
+			
+			// 회원 수정 페이지 따로 분기
+			if(finalUri.equals("GomemberUpdate.do")) {
+				com = map.get(finalUri);
+				moveUrl = com.execute(request, response);	
+			} else {
+				moveUrl = finalUri.substring(2).replaceAll("do", "jsp");
+			}
 		} else {
 			com = map.get(finalUri);
 			moveUrl = com.execute(request, response);
