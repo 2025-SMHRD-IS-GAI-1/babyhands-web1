@@ -92,7 +92,20 @@ public class MemberDAO {
 	public int update(MemberVO mvo) {
 		SqlSession sqlSession = factory.openSession();
 		
-		int row = sqlSession.insert("update", mvo);
+		int row = sqlSession.update("update", mvo);
+		
+		sqlSession.commit(); // 커밋 필수
+		
+		sqlSession.close();
+		
+		return row;
+	}
+	
+	// 회원 탈퇴
+	public int delete(String memberId) {
+		SqlSession sqlSession = factory.openSession();
+		
+		int row = sqlSession.delete("delete", memberId);
 		
 		sqlSession.commit(); // 커밋 필수
 		

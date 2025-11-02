@@ -53,13 +53,19 @@
 	</select>
 	
 	<!-- 회원 수정 -->
-	<insert id="update" parameterType="com.babyhands.vo.MemberVO">
+	<update id="update" parameterType="com.babyhands.vo.MemberVO">
 		UPDATE MEMBER
 		SET PW = #{pw},
 			NICKNAME = #{nickname},
 			EMAIL = #{email}
 		WHERE MEMBER_ID = #{memberId}
-	</insert>
+	</update>
+	
+	<!-- 회원 탈퇴 -->
+	<update id="delete">
+		DELETE FROM MEMBER
+		WHERE MEMBER_ID = #{memberId}
+	</update>
 	
 
 

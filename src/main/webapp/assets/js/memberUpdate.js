@@ -1,5 +1,6 @@
 const updateForm = document.getElementById("updateForm");
 const updateButton = document.getElementById("updateButton");
+const deleteButton = document.getElementById("deleteButton");
 
 const idEl = document.getElementById("id");
 const pwEl = document.getElementById("pw");
@@ -16,12 +17,20 @@ const pw2Msg = document.getElementById("pw2Msg");
 const nickMsg = document.getElementById("nickMsg");
 const emailMsg = document.getElementById("emailMsg");
 
+const modal = document.getElementById("deleteModal");
+const backdrop = document.getElementById("deleteBackdrop");
+const confirmDelete = document.getElementById("confirmDelete");
+const cancelDelete = document.getElementById("cancelDelete");
+
 let pwValid = true;
 let pw2Valid = true;
 let nickValid = true;
 let emailValid = true;
 
 let nickDupCheckFlag = true;
+
+let lastFocused = null;
+
 
 // 비밀번호 입력할때마다 검증
 pwEl.addEventListener("input", (e) => {
@@ -284,3 +293,64 @@ function enableJoinIfReady() {
 	const ready = pwValid && pw2Valid && nickValid && nickDupCheckFlag && emailValid
 	updateButton.disabled = !ready;
 }
+
+// 외부영역(backdrop) 클릭 닫기
+backdrop.addEventListener("click", closeModal);
+cancelDelete.addEventListener("click", closeModal);
+
+// 열기
+deleteButton.addEventListener("click", openModal);
+
+// 삭제 확인
+confirmDelete.addEventListener("click", function(e) {
+	e.preventDefault();
+
+	if (confirmDelete) { confirmDelete.disabled = true; confirmDelete.textContent = "회원 탈퇴 중..."; }
+
+	const body = new URLSearchParams({ id: idEl.value.trim() });
+
+	fetch(`${APP_CTX}/DeleteMember.do`, {
+		method: "POST",
+		headers: { "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8" },
+		body,
+		credentials: "same-origin",
+	})
+		.then(function(res) {
+			return res.json();
+		})
+		.then((data) => {
+			if (data && data.ok) {
+				alert("회원탈퇴 성공");
+				location.replace(data.redirect);
+			} else {
+				alert(data.message || "회원탈퇴 실패");
+			}
+		})
+		.catch(function(err) {
+			console.error(err);
+			alert("네트워크 오류가 발생했습니다.");
+		})
+		.finally(function() {
+			if (confirmDelete) { confirmDelete.disabled = false; confirmDelete.textContent = "탈퇴하기"; }
+		});
+});
+
+
+function openModal() {
+	lastFocused = document.activeElement;
+	modal.classList.remove("hidden");
+	// ESC로 닫기
+	document.addEventListener("keydown", escClose);
+}
+
+function closeModal() {
+	modal.classList.add("hidden");
+	document.removeEventListener("keydown", escClose);
+	if (lastFocused) lastFocused.focus();
+}
+
+function escClose(e) {
+	if (e.key === "Escape") closeModal();
+}
+
+

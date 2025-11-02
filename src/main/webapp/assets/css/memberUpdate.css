@@ -162,6 +162,100 @@ input:focus {
 	height: 44px;
 }
 
+/* 모달 베이스(이미 있다면 유지) */
+.modal.hidden {
+	display: none;
+}
+
+.modal {
+	position: fixed;
+	inset: 0;
+	z-index: 9999;
+}
+
+.modal__backdrop {
+	position: absolute;
+	inset: 0;
+	background: rgba(0, 0, 0, .45);
+}
+
+.modal__content {
+	position: absolute;
+	left: 50%;
+	top: 45%;
+	transform: translate(-50%, -45%); /* 가로세로 중앙 기준 이동 */
+	max-width: 360px;
+	width: calc(100% - 32px);
+	max-height: calc(100vh - 120px);
+	overflow: auto;
+	margin: 0;
+	padding: 28px 24px;
+	background: #fff;
+	border-radius: 18px;
+	box-shadow: 0 10px 30px rgba(0, 0, 0, .15);
+	text-align: center;
+}
+
+/* 상단 느낌표 아이콘(연한 분홍 원 + 빨간 느낌표) */
+.modal__icon {
+	width: 60px;
+	height: 60px;
+	margin: 0 auto 12px;
+	border-radius: 50%;
+	background: #ffe3e3;
+	border: 1px solid #ffc9c9;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-weight: 800;
+	font-size: 28px;
+	line-height: 1;
+	color: #e03131;
+}
+
+/* 제목(강조 빨간색) */
+.modal__title-danger {
+	margin: 8px 0 0;
+	font-size: 20px;
+	font-weight: 800;
+	color: #e03131;
+}
+
+/* (선택) 보조 설명문 */
+.modal__subtitle {
+	margin: 8px 0 0;
+	font-size: 14px;
+	color: #666;
+}
+
+/* 버튼 영역 */
+.modal__actions.two {
+	margin-top: 20px;
+	display: flex;
+	gap: 12px;
+	justify-content: center;
+}
+
+/* 빨간 '탈퇴' 버튼 */
+.btn-danger.solid {
+	background: #f03e3e;
+	color: #fff;
+}
+
+.btn-danger.solid:hover {
+	filter: brightness(0.95);
+}
+
+/* 회색 '취소' 버튼 */
+.btn-neutral {
+	background: #f1f3f5;
+	color: #333;
+}
+
+.btn-neutral:hover {
+	filter: brightness(0.97);
+}
+
 /* 모바일에선 세로로 쌓기 (선택) */
 @media ( max-width : 768px) {
 	.actions {
@@ -172,5 +266,15 @@ input:focus {
 	.actions .btn {
 		flex: 0 0 auto; /* 자동 크기 */
 		width: 100%; /* 한 줄에 하나씩 가득 차게 */
+	}
+	.modal__content {
+		margin: 10vh 16px;
+		padding: 24px 20px;
+	}
+	.modal__actions.two {
+		flex-direction: column;
+	}
+	.btn {
+		width: 100%;
 	}
 }
