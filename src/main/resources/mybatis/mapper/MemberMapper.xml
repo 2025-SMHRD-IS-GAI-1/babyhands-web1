@@ -25,28 +25,28 @@
 	</select>
 	
 	<!-- 회원 가입 : 아이디 중복 체크 -->
-	<select id="idCheck" resultType="com.babyhands.vo.MemberVO">
+	<select id="idCheck" parameterType="string" resultType="string">
 		SELECT MEMBER_ID
 		FROM MEMBER
-		WHERE MEMBER_ID =#{memberId}
+		WHERE MEMBER_ID = #{memberId}
 	</select>
 	
 	<!-- 회원 가입 : 닉네임 중복 체크 -->
-	<select id="nicknameCheck" resultType="com.babyhands.vo.MemberVO">
+	<select id="nicknameCheck" parameterType="string" resultType="string">
 		SELECT NICKNAME
 		FROM MEMBER
-		WHERE NICKNAME =#{nickname}
+		WHERE NICKNAME = #{nickname}
 	</select>
 	
 	<!-- 회원 수정 전 회원 정보 불러오기 -->
-	<select id="selectById" resultType="com.babyhands.vo.MemberVO">
+	<select id="selectById" parameterType="string" resultType="com.babyhands.vo.MemberVO">
 		SELECT MEMBER_ID, PW, NICKNAME, EMAIL
 		FROM MEMBER
-		WHERE MEMBER_ID =#{memberId}
+		WHERE MEMBER_ID = #{memberId}
 	</select>
 	
 	<!-- 회원 수정 : 닉네임 중복 체크 -->
-	<select id="updateNickCheck" resultType="com.babyhands.vo.MemberVO">
+	<select id="updateNickCheck" parameterType="com.babyhands.vo.MemberVO" resultType="string">
 		SELECT NICKNAME
 		FROM MEMBER
 		WHERE MEMBER_ID != #{memberId} AND NICKNAME =#{nickname}
@@ -67,6 +67,11 @@
 		WHERE MEMBER_ID = #{memberId}
 	</update>
 	
-
-
+	<!-- 아이디 찾기 : 이메일로 회원 아이디 찾기 -->
+	<select id="findIdByEmail" parameterType="string" resultType="string">
+		SELECT MEMBER_ID
+		FROM MEMBER
+		WHERE EMAIL = #{email}
+	</select>
+	
 </mapper>

@@ -37,7 +37,7 @@
 						autocomplete="current-password" />
 
 					<div class="help">
-						<a href="${ctx}/FindId.do">아이디 찾기</a> <a href="${ctx}/FindPw.do">비밀번호
+						<a href="${ctx}/GofindId.do">아이디 찾기</a> <a href="${ctx}/FindPw.do">비밀번호
 							찾기</a>
 					</div>
 
