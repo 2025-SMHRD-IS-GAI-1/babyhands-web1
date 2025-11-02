@@ -10,50 +10,40 @@ request.setCharacterEncoding("UTF-8");
 <html lang="ko">
 <head>
 <meta charset="UTF-8" />
-<title>회원가입</title>
-<link rel="stylesheet" href="${ctx}/assets/css/join.css" />
+<title>회원수정</title>
+<link rel="stylesheet" href="${ctx}/assets/css/memberUpdate.css" />
 
 </head>
 
 <body>
 	<div class="wrap">
 		<div class="card">
-			<h1 class="title">회원가입</h1>
+			<h1 class="title">회원수정</h1>
 
-			<form id="joinForm">
+			<form id="updateForm">
 				<!-- 아이디 -->
-				<label for="id" class="label-with-icon"> 아이디 <span id="idStatus" class="status-icon"
-					aria-hidden="true" title="중복 확인 완료"> <!-- 초록 체크 SVG --> <svg
-							viewBox="0 0 24 24" width="18" height="18">
-      <path fill="currentColor"
-								d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z" />
-    </svg>
-				</span>
-				</label>
+				<label for="id" class="label-with-icon"> 아이디 </label>
 
 				<div class="row">
 					<input id="id" name="id" type="text" placeholder="아이디 입력 (4~20자)"
-						maxlength="20" autocomplete="username" />
-					<button type="button" id="idCheckBtn"
-						class="btn btn-primary btn-sm" disabled>중복 확인</button>
+						maxlength="20" autocomplete="username" disabled value="${member.memberId}"/>
 				</div>
-				<div id="idMsg" class="msg"></div>
 
 				<!-- 비밀번호 -->
 				<label for="pw">비밀번호</label> <input id="pw" name="pw"
 					type="password" placeholder="소문자, 대문자, 숫자, 특수문자 중 3종 포함 8~20자"
-					maxlength="20" autocomplete="new-password" />
-				<div id="pwMsg" class="msg"></div>
+					maxlength="20" autocomplete="new-password" value="${member.pw}"/>
+				<div id="pwMsg" class="msg ok">사용 가능한 비밀번호입니다</div>
 
 				<!-- 비밀번호 확인 -->
 				<label for="pw2">비밀번호 확인</label> <input id="pw2" name="pw2"
 					type="password" placeholder="비밀번호 재입력" maxlength="20"
-					autocomplete="new-password" />
-				<div id="pw2Msg" class="msg"></div>
+					autocomplete="new-password" value="${member.pw}"/>
+				<div id="pw2Msg" class="msg ok">비밀번호가 일치합니다</div>
 
 				<!-- 닉네임 -->
 				<label for="nickname" class="label-with-icon">닉네임
-				<span id="nicknameStatus" class="status-icon"
+				<span id="nicknameStatus" class="status-icon show"
 					aria-hidden="true" title="중복 확인 완료"> <!-- 초록 체크 SVG --> <svg
 							viewBox="0 0 24 24" width="18" height="18">
       <path fill="currentColor"
@@ -63,27 +53,26 @@ request.setCharacterEncoding("UTF-8");
 				</label>
 				<div class="row">
 					<input id="nickname" name="nickname" type="text" placeholder="한글 2~20자"
-						maxlength="20" />
+						maxlength="20" value="${member.nickname}"/>
 					<button type="button" id="nickCheckBtn"
-						class="btn btn-primary btn-sm" disabled>중복 확인</button>
+						class="btn btn-primary btn-sm">중복 확인</button>
 				</div>
-				<div id="nickMsg" class="msg"></div>
+				<div id="nickMsg" class="msg ok">중복 확인 완료</div>
 				<!-- 이메일 -->
 				<label for="email">이메일</label> <input id="email" name="email"
-					type="email" placeholder="email@example.com" maxlength="100"/>
-				<div id="emailMsg" class="msg"></div>
+					type="email" placeholder="email@example.com" maxlength="100" value="${member.email}"/>
+				<div id="emailMsg" class="msg ok">올바른 이메일 형식 입니다</div>
 
 				<!-- 버튼 -->
 				<div class="actions">
-					<button id="joinButton" class="btn btn-primary" type="submit"
-						disabled>가입하기</button>
+					<button id="updateButton" class="btn btn-primary" type="submit">수정하기</button>
+					<button class="btn btn-danger" type="submit">탈퇴</button>
 					<button class="btn btn-warning" type="button"
-						onclick="location.href='${ctx}/Gologin.do'">가입취소</button>
+						onclick="location.href='${ctx}/Gomypage.do'">수정취소</button>
 				</div>
 
 				<!-- 힌트 -->
 				<p class="hint">
-					아이디는 영문 소문자/숫자 4~20자<br>
 					비밀번호는 소문자, 대문자, 숫자, 특수문자 중 3종 포함 8~20자<br>
 					닉네임은 한글 2~20자<br>
 				</p>
@@ -93,6 +82,6 @@ request.setCharacterEncoding("UTF-8");
 	<script>
 		window.APP_CTX = '${ctx}';
 	</script>
-	<script src="${ctx}/assets/js/join.js"></script>
+	<script src="${ctx}/assets/js/memberUpdate.js"></script>
 </body>
 </html>
