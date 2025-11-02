@@ -114,7 +114,7 @@ public class MemberDAO {
 		return row;
 	}
 	
-	// 아이디 찾기 : 이메일로 사용자 아이디 찾기
+	// 아이디 찾기 : 이메일로 회원 아이디 찾기
 	public String findIdByEmail(String email) {
 		SqlSession sqlSession = factory.openSession();
 		
@@ -123,6 +123,17 @@ public class MemberDAO {
 		sqlSession.close();
 		
 		return memberId;
+	}
+	
+	// 비밀번호 찾기 : 아이디와 이메일로 회원 비밀번호 찾기
+	public String findPw(MemberVO mvo) {
+		SqlSession sqlSession = factory.openSession();
+		
+		String pw = sqlSession.selectOne("findPw", mvo);
+		
+		sqlSession.close();
+		
+		return pw;
 	}
 
 }

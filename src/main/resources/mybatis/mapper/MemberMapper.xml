@@ -74,4 +74,11 @@
 		WHERE EMAIL = #{email}
 	</select>
 	
+	<!-- 비밀번호 찾기 : 아이디와 이메일로 회원 비밀번호 찾기 -->
+	<select id="findPw" parameterType="com.babyhands.vo.MemberVO" resultType="string">
+		SELECT PW
+		FROM MEMBER
+		WHERE MEMBER_ID = #{memberId} AND EMAIL = #{email}
+	</select>
+	
 </mapper>

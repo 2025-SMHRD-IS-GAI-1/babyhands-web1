@@ -6,6 +6,30 @@ const emailMsg = document.getElementById("emailMsg");
 
 const findIdButton = document.getElementById("findIdButton");
 
+let emailValid = false;
+
+// 이메일 입력할때마다 검증
+emailEl.addEventListener("input", (e) => {
+
+	// 메시지 클래스 초기화
+	emailMsg.classList.remove("ok", "error");
+	emailMsg.innerText = "";
+
+	const emailValidCheck = emailValidate();
+
+	// ===== 닉네임 검사 =====
+	if (emailValidCheck) {
+		emailValid = true;
+		emailMsg.classList.add("ok");
+		emailMsg.innerText = "올바른 이메일 형식 입니다";
+	} else {
+		emailValid = false;
+		emailMsg.classList.add("error");
+	}
+
+	enableJoinIfReady();
+});
+
 // 이메일 검증 로직
 function emailValidate() {
 	if (!emailEl.value) {
@@ -59,9 +83,9 @@ findIdForm.addEventListener("submit", function(e) {
 		})
 		.then((data) => {
 			if (data && data.ok) {
-				alert("아이디 찾기 성공 <br> 입력한 이메일에서 아이디를 확인하세요.");
+				alert("아이디 찾기 성공\n입력한 이메일에서 아이디를 확인하세요.");
 			} else {
-				alert(data.message || "아이디 찾기 실패 <br> 입력한 이메일을 사용하는 회원이 없습니다.");
+				alert(data.message || "아이디 찾기 실패\n입력한 이메일을 사용하는 회원이 없습니다.");
 			}
 		})
 		.catch(function(err) {
@@ -72,3 +96,7 @@ findIdForm.addEventListener("submit", function(e) {
 			if (findIdButton) { findIdButton.disabled = false; findIdButton.textContent = "아이디 찾기"; }
 		});
 });
+
+function enableJoinIfReady() {
+	findIdButton.disabled = !emailValid;
+}
