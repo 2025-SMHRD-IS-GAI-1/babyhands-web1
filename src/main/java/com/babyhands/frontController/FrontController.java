@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.babyhands.controller.DeleteMemberService;
 import com.babyhands.controller.GomemberUpdateService;
 import com.babyhands.controller.IdCheckService;
 import com.babyhands.controller.JoinService;
@@ -39,6 +40,7 @@ public class FrontController extends HttpServlet {
 		map.put("GomemberUpdate.do", new GomemberUpdateService());
 		map.put("UpdateNickCheck.do", new UpdateNickCheckService());
 		map.put("UpdateMember.do", new UpdateMemberService());
+		map.put("DeleteMember.do", new DeleteMemberService());
 	}
 
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

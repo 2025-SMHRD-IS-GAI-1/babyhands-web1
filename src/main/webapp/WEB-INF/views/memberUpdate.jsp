@@ -20,31 +20,53 @@ request.setCharacterEncoding("UTF-8");
 		<div class="card">
 			<h1 class="title">회원수정</h1>
 
+			<!-- 삭제 확인 모달 -->
+			<div id="deleteModal" class="modal hidden" role="dialog"
+				aria-modal="true" aria-labelledby="deleteTitle">
+				<div class="modal__backdrop" id="deleteBackdrop" data-close="1"></div>
+
+				<div class="modal__content" role="document">
+					<div class="modal__icon" aria-hidden="true">!</div>
+					<h2 id="deleteTitle" class="modal__title-danger">탈퇴하시겠습니까?</h2>
+
+					<p class="modal__subtitle">
+						탈퇴 시 계정과 데이터가 삭제될 수 있습니다.<br>이 작업은 되돌릴 수 없습니다.
+					</p>
+
+					<div class="modal__actions two">
+						<button type="button" id="confirmDelete"
+							class="btn btn-danger solid">탈퇴</button>
+						<button type="button" id="cancelDelete" class="btn btn-neutral">취소</button>
+					</div>
+				</div>
+			</div>
+
 			<form id="updateForm">
 				<!-- 아이디 -->
 				<label for="id" class="label-with-icon"> 아이디 </label>
 
 				<div class="row">
 					<input id="id" name="id" type="text" placeholder="아이디 입력 (4~20자)"
-						maxlength="20" autocomplete="username" disabled value="${member.memberId}"/>
+						maxlength="20" autocomplete="username" disabled
+						value="${member.memberId}" />
 				</div>
 
 				<!-- 비밀번호 -->
 				<label for="pw">비밀번호</label> <input id="pw" name="pw"
 					type="password" placeholder="소문자, 대문자, 숫자, 특수문자 중 3종 포함 8~20자"
-					maxlength="20" autocomplete="new-password" value="${member.pw}"/>
+					maxlength="20" autocomplete="new-password" value="${member.pw}" />
 				<div id="pwMsg" class="msg ok">사용 가능한 비밀번호입니다</div>
 
 				<!-- 비밀번호 확인 -->
 				<label for="pw2">비밀번호 확인</label> <input id="pw2" name="pw2"
 					type="password" placeholder="비밀번호 재입력" maxlength="20"
-					autocomplete="new-password" value="${member.pw}"/>
+					autocomplete="new-password" value="${member.pw}" />
 				<div id="pw2Msg" class="msg ok">비밀번호가 일치합니다</div>
 
 				<!-- 닉네임 -->
-				<label for="nickname" class="label-with-icon">닉네임
-				<span id="nicknameStatus" class="status-icon show"
-					aria-hidden="true" title="중복 확인 완료"> <!-- 초록 체크 SVG --> <svg
+				<label for="nickname" class="label-with-icon">닉네임 <span
+					id="nicknameStatus" class="status-icon show" aria-hidden="true"
+					title="중복 확인 완료"> <!-- 초록 체크 SVG --> <svg
 							viewBox="0 0 24 24" width="18" height="18">
       <path fill="currentColor"
 								d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z" />
@@ -52,29 +74,29 @@ request.setCharacterEncoding("UTF-8");
 				</span>
 				</label>
 				<div class="row">
-					<input id="nickname" name="nickname" type="text" placeholder="한글 2~20자"
-						maxlength="20" value="${member.nickname}"/>
+					<input id="nickname" name="nickname" type="text"
+						placeholder="한글 2~20자" maxlength="20" value="${member.nickname}" />
 					<button type="button" id="nickCheckBtn"
 						class="btn btn-primary btn-sm">중복 확인</button>
 				</div>
 				<div id="nickMsg" class="msg ok">중복 확인 완료</div>
 				<!-- 이메일 -->
 				<label for="email">이메일</label> <input id="email" name="email"
-					type="email" placeholder="email@example.com" maxlength="100" value="${member.email}"/>
+					type="email" placeholder="email@example.com" maxlength="100"
+					value="${member.email}" />
 				<div id="emailMsg" class="msg ok">올바른 이메일 형식 입니다</div>
 
 				<!-- 버튼 -->
 				<div class="actions">
 					<button id="updateButton" class="btn btn-primary" type="submit">수정하기</button>
-					<button class="btn btn-danger" type="submit">탈퇴</button>
+					<button id="deleteButton" class="btn btn-danger" type="button">탈퇴</button>
 					<button class="btn btn-warning" type="button"
 						onclick="location.href='${ctx}/Gomypage.do'">수정취소</button>
 				</div>
 
 				<!-- 힌트 -->
 				<p class="hint">
-					비밀번호는 소문자, 대문자, 숫자, 특수문자 중 3종 포함 8~20자<br>
-					닉네임은 한글 2~20자<br>
+					비밀번호는 소문자, 대문자, 숫자, 특수문자 중 3종 포함 8~20자<br> 닉네임은 한글 2~20자<br>
 				</p>
 			</form>
 		</div>
