@@ -9,9 +9,11 @@ const emailEl = document.getElementById("email");
 
 const idCheckBtn = document.getElementById("idCheckBtn");
 const nickCheckBtn = document.getElementById("nickCheckBtn");
+const emailCheckBtn = document.getElementById("emailCheckBtn");
 
 const idStatus = document.getElementById("idStatus");
 const nickStatus = document.getElementById("nicknameStatus");
+const emailStatus = document.getElementById("emailStatus");
 
 const idMsg = document.getElementById("idMsg");
 const pwMsg = document.getElementById("pwMsg");
@@ -27,6 +29,7 @@ let emailValid = false;
 
 let idDupCheckFlag = false;
 let nickDupCheckFlag = false;
+let emailDupCheckFlag = false;
 
 // 아이디 입력할때마다 검증
 idEl.addEventListener("input", (e) => {
@@ -226,7 +229,7 @@ nickEl.addEventListener("input", (e) => {
 	if (nickValidCheck) {
 		nickValid = true;
 		nickMsg.classList.add("ok");
-		nickMsg.innerText = "중복 확인을 진행하세요.";
+		nickMsg.innerText = "중복 확인을 진행하세요";
 	} else {
 		nickValid = false;
 		nickMsg.classList.add("error");
@@ -294,7 +297,11 @@ nickCheckBtn.addEventListener("click", function(e) {
 
 // 이메일 입력할때마다 검증
 emailEl.addEventListener("input", (e) => {
-
+	
+	// 아이콘/중복확인 상태 초기화
+	emailStatus.classList.remove("show");
+	emailDupCheckFlag = false;
+	
 	// 메시지 클래스 초기화
 	emailMsg.classList.remove("ok", "error");
 	emailMsg.innerText = "";
@@ -305,12 +312,13 @@ emailEl.addEventListener("input", (e) => {
 	if (emailValidCheck) {
 		emailValid = true;
 		emailMsg.classList.add("ok");
-		emailMsg.innerText = "올바른 이메일 형식 입니다";
+		emailMsg.innerText = "중복 확인을 진행하세요";
 	} else {
 		emailValid = false;
 		emailMsg.classList.add("error");
 	}
-
+	
+	emailCheckBtn.disabled = !emailValidCheck;
 	enableJoinIfReady();
 });
 
@@ -335,6 +343,41 @@ function emailValidate() {
 
 	return true;
 }
+
+// 이메일 중복 체크
+emailCheckBtn.addEventListener("click", function(e) {
+
+	const body = new URLSearchParams({ email: emailEl.value.trim() });
+
+	if (emailCheckBtn) { emailCheckBtn.disabled = false; emailCheckBtn.textContent = "중복 확인중..."; }
+
+	fetch(`${APP_CTX}/EmailCheck.do`, {
+		method: "POST",
+		headers: { "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8" },
+		body,
+		credentials: "same-origin",
+	})
+		.then(function(res) {
+			return res.json();
+		})
+		.then((data) => {
+			if (data && !data.ok) {
+				emailStatus.classList.add("show");
+				emailDupCheckFlag = true;
+				emailMsg.innerText = "중복 확인 완료";
+				enableJoinIfReady();
+			} else {
+				alert("중복된 닉네임이 있습니다");
+			}
+		})
+		.catch(function(err) {
+			console.error(err);
+			alert("네트워크 오류가 발생했습니다.");
+		})
+		.finally(function() {
+			if (emailCheckBtn) { emailCheckBtn.textContent = "중복 확인"; }
+		});
+});
 
 
 joinForm.addEventListener("submit", function(e) {
@@ -371,6 +414,6 @@ joinForm.addEventListener("submit", function(e) {
 });
 
 function enableJoinIfReady() {
-	const ready = idValid && idDupCheckFlag && pwValid && pw2Valid && nickValid && nickDupCheckFlag && emailValid
+	const ready = idValid && idDupCheckFlag && pwValid && pw2Valid && nickValid && nickDupCheckFlag && emailValid && emailDupCheckFlag
 	joinButton.disabled = !ready;
 }

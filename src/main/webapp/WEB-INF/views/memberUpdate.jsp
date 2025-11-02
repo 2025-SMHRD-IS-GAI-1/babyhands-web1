@@ -64,14 +64,12 @@ request.setCharacterEncoding("UTF-8");
 				<div id="pw2Msg" class="msg ok">비밀번호가 일치합니다</div>
 
 				<!-- 닉네임 -->
-				<label for="nickname" class="label-with-icon">닉네임 <span
-					id="nicknameStatus" class="status-icon show" aria-hidden="true"
-					title="중복 확인 완료"> <!-- 초록 체크 SVG --> <svg
-							viewBox="0 0 24 24" width="18" height="18">
-      <path fill="currentColor"
-								d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z" />
-    </svg>
-				</span>
+				<label for="nickname" class="label-with-icon">닉네임 
+					<span id="nicknameStatus" class="status-icon show" aria-hidden="true" title="중복 확인 완료">
+						<svg viewBox="0 0 24 24" width="18" height="18">
+      						<path fill="currentColor" d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z" />
+   						</svg>
+					</span>
 				</label>
 				<div class="row">
 					<input id="nickname" name="nickname" type="text"
@@ -81,10 +79,20 @@ request.setCharacterEncoding("UTF-8");
 				</div>
 				<div id="nickMsg" class="msg ok">중복 확인 완료</div>
 				<!-- 이메일 -->
-				<label for="email">이메일</label> <input id="email" name="email"
-					type="email" placeholder="email@example.com" maxlength="100"
-					value="${member.email}" />
-				<div id="emailMsg" class="msg ok">올바른 이메일 형식 입니다</div>
+				<label for="email">이메일
+					<span id="emailStatus" class="status-icon show" aria-hidden="true" title="중복 확인 완료"> 
+						<svg viewBox="0 0 24 24" width="18" height="18">
+      						<path fill="currentColor" d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z" />
+    					</svg>
+					</span>
+				</label>
+				<div class="row">
+					<input id="email" name="email" type="email" placeholder="email@example.com" maxlength="100"
+						value="${member.email}" />
+					<button type="button" id="emailCheckBtn"
+						class="btn btn-primary btn-sm">중복 확인</button>
+				</div>
+				<div id="emailMsg" class="msg ok">중복 확인 완료</div>
 
 				<!-- 버튼 -->
 				<div class="actions">

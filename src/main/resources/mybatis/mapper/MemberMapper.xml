@@ -38,6 +38,13 @@
 		WHERE NICKNAME = #{nickname}
 	</select>
 	
+	<!-- 회원 가입 : 이메일 중복 체크 -->
+	<select id="emailCheck" parameterType="string" resultType="string">
+		SELECT EMAIL
+		FROM MEMBER
+		WHERE EMAIL = #{email}
+	</select>
+	
 	<!-- 회원 수정 전 회원 정보 불러오기 -->
 	<select id="selectById" parameterType="string" resultType="com.babyhands.vo.MemberVO">
 		SELECT MEMBER_ID, PW, NICKNAME, EMAIL
@@ -50,6 +57,13 @@
 		SELECT NICKNAME
 		FROM MEMBER
 		WHERE MEMBER_ID != #{memberId} AND NICKNAME =#{nickname}
+	</select>
+	
+	<!-- 회원 수정 : 이메일 중복 체크 -->
+	<select id="updateEmailCheck" parameterType="com.babyhands.vo.MemberVO" resultType="string">
+		SELECT EMAIL
+		FROM MEMBER
+		WHERE MEMBER_ID != #{memberId} AND EMAIL =#{email}
 	</select>
 	
 	<!-- 회원 수정 -->

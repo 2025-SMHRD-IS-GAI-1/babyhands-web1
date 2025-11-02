@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.babyhands.controller.DeleteMemberService;
+import com.babyhands.controller.EmailCheckService;
 import com.babyhands.controller.FindIdService;
 import com.babyhands.controller.FindPwService;
 import com.babyhands.controller.GomemberUpdateService;
@@ -20,6 +21,7 @@ import com.babyhands.controller.IdCheckService;
 import com.babyhands.controller.JoinService;
 import com.babyhands.controller.LoginService;
 import com.babyhands.controller.NickNameCheckService;
+import com.babyhands.controller.UpdateEmailCheckService;
 import com.babyhands.controller.UpdateMemberService;
 import com.babyhands.controller.UpdateNickCheckService;
 
@@ -38,9 +40,11 @@ public class FrontController extends HttpServlet {
 		map.put("Login.do", new LoginService());
 		map.put("IdCheck.do", new IdCheckService());
 		map.put("NickNameCheck.do", new NickNameCheckService());
+		map.put("EmailCheck.do", new EmailCheckService());
 		map.put("Join.do", new JoinService());
 		map.put("GomemberUpdate.do", new GomemberUpdateService());
 		map.put("UpdateNickCheck.do", new UpdateNickCheckService());
+		map.put("UpdateEmailCheck.do", new UpdateEmailCheckService());
 		map.put("UpdateMember.do", new UpdateMemberService());
 		map.put("DeleteMember.do", new DeleteMemberService());
 		map.put("FindId.do", new FindIdService());
