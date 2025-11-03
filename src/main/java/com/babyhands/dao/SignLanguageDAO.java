@@ -1,9 +1,12 @@
 package com.babyhands.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 
 import com.babyhands.config.MysqlSessionManager;
+import com.babyhands.vo.SignLanguageVO;
 
 public class SignLanguageDAO {
 	// 필드영역
@@ -15,6 +18,28 @@ public class SignLanguageDAO {
 		SqlSession sqlSession = factory.openSession();
 
 		int result = sqlSession.selectOne("getCountAllSL");
+
+		sqlSession.close();
+
+		return result;
+	}
+	
+	// 수어 학습 : 자음 리스트 가져오기
+	public List<SignLanguageVO> getConsonantList() {
+		SqlSession sqlSession = factory.openSession();
+
+		List<SignLanguageVO> result = sqlSession.selectList("getConsonantList");
+
+		sqlSession.close();
+
+		return result;
+	}
+	
+	// 수어 학습 : 모음 리스트 가져오기
+	public List<SignLanguageVO> getVowelList() {
+		SqlSession sqlSession = factory.openSession();
+
+		List<SignLanguageVO> result = sqlSession.selectList("getVowelList");
 
 		sqlSession.close();
 
