@@ -9,8 +9,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>수어 학습 테스트</title>
     
-    <!-- Bootstrap CSS (integrity 오타 수정) -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" xintegrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <!-- Bootstrap CSS (오타 수정 완료) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     
     <!-- Google Fonts (Noto Sans KR) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -40,17 +40,14 @@
             <!-- 4-1. 좌측 영상 패널 -->
             <section class="test-panel">
                 
-                <!-- [복원] 박스 내부 제목 -->
+                <!-- 박스 내부 제목 -->
                 <div class="section-header">
-                    <p class="section-subtitle" id="question-subtitle">문제 영상 1 / 10</p>
+                    <div class="section-subtitle" id="question-subtitle">문제 영상 1 / 10</div>
                 </div>
 
-                <!-- [복원] 비디오 박스 구조 -->
-                <div class="video-placeholder-test video-box">
-                    <!-- [복원] 비디오 제목 -->
-                    <p class="video-title">문제 영상</p>                  
+                <!-- 비디오 박스 구조 -->
+                <div class="video-placeholder-test video-box">                                                
                     <div class="video-placeholder">
-                        <!-- [수정] 인라인 style 제거 -->
                         <video id="question_video" controls>
                             <span>수어 문제 영상 플레이스홀더</span>
                         </video>
@@ -61,13 +58,12 @@
             <!-- 4-2. 우측 정답 패널 -->
             <section class="answer-panel">
                 
-                <!-- [복원] 박스 내부 제목 -->
+                <!-- 박스 내부 제목 -->
                 <div class="section-header">
-                     <p class="section-subtitle">정답 선택</p>
+                     <div class="section-subtitle">정답 선택</div>
                 </div>
 
-                <form action="<c:url value='/submitAnswer' />" method="POST" class="answer-form">
-                    <ul class="answer-list">
+					<form action="<c:url value='/submitAnswer' />" method="POST" class="answer-form">                    <ul class="answer-list">
                         <li>
                             <input type="radio" id="ans1" name="answer" value="1" required>
                             <label for="ans1">반갑습니다람쥐</label>
@@ -85,6 +81,7 @@
                             <label for="ans4">네</label>
                         </li>
                     </ul>
+                    <!-- 제출 버튼이 <li> 밖으로 정확히 이동되었습니다. -->
                     <button type="submit" class="submit-btn">제출하기</button>
                 </form>
             </section>
@@ -92,8 +89,8 @@
         </main>
     </div> <!-- /container -->
     
-    <!-- Bootstrap JS (integrity 오타 수정) -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" xintegrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous" defer></script>
+    <!-- Bootstrap JS (오타 수정 완료) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous" defer></script>
 
     <!-- Custom JS -->
     <script>
@@ -103,4 +100,3 @@
     <script src="${ctx}/assets/js/sl-test.js"></script>
 </body>
 </html>
-
