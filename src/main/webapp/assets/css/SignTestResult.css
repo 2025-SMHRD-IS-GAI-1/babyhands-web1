@@ -1,0 +1,193 @@
+@charset "UTF-8";
+
+:root {
+	--bg: radial-gradient(circle at top, #f4f8ff 0%, #eaf2ff 60%, #e4efff 100%);
+	--card: #ffffff;
+	--accent: #3c77ff;
+	--green: #2ebf57;
+	--red: #f57373;
+	--light-border: rgba(201, 214, 235, 0.5);
+}
+
+* {
+	box-sizing: border-box;
+	font-family: "Pretendard", "Noto Sans KR", sans-serif;
+}
+
+body {
+	margin: 0;
+	background: var(--bg);
+}
+
+.st-page {
+	max-width: 1150px;
+	margin: 20px auto 40px;
+	display: grid;
+	grid-template-columns: 300px 1fr;
+	gap: 28px;
+}
+
+.st-left {
+	/* 그냥 column */
+	
+}
+
+.st-title {
+	font-weight: 700;
+	margin-bottom: 14px;
+	color: #111f3a;
+}
+
+.st-summary-card {
+	background: var(--card);
+	border-radius: 20px;
+	padding: 20px 20px 22px;
+	box-shadow: 0 10px 30px rgba(206, 217, 234, 0.35);
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	min-height: 520px;
+}
+
+.st-summary-label {
+	font-weight: 500;
+	color: #848b97;
+}
+
+/* 트로피 */
+.st-trophy {
+	display: flex;
+	justify-content: center;
+	margin-top: 6px;
+}
+
+.st-trophy-body {
+	width: 120px;
+	height: 150px;
+	background: #ffb533;
+	border-radius: 60px 60px 18px 18px;
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.st-trophy-body::before, .st-trophy-body::after {
+	content: "";
+	position: absolute;
+	top: 38px;
+	width: 40px;
+	height: 70px;
+	border: 8px solid #ffb533;
+	border-radius: 50px;
+}
+
+.st-trophy-body::before {
+	left: -38px;
+}
+
+.st-trophy-body::after {
+	right: -38px;
+}
+
+.st-trophy-star {
+	width: 42px;
+	height: 42px;
+	background: #fff;
+	border-radius: 50%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	color: #ffb533;
+	font-weight: 700;
+	font-size: 20px;
+}
+
+/* 게이지 */
+.st-gauge {
+	height: 10px;
+	background: #d8dde0;
+	border-radius: 5px;
+	overflow: hidden;
+}
+
+.st-gauge-inner {
+	height: 100%;
+	background: #3c77ff;
+}
+
+/* 점수 박스 */
+.st-info-box {
+	background: #f5f8fb;
+	border-radius: 12px;
+	padding: 12px 14px 10px;
+	border: 1px solid rgba(214, 220, 231, 0.45);
+}
+
+.st-info-title {
+	font-size: 13px;
+	color: #6a7481;
+	margin-bottom: 4px;
+}
+
+.st-info-value {
+	font-size: 16px;
+	font-weight: 700;
+	color: #182334;
+}
+
+/* 버튼 */
+.st-btn {
+	margin-top: auto;
+	background: var(--accent);
+	border: none;
+	border-radius: 10px;
+	padding: 12px 10px;
+	color: #fff;
+	font-weight: 600;
+	font-size: 14px;
+	cursor: pointer;
+}
+
+/* 오른쪽 영역 */
+.st-right {
+	background: var(--card);
+	border-radius: 20px;
+	padding: 18px 22px 28px;
+	box-shadow: 0 10px 30px rgba(206, 217, 234, 0.35);
+	min-height: 520px;
+}
+
+.st-right-title {
+	font-weight: 600;
+	margin-bottom: 18px;
+}
+
+/* 5 x 2 Grid */
+.st-grid {
+	display: grid;
+	grid-template-columns: repeat(5, minmax(90px, 1fr));
+	gap: 16px;
+}
+
+/* 셀 공통 */
+.st-cell {
+	height: 95px;
+	border-radius: 14px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-weight: 600;
+	color: #fff;
+	font-size: 16px;
+}
+
+/* 정답 */
+.st-cell-correct {
+	background: var(--green);
+}
+
+/* 오답 */
+.st-cell-wrong {
+	background: var(--red);
+}
