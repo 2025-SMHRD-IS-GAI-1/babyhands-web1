@@ -40,6 +40,7 @@
         <mapper resource="mybatis/mapper/AttendanceMapper.xml" />
         <!-- 랭킹/테스트 결과용 매퍼 -->
         <mapper resource="mybatis/mapper/SlTestMapper.xml" />
+        <mapper resource="mybatis/mapper/SlLearnMapper.xml"/>
     </mappers>
 
 </configuration>
