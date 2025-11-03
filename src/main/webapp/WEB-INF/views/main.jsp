@@ -79,7 +79,7 @@
 				<!-- 상단: 월 이동 헤더 -->
 				<div class="cal__header">
 					<a class="icon-btn" aria-label="이전 달"
-						href="SelectAttendance.do?y=<%= prevMonth.getYear() %>&m=<%= prevMonth.getMonthValue() %>">
+						href="<%=self%>?y=<%=prevMonth.getYear()%>&m=<%=prevMonth.getMonthValue()%>">
 						<span class="chev chev--left"></span>
 					</a>
 
@@ -89,7 +89,7 @@
 					</div>
 
 					<a class="icon-btn" aria-label="다음 달"
-						href="SelectAttendance.do?y=<%= prevMonth.getYear() %>&m=<%= prevMonth.getMonthValue() %>">
+						href="<%=self%>?y=<%=nextMonth.getYear()%>&m=<%=nextMonth.getMonthValue()%>">
 						<span class="chev chev--right"></span>
 					</a>
 				</div>
