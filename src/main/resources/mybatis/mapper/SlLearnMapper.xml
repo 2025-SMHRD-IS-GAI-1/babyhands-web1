@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace : DAO가 아니라 논리적인 Mapper 이름으로! -->
+<mapper namespace="com.babyhands.dao.SlLearnDAO">
+
+	<!-- 마이페이지 : 오늘의 목표 -->
+	<select id="getTodayGoal" parameterType="string"
+		resultType="int">
+		<![CDATA[
+			SELECT COUNT(*)
+			FROM SL_LEARN
+			WHERE SL_LEARN_DATE >= TRUNC(SYSDATE)
+			AND SL_LEARN_DATE < TRUNC(SYSDATE) + 1
+			AND MEMBER_ID = #{memberId}
+		]]>
+	</select>
+
+	<!-- 마이페이지 : 전체 진행률(수어 학습한것만 카운트) -->
+	<select id="getOverallProgress" parameterType="string"
+		resultType="int">
+		<![CDATA[
+			SELECT COUNT(DISTINCT(SL_LEARN_ID))
+			FROM SL_LEARN
+			WHERE MEMBER_ID = #{memberId}
+		]]>
+	</select>
+	
+	
+
+</mapper>
