@@ -20,8 +20,6 @@
 </head>
 <body>
 	<div class="app-wrap">
-
-
 		<!-- PAGE TITLE -->
 		<main class="container mypage-container">
 			<!-- NAV -->

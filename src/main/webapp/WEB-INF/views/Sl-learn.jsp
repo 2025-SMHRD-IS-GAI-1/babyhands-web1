@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html lang="ko">
@@ -33,49 +33,32 @@
 			<aside class="sidebar">
 				<h2 class="sidebar-title">자음</h2>
 				<ul class="word-list">
-					<li><a href="#" class="word-item">ㄱ</a></li>
-					<li><a href="#" class="word-item">ㄴ</a></li>
-					<li><a href="#" class="word-item">ㄷ</a></li>
-					<li><a href="#" class="word-item">ㄹ</a></li>
-					<li><a href="#" class="word-item">ㅁ</a></li>
-					<li><a href="#" class="word-item">ㅂ</a></li>
-					<li><a href="#" class="word-item">ㅅ</a></li>
-					<li><a href="#" class="word-item">ㅇ</a></li>
-					<li><a href="#" class="word-item">ㅈ</a></li>
-					<li><a href="#" class="word-item">ㅊ</a></li>
-					<li><a href="#" class="word-item">ㅋ</a></li>
-					<li><a href="#" class="word-item">ㅌ</a></li>
-					<li><a href="#" class="word-item">ㅍ</a></li>
-					<li><a href="#" class="word-item">ㅎ</a></li>
+					<c:forEach var="consonant" items="${consonantList}">
+						<li>
+							<a 
+								href="#" 
+								class="word-item"
+								data-src="${ctx}/assets/video/${consonant.videoPath}"
+								data-meaning="${consonant.meaning}"> ${consonant.meaning} 
+							</a>
+						</li>
+					</c:forEach>
 				</ul>
 
 				<div id="vacant"></div>
 
 				<h2 class="sidebar-title">모음</h2>
 				<ul class="word-list">
-					<!-- 10 기본 모음 -->
-					<li><a href="#" class="word-item active">ㅏ</a></li>
-					<li><a href="#" class="word-item">ㅑ</a></li>
-					<li><a href="#" class="word-item">ㅓ</a></li>
-					<li><a href="#" class="word-item">ㅕ</a></li>
-					<li><a href="#" class="word-item">ㅗ</a></li>
-					<li><a href="#" class="word-item">ㅛ</a></li>
-					<li><a href="#" class="word-item">ㅜ</a></li>
-					<li><a href="#" class="word-item">ㅠ</a></li>
-					<li><a href="#" class="word-item">ㅡ</a></li>
-					<li><a href="#" class="word-item">ㅣ</a></li>
-					<!-- 11 복합 모음 -->
-					<li><a href="#" class="word-item">ㅐ</a></li>
-					<li><a href="#" class="word-item">ㅒ</a></li>
-					<li><a href="#" class="word-item">ㅔ</a></li>
-					<li><a href="#" class="word-item">ㅖ</a></li>
-					<li><a href="#" class="word-item">ᅪ</a></li>
-					<li><a href="#" class="word-item">ᅫ</a></li>
-					<li><a href="#" class="word-item">ㅚ</a></li>
-					<li><a href="#" class="word-item">ᅯ</a></li>
-					<li><a href="#" class="word-item">ᅰ</a></li>
-					<li><a href="#" class="word-item">ㅟ</a></li>
-					<li><a href="#" class="word-item">ㅢ</a></li>
+					<c:forEach var="vowel" items="${vowelList}">
+						<li>
+							<a 
+								href="#" 
+								class="word-item"
+								data-src="${ctx}/assets/video/${vowel.videoPath}"
+								data-meaning="${vowel.meaning}"> ${vowel.meaning} 
+							</a>
+						</li>
+					</c:forEach>
 				</ul>
 			</aside>
 
@@ -89,7 +72,7 @@
 				<div class="video-containers">
 					<div class="video-box">
 						<p class="video-title">학습 영상</p>
-						<video id="learning_video" class="video-placeholder">
+						<video id="learning_video" class="video-placeholder" controls playsinline>
 							<span>영상 플레이스홀더</span>
 						</video>
 					</div>
@@ -114,7 +97,7 @@
 		</main>
 	</div>
 	<!-- /container -->
-	
+
 	<script>
 		window.APP_CTX = '${ctx}';
 	</script>

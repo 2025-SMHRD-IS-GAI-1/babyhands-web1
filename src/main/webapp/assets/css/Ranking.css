@@ -1,146 +1,105 @@
 @charset "UTF-8";
 
-:root {
-	--rk-bg: radial-gradient(circle at top, #f4f8ff 0%, #eaf2ff 60%, #e4efff 100%);
-	--rk-card: #ffffff;
-	--rk-row-top: #e9ffe4;
-	--rk-footer: #d4ebff;
+/* ===== Reset (가벼운 버전) ===== */
+* { margin:0; padding:0; box-sizing:border-box; font-family:"Noto Sans KR", sans-serif; }
+
+/* ===== 전역 색 & 폭 토큰 ===== */
+:root{
+  --SHELL: 1180px;         /* 카드 가로폭 — 필요하면 1200/1280으로만 바꿔 */
+  --border: #dee2e6;
+  --bg: #f4f7f6;
+  --card: #fff;
 }
 
-* {
-	box-sizing: border-box;
-	font-family: "Pretendard", "Noto Sans KR", sans-serif;
+/* ===== 배경 ===== */
+body{ background: var(--bg); color:#333; }
+
+/* ===== 화면 가운데 정렬 래퍼 ===== */
+.rk-viewport{
+  min-height:100vh;
+  display:flex; align-items:center; justify-content:center;
+  padding:1rem;
 }
 
-body {
-	margin: 0;
-	background: var(--rk-bg);
+/* ===== 카드 컨테이너 (헤더 포함) =====
+   └ 헤더는 이 컨테이너 폭을 그대로 따라감  */
+.rk-container{
+  width:100%;
+  max-width:var(--SHELL);
+  margin:0 auto;
+  background:var(--card);
+  border-radius:1.5rem;
+  box-shadow:0 10px 30px rgba(0,0,0,.07);
+  padding:1.5rem 2.5rem;
+  overflow:hidden;
 }
 
-.rk-wrapper {
-	max-width: 950px;
-	margin: 20px auto 40px;
+/* 헤더가 어떤 내부 규칙에 갇혀도 풀폭 사용 보장 */
+.rk-container .header{
+  width:100% !important;
+  max-width:100% !important;
+  display:flex; align-items:center; gap:24px;
+  padding:8px 32px;
 }
 
-.rk-title {
-	font-weight: 700;
-	margin-bottom: 12px;
-	color: #152f42;
+/* ===== 랭킹 본문 래퍼 =====
+   └ 카드 안에서는 100% 쓰게(900px 고정 금지)  */
+.rk-wrapper{
+  width:100%;
+  max-width:100%;
+  margin:0 auto;
 }
 
-.rk-board {
-	background: var(--rk-card);
-	border-radius: 18px;
-	padding: 18px 20px 24px;
+/* ===== 제목 ===== */
+.rk-title{
+  font-size:1.8rem; font-weight:700; color:#1a2c3a; margin:0.5rem 0 1rem;
 }
 
-.rk-header-row {
-	display: grid;
-	grid-template-columns: 110px 1fr 130px;
-	padding: 6px 15px 14px;
-	border-bottom: 1px solid rgba(0, 0, 0, 0.04);
-	font-weight: 600;
-	color: #555;
+/* ===== 보드 ===== */
+.rk-board{
+  background:#fff;
+  border-radius:16px;
+  padding:1.5rem 2rem;
+  box-shadow:0 4px 15px rgba(0,0,0,.05);
 }
 
-.rk-row {
-	display: grid;
-	grid-template-columns: 110px 1fr 130px;
-	align-items: center;
-	margin-top: 10px;
-	background: #fff;
-	border-radius: 14px;
-	min-height: 55px;
-	padding: 0 15px;
+.rk-header-row, .rk-row{
+  display:grid; grid-template-columns:120px 1fr 130px; align-items:center;
 }
-
-/* 1~3등 색상 */
-.rk-top1 {
-	background: #e9ffe4;
+.rk-header-row{
+  border-bottom:1px solid #eee; font-weight:600; color:#444;
+  padding:10px 15px; background:#fafafa; border-radius:10px;
 }
-
-.rk-top2 {
-	background: #f1ffe9;
+.rk-row{
+  margin-top:10px; background:#fff; border-radius:14px; min-height:55px;
+  padding:0 15px; border:1px solid #eee; transition:background-color .2s ease;
 }
+.rk-row:hover{ background:#f6f9ff; }
 
-.rk-top3 {
-	background: #f9ffef;
+.rk-top1{ background:#e9ffe4; border-color:#b8ecb5; }
+.rk-top2{ background:#f1ffe9; border-color:#cceac3; }
+.rk-top3{ background:#f9ffef; border-color:#e3f3cc; }
+
+.rk-rank-num{ font-size:18px; font-weight:700; color:#333; }
+.rk-nick-wrap{ display:flex; align-items:center; gap:10px; }
+.rk-medal{ width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:14px; }
+.rk-gold{ background:#ffb300; color:#fff; } .rk-silver{ background:#d0d5de; color:#fff; } .rk-bronze{ background:#d79a5c; color:#fff; }
+.rk-nickname{ font-size:15px; color:#222; }
+.rk-score{ text-align:right; font-weight:600; color:#0b4da3; }
+
+.rk-dots{ display:flex; justify-content:center; gap:12px; margin:20px 0; }
+.rk-dot{ width:8px; height:8px; background:#999; border-radius:50%; }
+
+.rk-my{
+  background:#eaf3ff; border-radius:14px; padding:14px 20px;
+  display:flex; justify-content:space-between; align-items:center;
+  margin-top:1.5rem; border:1px solid #c5dbf6;
 }
+.rk-my-left{ font-weight:600; color:#1a2c3a; }
+.rk-my-right{ font-weight:700; color:#0046c8; }
 
-.rk-rank-num {
-	font-size: 18px;
-	font-weight: 700;
-}
-
-.rk-nick-wrap {
-	display: flex;
-	align-items: center;
-	gap: 10px;
-}
-
-.rk-medal {
-	width: 28px;
-	height: 28px;
-	border-radius: 50%;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	font-size: 14px;
-}
-
-.rk-gold {
-	background: #ffb300;
-	color: #fff;
-}
-
-.rk-silver {
-	background: #d0d5de;
-	color: #fff;
-}
-
-.rk-bronze {
-	background: #d79a5c;
-	color: #fff;
-}
-
-.rk-nickname {
-	font-size: 14px;
-}
-
-.rk-score {
-	text-align: right;
-	font-weight: 600;
-}
-
-/* ... 점 3개 */
-.rk-dots {
-	display: flex;
-	justify-content: center;
-	gap: 14px;
-	margin: 26px 0 20px;
-}
-
-.rk-dot {
-	width: 10px;
-	height: 10px;
-	background: #000;
-	border-radius: 50%;
-}
-
-/* 내 순위 */
-.rk-my {
-	background: #d4ebff;
-	border-radius: 16px;
-	padding: 14px 20px;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-}
-
-.rk-my-left {
-	font-weight: 600;
-}
-
-.rk-my-right {
-	font-weight: 700;
+/* ===== 반응형 ===== */
+@media (max-width: 768px){
+  .rk-container{ padding:1.25rem 1.25rem; border-radius:1rem; }
+  .rk-header-row, .rk-row{ grid-template-columns:80px 1fr 100px; font-size:14px; }
 }

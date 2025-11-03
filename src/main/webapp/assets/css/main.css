@@ -40,46 +40,6 @@ body{
 	font-weight:800
 } 
 
-
-
-
-
-
-
-
-
-/* 네비게이션 바 */
-.header{
-  position: sticky; top:0; z-index:5; /* 스크롤 고정 */
-  background: rgba(255,255,255,.7); /* 유리효과 배경 */
-  backdrop-filter: blur(8px); /* 블러 */
-  border-bottom: 1px solid #eaeef5; /* 아래 경계 */
-  min-height: var(--header-height); /* 높이(반응형) */
-  padding: 16px 32px; /* 안쪽 여백 */
-  display:flex;
-  align-items:center; /* 가운데 정렬 */
-  justify-content:center;
-  gap:20px; 
-}
-
-
-
-/* 꼬마손 부분 */
-.logo-area{
-	position:absolute;
- 	left:40px;
- 	display:flex;
- 	align-items:center;
- 	gap:10px
- 	}
- 	
-/* 로고 크기 */
-.logo{
-	width:var(--logo-size);
-	height:var(--logo-size);
-	display:block
-	}
-
 /* 꼬마손 */
 .brand{
 	font-size:var(--brand-font);

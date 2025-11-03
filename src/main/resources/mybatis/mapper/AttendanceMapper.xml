@@ -22,16 +22,14 @@
 
 
 	<!-- 달력에 출석 체크 -->
-  <select id="selectAttendanceDays"
-          parameterType="com.babyhands.dao.AttendanceDAO$AttendanceParam"
-          resultType="int">
+  <select id="selectAttendanceDays" parameterType="com.babyhands.dto.AttendanceDTO" resultType="int">
     <![CDATA[
     SELECT DISTINCT TO_NUMBER(TO_CHAR(LOGIN_DATE, 'DD')) AS day
       FROM ATTENDANCE
      WHERE MEMBER_ID = #{memberId}
        AND TRUNC(LOGIN_DATE) BETWEEN
-           TRUNC(TO_DATE(#{year} || LPAD(#{month}, 2, '0') || '01', 'YYYYMMDD'))
-           AND LAST_DAY(TO_DATE(#{year} || LPAD(#{month}, 2, '0') || '01', 'YYYYMMDD'))
+           TRUNC(TO_DATE(#{curYear} || LPAD(#{curMonth}, 2, '0') || '01', 'YYYYMMDD'))
+           AND LAST_DAY(TO_DATE(#{curYear} || LPAD(#{curMonth}, 2, '0') || '01', 'YYYYMMDD'))
      ORDER BY day
     ]]>
   </select>

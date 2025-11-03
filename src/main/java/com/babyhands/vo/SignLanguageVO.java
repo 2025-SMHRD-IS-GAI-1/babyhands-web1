@@ -1,7 +1,5 @@
 package com.babyhands.vo;
 
-import java.util.Date;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class SingLanguageVO {
+public class SignLanguageVO {
 	private int slId;
 	private String meaning;
 	private String videoPath;

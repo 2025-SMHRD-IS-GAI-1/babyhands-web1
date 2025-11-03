@@ -2,33 +2,46 @@
 <!DOCTYPE configuration
   PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-config.dtd">
+
 <!-- 해당 xml파일을 mybatis로 쓰기위한 설정 -->
 
 <!-- DB에 대한 연결, 설정을 지정하는 태그 -->
 <configuration>
-	<settings>
+
+    <!-- 스네이크케이스 → 카멜케이스 자동 매핑 (ex. MEMBER_ID → memberId) -->
+    <settings>
         <setting name="mapUnderscoreToCamelCase" value="true"/>
     </settings>
 
-	<!-- environments : web 프로젝트에서 사용할 데이터베이스를 기술하는 공간! -->
-	<environments default="development">
-		<!-- environment : 데이터베이스 1개에 대한 정보들 서술하는 공간! -->
-		<environment id="development">
-			<!-- transactionManager : 트랜잭션을 관리하는 방식을 지정하는 공간! -->
-			<transactionManager type="JDBC" />
-			
-			<!-- dataSource : 실제 사용할 DB의 정보를 기재하는 공간 -->
-			<dataSource type="JNDI">
-        		<property name="data_source" value="java:comp/env/jdbc/BabyhandsDS"/>
-      		</dataSource>
-		</environment>
-	</environments>
-	
-	<!-- mappers : 위에 적힌 DB 정보들로 실제 실행할 sql구문을 담고 있는 Mapper.xml과 연결시켜주는 태그! -->
-	<mappers>
-		<!-- mapper파일이 여러개 생긴다면? 그 개수만큼 mapper태그 추가해주기 -->
-		<mapper resource="mybatis/mapper/MemberMapper.xml" />
-		<mapper resource="mybatis/mapper/AttendanceMapper.xml" />
-		<mapper resource="mybatis/mapper/SlTestMapper.xml" />
-	</mappers>
+    <!-- 타입 별칭 등록: VO / DTO 패키지를 짧은 이름으로 사용하기 위함 -->
+    <typeAliases>
+        <package name="com.babyhands.vo"/>
+        <package name="com.babyhands.dto"/>
+    </typeAliases>
+
+    <!-- environments : web 프로젝트에서 사용할 데이터베이스를 기술하는 공간! -->
+    <environments default="development">
+        <!-- environment : 데이터베이스 1개에 대한 정보들 서술하는 공간! -->
+        <environment id="development">
+            <!-- transactionManager : 트랜잭션을 관리하는 방식을 지정하는 공간! -->
+            <transactionManager type="JDBC" />
+            
+            <!-- dataSource : 실제 사용할 DB의 정보를 기재하는 공간 -->
+            <dataSource type="JNDI">
+                <property name="data_source" value="java:comp/env/jdbc/BabyhandsDS"/>
+            </dataSource>
+        </environment>
+    </environments>
+    
+    <!-- mappers : 위에 적힌 DB 정보들로 실제 실행할 sql구문을 담고 있는 Mapper.xml과 연결시켜주는 태그! -->
+    <mappers>
+        <!-- mapper파일이 여러개 생긴다면? 그 개수만큼 mapper태그 추가해주기 -->
+        <mapper resource="mybatis/mapper/MemberMapper.xml" />
+        <mapper resource="mybatis/mapper/AttendanceMapper.xml" />
+        <!-- 랭킹/테스트 결과용 매퍼 -->
+        <mapper resource="mybatis/mapper/SlTestMapper.xml" />
+        <mapper resource="mybatis/mapper/SlLearnMapper.xml"/>
+        <mapper resource="mybatis/mapper/SignLanguageMapper.xml"/>
+    </mappers>
+
 </configuration>

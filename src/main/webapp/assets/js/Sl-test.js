@@ -81,8 +81,9 @@ let score = 0;               // 맞춘 문제 수
 // DOM 요소 초기화 및 메인 함수
 function startTest() {
     // 1. 필요한 HTML 요소 가져오기
-    const questionVideo = document.getElementById('question_video'); // 테스트 영상 요소
-    const questionNumber = document.getElementById('question-subtitle'); // '문제 영상 1 / 10'
+    const questionVideo = document.getElementById('question_video'); 
+    // [수정] '문제 영상 1 / 10' 텍스트를 올바르게 선택
+    const questionNumber = document.getElementById('question-subtitle'); 
     const answerForm = document.querySelector('.answer-form');
     const answerLabels = document.querySelectorAll('.answer-list label');
 
@@ -107,16 +108,17 @@ function startTest() {
  */
 function Firt_Question(index, videoElement, displayElement, labelElements) {
     if (index >= questions.length) {
-        // [수정] endTest() 호출 삭제
-        console.log("테스트가 모두 완료되었습니다.");
-        // 테스트 완료 후 결과 페이지로 이동
-        // 예: window.location.href = `/test/result?score=${score}`;
+        console.log(`테스트 종료. 최종 점수: ${score}.`);
+       // [수정] alert 대신 console.log로 변경하고, 결과 페이지로 이동 (예시)
+       // 실제 결과 페이지 URL로 변경하세요.
+       alert(`테스트가 종료되었습니다. 최종 점수: ${score} / ${questions.length}`);
+       window.location.href = window.APP_CTX || '/'; // 메인 페이지로 이동 (APP_CTX는 JSP에서 설정)
         return;
     }
 
     const question = questions[index];
 
-    // 1. 문제 번호 업데이트 (문제 영상 1 / 10 형식)
+    // 1. 문제 번호 업데이트
     displayElement.textContent = `문제 영상 ${index + 1} / ${questions.length}`;
 
     // 2. 영상 로드 및 재생
@@ -127,16 +129,20 @@ function Firt_Question(index, videoElement, displayElement, labelElements) {
         const optionText = question.options[i];
         if (optionText) {
             label.textContent = optionText;
-            label.htmlFor = `ans${i + 1}`; // label for 속성 유지
+            label.htmlFor = `ans${i + 1}`;
             
-            // 연결된 input 요소 초기화 및 값 설정
             const inputElement = label.previousElementSibling;
             if (inputElement) {
-                inputElement.value = `${i + 1}`; // input value 속성 유지
+                inputElement.value = `${i + 1}`;
                 inputElement.checked = false; // 선택 초기화
             }
         } else {
             label.textContent = ''; // 선택지가 부족할 경우 빈칸
+            // [수정] 선택지가 없는 경우 라디오 버튼과 라벨을 숨깁니다.
+            label.style.display = 'none';
+            if (label.previousElementSibling) {
+                label.previousElementSibling.style.display = 'none';
+            }
         }
     });
 }
@@ -147,8 +153,8 @@ function fetchVideo(videoElement, videoURL) {
 
     videoElement.src = videoURL;
     videoElement.load();
-    videoElement.muted = false; // 테스트는 소리가 있을 수 있으므로 muted 해제
-    videoElement.controls = true; // 컨트롤 표시 (선택 사항)
+    videoElement.muted = false; 
+    videoElement.controls = true; 
 
     const playPromise = videoElement.play();
 
@@ -158,15 +164,14 @@ function fetchVideo(videoElement, videoURL) {
                 console.log(`[테스트] 문제 영상 재생 시작: ${videoURL}`);
             })  
             .catch((error) => {
-                // play()가 사용자 상호작용 없이 호출되면 실패할 수 있음
-                console.warn(`[테스트] 영상 자동 재생 실패. (오류: ${error.name})`);
+                // 자동 재생이 실패하면 비디오 컨트롤이 보이므로 사용자가 직접 누를 수 있습니다.
+                console.warn(`[테스트] 영상 자동 재생 실패. 사용자의 상호작용이 필요할 수 있습니다. (오류: ${error.name})`);
             });
     }
 }
 
 // 정답 제출 함수
 function submitAnswer(event, videoElement, displayElement, labelElements) {
-    // 폼 내에서 선택된 라디오 버튼을 찾습니다.
     const selectedRadio = event.target.querySelector('input[name="answer"]:checked');
 
     if (!selectedRadio) {        
@@ -177,29 +182,29 @@ function submitAnswer(event, videoElement, displayElement, labelElements) {
     const selectedAnswerValue = parseInt(selectedRadio.value, 10);
     const question = questions[currentQ_Index];
     
+    // [수정] alert 대신 좀 더 부드러운 피드백 (예: 모달)을 사용하는 것이 좋지만,
+    // 일단 alert을 유지하되, 정답/오답 피드백을 개선합니다.
     // 정답 확인
     if (selectedAnswerValue === question.correctAnswer) {
         score++;        
-        alert(`정답입니다! 현재 점수: ${score}점`); 
+        alert(`정답입니다! (현재 ${score}점)`); 
     } else {       
         alert(`오답입니다. 정답은 "${question.answerText}" 입니다.`); 
     }
     
     // 다음 문제로 이동
     currentQ_Index++;
-    // 짧은 딜레이 후 다음 문제 로드 (사용자가 피드백을 읽을 시간 제공)
+
+    // [수정] 비디오 정지
+    videoElement.pause();
+    videoElement.src = ""; // 다음 문제 로드 전 소스 비우기
+
+    // 다음 문제 로드 (딜레이를 짧게 줄이거나 없애도 됩니다)
     setTimeout(() => {
         Firt_Question(currentQ_Index, videoElement, displayElement, labelElements);
-    }, 1000); // 1초 후 다음 문제 로드
+    }, 500); // 0.5초 후 다음 문제 로드
 }
 
-// [수정] 테스트 종료 함수 (네비게이션 기능) 삭제됨
-/*
-function endTest() {
-    ...
-}
-*/
 
 // 메인 이벤트 리스너 (HTML 로드 후 실행)
 document.addEventListener('DOMContentLoaded', startTest);
-
