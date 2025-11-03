@@ -1,6 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!-- nav 활성화값은 param.nav(동적 include) 또는 requestScope.nav(서블릿에서 set) 로 받음 -->
+<c:set var="ctx" value="${pageContext.request.contextPath}" />
 <c:set var="nav" value="${empty param.nav ? requestScope.nav : param.nav}" />
 
 <header class="header">
