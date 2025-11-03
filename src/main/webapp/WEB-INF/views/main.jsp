@@ -79,7 +79,7 @@
 				<!-- 상단: 월 이동 헤더 -->
 				<div class="cal__header">
 					<a class="icon-btn" aria-label="이전 달"
-						href="<%=self%>?y=<%=prevMonth.getYear()%>&m=<%=prevMonth.getMonthValue()%>">
+						href="<%=self%>?y=<%=prevMonth.getYear()%>&m=<%=prevMonth.getMonthValue()%>" onclick="prevMonth();">
 						<span class="chev chev--left"></span>
 					</a>
 
@@ -156,21 +156,13 @@
 		</aside>
 	</main>
 
-	<!-- 퍼센트 값 주입 -->
-	<script>
-    document.querySelectorAll('.donut').forEach(el => {
-      el.style.setProperty('--percent', +el.dataset.percent || 0);
-    });
-  </script>
-
-
-
+	
 	<script>
 		window.APP_CTX = '${ctx}';
 	</script>
 	<!-- [호환성] 이클립스 경로로 수정 -->
 	<script src="${ctx}/assets/js/header.js"></script>
-	
+	<script src="${ctx}/assets/js/main.js"></script>
 	
 </body>
 </html>
