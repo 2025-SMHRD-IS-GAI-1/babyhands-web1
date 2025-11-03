@@ -7,6 +7,7 @@ import org.apache.ibatis.session.SqlSessionFactory;
 
 import com.babyhands.vo.MemberVO;
 import com.babyhands.config.MysqlSessionManager;
+import com.babyhands.dto.MemberScoreRank;
 
 public class MemberDAO {
 	// DB에 연결하기 위한 기본적인 작업을(SqlSessionFactory, sqlSession)을 
@@ -157,9 +158,17 @@ public class MemberDAO {
 		
 		return pw;
 	}
-
 	
-
+	// 마이페이지 : 회원 정보 가져오기
+	public MemberVO getMemberInfo(String memberId) {
+		SqlSession sqlSession = factory.openSession();
+		
+		MemberVO member = sqlSession.selectOne("getMemberInfo", memberId);
+		
+		sqlSession.close();
+		
+		return member;
+	}
 	
 
 }
