@@ -20,6 +20,7 @@ import com.babyhands.controller.GomemberUpdateService;
 import com.babyhands.controller.IdCheckService;
 import com.babyhands.controller.JoinService;
 import com.babyhands.controller.LoginService;
+import com.babyhands.controller.LogoutService;
 import com.babyhands.controller.NickNameCheckService;
 import com.babyhands.controller.UpdateEmailCheckService;
 import com.babyhands.controller.UpdateMemberService;
@@ -38,6 +39,7 @@ public class FrontController extends HttpServlet {
 	public void init(ServletConfig config) throws ServletException {
 		map = new HashMap<String, Command>();
 		map.put("Login.do", new LoginService());
+		map.put("Logout.do", new LogoutService());
 		map.put("IdCheck.do", new IdCheckService());
 		map.put("NickNameCheck.do", new NickNameCheckService());
 		map.put("EmailCheck.do", new EmailCheckService());
