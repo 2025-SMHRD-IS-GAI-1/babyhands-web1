@@ -65,33 +65,55 @@ body{
 
 
 /* 꼬마손 부분 */
-.logo-area{ position:absolute; left:40px; display:flex; align-items:center; gap:10px }
-
+.logo-area{
+	position:absolute;
+ 	left:40px;
+ 	display:flex;
+ 	align-items:center;
+ 	gap:10px
+ 	}
+ 	
 /* 로고 크기 */
-.logo{ width:var(--logo-size); height:var(--logo-size); display:block }
+.logo{
+	width:var(--logo-size);
+	height:var(--logo-size);
+	display:block
+	}
 
 /* 꼬마손 */
-.brand{ font-size:var(--brand-font); font-weight:900 }
+.brand{
+	font-size:var(--brand-font);
+	font-weight:900
+	}
 
 
 
 /* 네비게이션 바 메뉴부분  */
 .nav{
-  display:flex; justify-content:center; align-items:center; /* 가운데 설정 */
+  display:flex;
+  justify-content:center;
+  align-items:center; /* 가운데 설정 */
   gap: var(--nav-gap); /* 반응형 */
   font-weight:700;
   flex-wrap: nowrap; /* 화면 줄어들면 아래로 내리기 */
 }
 
 
-/* 네비 링크 공통 */
+
+/* 메뉴 링크 공통 */
 .nav a{
-  color:#21304b; text-decoration:none; opacity:.9; /* 기본 색/투명도 */
+  color:#21304b;
+  text-decoration:none;
+  opacity:.9; /* 기본 색/투명도 */
   font-size: var(--nav-font); /* 글씨 크기(반응형) */
-  line-height:1; padding:6px 2px; /* 클릭 영역 확보 */
+  line-height:1;
+  padding:6px 2px; /* 클릭 영역 확보 */
   transition:.2s ease; /* hover 애니메이션 */
 }
-.nav a:hover{ opacity:1; color:#7a5cf5; transform: translateY(-1px) } /* hover 효과 */
+.nav a:hover{
+	opacity:1;
+	color:#7a5cf5;
+	transform: translateY(-1px) } /* hover 효과 */
 
 
 
@@ -100,9 +122,14 @@ body{
 
 /* 사용자 이름 부분 */
 .user{
-  position:absolute; right:40px; /* 우측 고정 */
-  display:flex; align-items:center; gap: clamp(12px,2vw,40px); /* 간격(반응형) */
-  color:#6b778c; font-weight:700; font-size: var(--user-font); /* 글씨(반응형) */
+  position:absolute;
+  right:40px; /* 우측 고정 */
+  display:flex;
+  align-items:center;
+  gap: clamp(12px,2vw,40px); /* 간격(반응형) */
+  color:#6b778c;
+  font-weight:700;
+  font-size: var(--user-font); /* 글씨(반응형) */
 }
 
 /* 로그아웃 부분 */

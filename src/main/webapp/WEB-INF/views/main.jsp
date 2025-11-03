@@ -27,14 +27,14 @@
     </div>
 
     <nav class="nav">
-      <a href="#" name="Learn">학습하기</a>
-      <a href="#" name="Test">테스트</a>
+      <a href="GoSl-learn.do" name="Learn">학습하기</a>
+      <a href="GoSl-test.do" name="Test">테스트</a>
       <a href="#" name="Ranking">랭킹</a>
-      <a href="#" name="Mypage">마이페이지</a>
+      <a href="Gomypage.do" name="Mypage">마이페이지</a>
     </nav>
 
     <div class="user">
-      <span>사용자 이름</span>
+      <span>${loginVO.nickname}</span>
       <button class="btn btn--primary" name="Logout">로그아웃</button>
     </div>
   </header>
