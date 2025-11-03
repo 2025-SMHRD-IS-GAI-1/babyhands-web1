@@ -1,76 +1,67 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="ctx" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>수어 학습 테스트 | 340lab</title>
+    <title>수어 학습 테스트</title>
+    
+    <!-- [수정] 'xintegrity' -> 'integrity' 오타 수정 (필수) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" xintegrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    
     <!-- Google Fonts (Noto Sans KR) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
-    
-    <!-- test.css 연결 (경로는 /css/test.css로 가정) -->
-        <!-- CSS 파일 연결 -->
-   <link rel="stylesheet" href="<%= request.getContextPath() %>/assets/css/Sl-test.css">
-    
+
+    <!-- [확인] 이클립스 경로 (정상) -->
+    <link rel="stylesheet" href="${ctx}/assets/css/header.css" />
+    <link rel="stylesheet" href="${ctx}/assets/css/Sl-test.css" />
 </head>
 <body>
-
+    
     <div class="container">
-        <!-- 1. 헤더 (learning.jsp와 동일한 구조) -->
-        <header class="header">
-            <!-- 헤더 왼쪽: 로고 + 네비게이션 -->
-            <div class="header-left">
-                <!-- 로고 -->
-                <a href="#" class="logo">
-                    <span class="logo-icon">🖐️</span>
-                    <span class="logo-text">340lab</span>
-                </a>
-                <!-- 네비게이션 -->
-                <nav class="main-nav">
-                    <ul>
-                        <li><a href="#">학습하기</a></li>
-                        <li><a href="#" class="active">테스트</a></li>
-                        <li><a href="#">랭킹</a></li>
-                        <li><a href="#">마이페이지</a></li>
-                    </ul>
-                </nav>
-            </div>
-            
-            <!-- 헤더 오른쪽: 사용자 정보 + 아이콘 -->
-            <div class="header-right">
-                <span class="username">김민준 님</span>
-                <button class="logout-btn">로그아웃</button>
-                <button class="code-icon">
-                    &lt;/&gt;
-                </button>
-            </div>
-        </header>
+        <!-- [수정] jsp:include 헤더 제거 -->
+        <jsp:include page="/WEB-INF/views/header.jsp">
+			<jsp:param name="nav" value="learn" />
+		</jsp:include>
+		
+        <!-- 2. 페이지 전체 제목 (중앙 정렬) -->
+        <div class="page-title-header">
+            <h1 class="page-title">수어 학습 테스트</h1>
+        </div>
 
-        <!-- 2. 메인 컨텐츠 (문제 영상 + 정답 선택) -->
+        <!-- 3. [신규] 부제목 행 (좌/우 분리) -->
+        <div class="sub-header-row">
+            <h2 class="sub-header-title" id="question-subtitle">문제 영상 1 / 10</h2>
+            <h2 class="sub-header-title" id="answer-title-header">정답 선택</h2>
+        </div>
+
+        <!-- 4. 메인 컨텐츠 (박스 2개) -->
         <main class="main-content-test">
-            
-            <!-- 2-1. 문제 패널 -->
+
+            <!-- 4-1. 좌측 영상 패널 -->
             <section class="test-panel">
-                <div class="section-header">
-                    <h1 class="section-title">수어 학습 테스트</h1>
-                    <p class="section-subtitle">문제 영상 1 / 10</p>
-                </div>
-                <div class="video-placeholder-test">
-                    <span>영상 플레이스홀더</span>
+                
+                <div class="video-placeholder-test video-box">
+                    <p class="video-title">문제 영상</p>
+                    <div class="video-placeholder">
+                        <video id="question_video" style="width:100%; height:100%; background-color:#000;" controls>
+                            <span>수어 문제 영상 플레이스홀더</span>
+                        </video>
+                    </div>
                 </div>
             </section>
 
-            <!-- 2-2. 정답 패널 -->
+            <!-- 4-2. 우측 정답 패널 -->
             <section class="answer-panel">
-                <h2 class="answer-title">정답 선택</h2>
-                <form action="submitAnswer" method="POST" class="answer-form">
+                <form action="<c:url value='/submitAnswer' />" method="POST" class="answer-form">
                     <ul class="answer-list">
                         <li>
-                            <input type="radio" id="ans1" name="answer" value="1">
+                            <input type="radio" id="ans1" name="answer" value="1" required>
                             <label for="ans1">반갑습니다람쥐</label>
                         </li>
                         <li>
@@ -91,8 +82,18 @@
             </section>
 
         </main>
-
     </div> <!-- /container -->
+    
+    <!-- [수정] 'xintegrity' -> 'integrity' 오타 수정 (필수) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" xintegrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous" defer></script>
 
+    <!-- [확인] 이클립스 경로 (정상) -->
+    <script>
+		window.APP_CTX = '${ctx}';
+	</script>
+	<!-- [수정] 헤더 JS 제거 -->
+	<script src="${ctx}/assets/js/header.js"></script>
+    <script src="<c:url value='/assets/js/Sl-test.js' />"></script>
 </body>
 </html>
+
