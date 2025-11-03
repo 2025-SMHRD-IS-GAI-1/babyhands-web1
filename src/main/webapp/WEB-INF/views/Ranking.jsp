@@ -22,7 +22,7 @@
 				<div>누적점수</div>
 			</div>
 
-
+			<%-- 아래 연동해야하는데 뭐라고 적어야하는지 모르겠삼요 --%>
 			<c:choose>
 				<c:when test="${not empty rankList}">
 					<c:forEach var="r" items="${rankList}">
