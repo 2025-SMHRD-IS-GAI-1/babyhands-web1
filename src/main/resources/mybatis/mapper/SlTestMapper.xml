@@ -3,9 +3,26 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<!-- namespace : DAO가 아니라 논리적인 Mapper 이름으로! -->
 <mapper namespace="com.babyhands.dao.SlTestDAO">
-
+	
+	<!-- 마이페이지 : 누적 점수, 랭킹 가져오기 -->
+	<select id="getScoreRank" parameterType="string" resultType="com.babyhands.dto.MemberScoreRank">
+		SELECT
+			SUB.MEMBER_ID,
+			SUB.totalScore,
+			DENSE_RANK() OVER(ORDER BY SUB.TOTALSCORE DESC) AS rankNo
+		FROM (
+			SELECT
+			T.MEMBER_ID,
+			COUNT(*) * 10 AS "TOTALSCORE"
+			FROM SL_TEST T, SIGN_LANGUAGE S
+			WHERE T.SL_ID = S.SL_ID
+			AND T.CHOOSE_ANSWER = S.MEANING
+			GROUP BY MEMBER_ID
+		) SUB
+		WHERE MEMBER_ID = #{memberId}
+	</select>
+	
 	<!-- 마이페이지 : 누적 점수, 랭킹 가져오기 (이메일 기준) -->
 	<select id="getScoreRankByEmail" parameterType="string"
 		resultType="com.babyhands.dto.MemberScoreRank">
