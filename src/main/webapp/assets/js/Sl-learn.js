@@ -110,32 +110,42 @@ document.addEventListener('DOMContentLoaded', startApp);
 
 
 (function() {
-	// 이벤트 위임
-	sidebar.addEventListener('click', async (e) => {
-		const a = e.target.closest('a.word-item');
+	// 필요한 DOM 참조가 이 스코프에 있어야 합니다.
+	sidebar.addEventListener('click', function(e) {
+		var a = e.target.closest('a.word-item');
 		if (!a) return;
 		e.preventDefault();
 
-		const src = a.dataset.src;
-		const meaning = a.dataset.meaning || '';
+		var src = a.dataset.src;
+		var meaning = a.dataset.meaning || '';
 
-		// 섹션 서브타이틀 갱신
 		if (subtitleEl) subtitleEl.textContent = '학습 글자 : ' + meaning;
-
-		// 정확도 UI 초기화(원하면)
 		if (progressBar) progressBar.style.width = '0%';
 		if (percentEl) percentEl.textContent = '0%';
 
-		// 비디오 교체
 		try {
-			// 소스만 바꾸고 재생
 			videoEl.src = src;
-			// 형식 명확히 하고 싶으면 <source> 동적 생성해도 됨
-			// videoEl.innerHTML = `<source src="${src}" type="video/mp4">`;
 
-			await videoEl.load(); // 메타데이터 로드
-			// 자동재생은 브라우저 정책 때문에 실패할 수 있으니 play는 try/catch
-			try { await videoEl.play(); } catch (err) { /* 사용자가 눌러야 재생될 수 있음 */ }
+			// load()는 동기 호출
+			videoEl.load();
+
+			// 메타데이터 로드 후 재생 (이벤트 기반)
+			var tryPlay = function() {
+				var p = videoEl.play();
+				if (p && typeof p.then === 'function') {
+					p.catch(function() { /* 자동재생 정책으로 실패 가능 */ });
+				}
+			};
+
+			if (videoEl.readyState >= 1) {
+				// 이미 메타데이터 로드됨
+				tryPlay();
+			} else {
+				videoEl.addEventListener('loadedmetadata', function onMeta() {
+					videoEl.removeEventListener('loadedmetadata', onMeta);
+					tryPlay();
+				});
+			}
 		} catch (err) {
 			console.error('비디오 로드 실패:', err);
 			alert('영상을 불러오지 못했습니다. 경로를 확인하세요.');
