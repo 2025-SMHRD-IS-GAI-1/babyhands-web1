@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace : DAO가 아니라 논리적인 Mapper 이름으로! -->
+<mapper namespace="com.babyhands.dao.SignLanguageDAO">
+
+	<!-- 마이페이지 : 전체 진행률(전체 수어 갯수 카운트) -->
+	<select id="getCountAllSL" resultType="int">
+		<![CDATA[
+			SELECT COUNT(*)
+			FROM SIGN_LANGUAGE
+		]]>
+	</select>
+
+</mapper>

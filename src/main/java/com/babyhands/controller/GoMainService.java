@@ -4,10 +4,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.babyhands.dao.MemberDAO;
+import com.babyhands.dao.SignLanguageDAO;
 import com.babyhands.dao.SlLearnDAO;
-import com.babyhands.dao.SlTestDAO;
-import com.babyhands.dto.MemberScoreRank;
 import com.babyhands.frontController.Command;
 import com.babyhands.vo.MemberVO;
 
@@ -25,10 +23,11 @@ public class GoMainService implements Command {
 		String memberId = loginVO.getMemberId();
 		
 		SlLearnDAO slLearndao = new SlLearnDAO();
+		SignLanguageDAO sldao = new SignLanguageDAO();
 		
 		int today = slLearndao.getTodayGoal(memberId);
 		int success = slLearndao.getOverallProgress(memberId);
-		int total = slLearndao.getCountAllSL();
+		int total = sldao.getCountAllSL();
 		
 		int todayGoal = (int) ((today / 10.0) * 100);
 		long overallProgress = Math.round((success / (double)total) * 100);

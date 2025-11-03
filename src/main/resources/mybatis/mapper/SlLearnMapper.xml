@@ -28,12 +28,6 @@
 		]]>
 	</select>
 	
-	<!-- 마이페이지 : 전체 진행률(전체 수어 갯수 카운트) -->
-	<select id="getCountAllSL" resultType="int">
-		<![CDATA[
-			SELECT COUNT(*)
-			FROM SIGN_LANGUAGE
-		]]>
-	</select>
+	
 
 </mapper>

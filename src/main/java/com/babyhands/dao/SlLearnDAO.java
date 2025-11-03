@@ -32,14 +32,4 @@ public class SlLearnDAO {
 		return result;
 	}
 	
-	// 메인 페이지 : 전체 진행률 (전체 수어 갯수 카운트)
-	public int getCountAllSL() {
-		SqlSession sqlSession = factory.openSession();
-
-		int result = sqlSession.selectOne("getCountAllSL");
-
-		sqlSession.close();
-
-		return result;
-	}
 }
