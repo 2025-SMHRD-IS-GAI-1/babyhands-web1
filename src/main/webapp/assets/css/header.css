@@ -1,13 +1,48 @@
 @charset "UTF-8";
+
+:root {
+  --primary-color: #6d5bff;
+  --secondary-color: #007bff;
+  --green-color: #28a745;
+  --light-gray-bg: #f8f9fa;
+  --container-bg: #ffffff;
+  --border-color: #dee2e6;
+  --text-dark: #212529;
+  --text-light: #6c757d;
+  --hover-color: #aab0ffc2;
+}
+
+.header-a {
+  text-decoration: none;
+  color: inherit;
+  font-weight: 700;
+}
+
+.header-ul {
+  list-style: none;
+}
+
+.header-button {
+  cursor: pointer;
+  border: none;
+  font-family: 'Noto Sans KR', sans-serif;
+  
+  background-color: var(--secondary-color);
+  color: white;
+  padding: 0.6rem 1rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
 /* --- 1. Header --- */
 .header {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	padding-bottom: 1.5rem;
 	border-bottom: 1px solid var(--border-color);
 	flex-wrap: wrap;
-	gap: 1rem;
+	padding: 0.5rem 2rem 0.5rem 2rem;
 }
 
 .header-left {
