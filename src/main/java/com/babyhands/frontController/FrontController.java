@@ -16,6 +16,7 @@ import com.babyhands.controller.DeleteMemberService;
 import com.babyhands.controller.EmailCheckService;
 import com.babyhands.controller.FindIdService;
 import com.babyhands.controller.FindPwService;
+import com.babyhands.controller.GoMyPageService;
 import com.babyhands.controller.GomemberUpdateService;
 import com.babyhands.controller.IdCheckService;
 import com.babyhands.controller.JoinService;
@@ -44,6 +45,7 @@ public class FrontController extends HttpServlet {
 		map.put("NickNameCheck.do", new NickNameCheckService());
 		map.put("EmailCheck.do", new EmailCheckService());
 		map.put("Join.do", new JoinService());
+		map.put("Gomypage.do", new GoMyPageService());
 		map.put("GomemberUpdate.do", new GomemberUpdateService());
 		map.put("UpdateNickCheck.do", new UpdateNickCheckService());
 		map.put("UpdateEmailCheck.do", new UpdateEmailCheckService());
@@ -78,7 +80,8 @@ public class FrontController extends HttpServlet {
 			// 최종적으로 이동해야하는 경로를 만들어주는 작업
 			
 			// 회원 수정 페이지 따로 분기
-			if(finalUri.equals("GomemberUpdate.do")) {
+			if(finalUri.equals("GomemberUpdate.do") ||
+				finalUri.equals("Gomypage.do")) {
 				com = map.get(finalUri);
 				moveUrl = com.execute(request, response);	
 			} else {

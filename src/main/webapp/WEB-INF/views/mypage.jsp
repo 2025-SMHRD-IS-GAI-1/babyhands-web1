@@ -2,25 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
-<%
-// 예시: 세션에서 꺼내 쓰는 값 (실서비스에 맞게 바꿔줘!)
-String nickname = (String) session.getAttribute("nickname");
-String realname = (String) session.getAttribute("realname");
-String email = (String) session.getAttribute("email");
-Integer totalScore = (Integer) session.getAttribute("totalScore");
-Integer rank = (Integer) session.getAttribute("rank");
 
-if (nickname == null)
-	nickname = "닉네임";
-if (realname == null)
-	realname = "김민준";
-if (email == null)
-	email = "test4@gmail.com";
-if (totalScore == null)
-	totalScore = 15200;
-if (rank == null)
-	rank = 26;
-%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -36,7 +18,6 @@ if (rank == null)
 </head>
 <body>
 	<div class="app-wrap">
-
 		<!-- NAV -->
 		<jsp:include page="/WEB-INF/views/header.jsp">
 			<jsp:param name="nav" value="learn" />
@@ -50,19 +31,15 @@ if (rank == null)
 				<!-- Profile Card -->
 				<section class="card profile-card">
 					<div class="profile-card__row">
-						<div class="avatar">
-							<div class="avatar__img" aria-hidden="true"></div>
-						</div>
 						<div class="profile-meta">
 							<dl class="meta">
 								<div class="meta__row">
 									<dt>닉네임</dt>
-									<dd>${loginVO.nickname}</dd>
+									<dd>${member.nickname}</dd>
 								</div>
-
 								<div class="meta__row">
 									<dt>이메일</dt>
-									<dd>${loginVO.email}</dd>
+									<dd>${member.email}</dd>
 								</div>
 							</dl>
 						</div>
@@ -71,12 +48,12 @@ if (rank == null)
 					<div class="stat">
 						<div class="stat__item">
 							<div class="stat__label">누적 점수</div>
-							<div class="stat__value"><%=String.format("%,d", totalScore)%></div>
+							<div class="stat__value">${memberScoreRank.totalScore}</div>
 						</div>
 						<div class="stat__divider" aria-hidden="true"></div>
 						<div class="stat__item">
 							<div class="stat__label">현재 랭킹</div>
-							<div class="stat__value"><%=rank%>위
+							<div class="stat__value">${memberScoreRank.rankNo}위
 							</div>
 						</div>
 					</div>
@@ -95,12 +72,12 @@ if (rank == null)
 		</div>
 	</div>
 
+
 	<script>
 		window.APP_CTX = '${ctx}';
 	</script>
 	<!-- [호환성] 이클립스 경로로 수정 -->
 	<script src="${ctx}/assets/js/header.js"></script>
-
 
 </body>
 </html>
