@@ -41,39 +41,105 @@
 
   <!-- 메인 -->
   <main class="container">
+  
+  
+  
+  
     <!-- 캘린더 -->
-    <section class="calendar-section card">
-      <h2 class="card__title">출석 캘린더</h2>
+<%-- ====== 동적 달력: 이번 달 + 오늘 강조 + 월 이동 ====== --%>
+<%
+    // Java 8+ java.time 사용
+    java.time.LocalDate today = java.time.LocalDate.now();
 
-      <div class="cal">
-        <div class="cal__header">
-          <button class="icon-btn" aria-label="이전 달"><span class="chev chev--left"></span></button>
-          <div class="cal__month">6    월</div>
-          <button class="icon-btn" aria-label="다음 달"><span class="chev chev--right"></span></button>
-        </div>
+    // 쿼리 파라미터(y, m)가 있으면 해당 월/년으로, 없으면 오늘 기준
+    String py = request.getParameter("y");
+    String pm = request.getParameter("m");
 
-        <div class="cal__week" align="center">
-          <span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span>토</span><span class="sun">일</span>
-        </div>
+    int year  = (py != null && py.matches("\\d{1,4}")) ? Integer.parseInt(py) : today.getYear();
+    int month = (pm != null && pm.matches("\\d{1,2}")) ? Integer.parseInt(pm) : today.getMonthValue();
 
-        <div class="cal__grid">
-          <!-- 앞칸 2칸 비움 -->
-          <span></span><span></span>
-          <!-- 1~7 -->
-          <button>1</button><button>2</button><button class="check">3</button><button>4</button><button>5</button><button class="check">6</button><button>7</button>
-          <!-- 8~14 -->
-          <button>8</button><button>9</button><button>10</button><button>11</button><button>12</button><button>13</button><button>14</button>
-          <!-- 15~21 -->
-          <button>15</button><button>16</button><button>17</button><button>18</button><button>19</button><button>20</button><button>21</button>
-          <!-- 22~28 -->
-          <button>22</button><button class="check">23</button><button class="check">24</button><button>25</button><button>26</button><button>27</button><button class="check">28</button>
-          <!-- 29~30 -->
-          <button>29</button><button>30</button>
-          <!-- 남는칸 -->
-          <span></span><span></span><span></span><span></span><span></span>
-        </div>
+    // 범위 보정 (1~12)
+    if (month < 1) { month = 1; }
+    if (month > 12){ month = 12; }
+
+    java.time.LocalDate first = java.time.LocalDate.of(year, month, 1);
+    int lengthOfMonth = first.lengthOfMonth();                          // 해당 월의 총 일수
+    int firstDow = first.getDayOfWeek().getValue();                     // 1=월 ... 7=일 (우리 요일 헤더와 맞음)
+    int leadingBlanks = firstDow - 1;                                   // 앞쪽 빈 칸 수
+    int totalCells = leadingBlanks + lengthOfMonth;
+    int trailingBlanks = (7 - (totalCells % 7)) % 7;                    // 뒤쪽 빈 칸 수 (모듈러 보정)
+
+    // 이전/다음 월 계산
+    java.time.LocalDate prevMonth = first.minusMonths(1);
+    java.time.LocalDate nextMonth = first.plusMonths(1);
+
+    // 현재 페이지 URI (월 이동 버튼 링크용)
+    String self = request.getContextPath() + "/Gomain.do";
+%>
+
+<section class="calendar-section card">
+  <!-- 헤더 (제목 + 오늘 버튼) -->
+  <div class="cal__titlebar">
+    <h2 class="card__title">출석 캘린더</h2>
+    <a class="today-btn"
+       href="<%= self %>?y=<%= today.getYear() %>&m=<%= today.getMonthValue() %>">오늘</a>
+  </div>
+
+
+
+
+  <div class="cal">
+    <!-- 상단: 월 이동 헤더 -->
+    <div class="cal__header">
+      <a class="icon-btn" aria-label="이전 달"
+         href="<%= self %>?y=<%= prevMonth.getYear() %>&m=<%= prevMonth.getMonthValue() %>">
+        <span class="chev chev--left"></span>
+      </a>
+
+      <div class="cal__month">
+        <%= month %> 월
       </div>
-    </section>
+
+      <a class="icon-btn" aria-label="다음 달"
+         href="<%= self %>?y=<%= nextMonth.getYear() %>&m=<%= nextMonth.getMonthValue() %>">
+        <span class="chev chev--right"></span>
+      </a>
+    </div>
+
+    <!-- 요일 헤더 -->
+    <div class="cal__week" align="center">
+      <span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span>토</span><span class="sun">일</span>
+    </div>
+
+    <!-- 날짜 그리드(동적 생성) -->
+    <div class="cal__grid">
+      <%-- 앞쪽 빈 칸 --%>
+      <% for (int i = 0; i < leadingBlanks; i++) { %>
+        <span></span>
+      <% } %>
+
+      <%-- 1일부터 말일까지 --%>
+      <%
+        for (int d = 1; d <= lengthOfMonth; d++) {
+            boolean isToday = (year == today.getYear()
+                              && month == today.getMonthValue()
+                              && d == today.getDayOfMonth());
+      %>
+          <button class="<%= isToday ? "today" : "" %>"><%= d %></button>
+      <%
+        }
+      %>
+
+      <%-- 뒤쪽 빈 칸 --%>
+      <% for (int i = 0; i < trailingBlanks; i++) { %>
+        <span></span>
+      <% } %>
+    </div>
+  </div>
+</section>
+
+
+
 
     <!-- KPI -->
     <aside class="kpi-wrap">
