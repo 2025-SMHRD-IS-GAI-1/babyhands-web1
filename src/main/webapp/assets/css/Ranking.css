@@ -1,0 +1,146 @@
+@charset "UTF-8";
+
+:root {
+	--rk-bg: radial-gradient(circle at top, #f4f8ff 0%, #eaf2ff 60%, #e4efff 100%);
+	--rk-card: #ffffff;
+	--rk-row-top: #e9ffe4;
+	--rk-footer: #d4ebff;
+}
+
+* {
+	box-sizing: border-box;
+	font-family: "Pretendard", "Noto Sans KR", sans-serif;
+}
+
+body {
+	margin: 0;
+	background: var(--rk-bg);
+}
+
+.rk-wrapper {
+	max-width: 950px;
+	margin: 20px auto 40px;
+}
+
+.rk-title {
+	font-weight: 700;
+	margin-bottom: 12px;
+	color: #152f42;
+}
+
+.rk-board {
+	background: var(--rk-card);
+	border-radius: 18px;
+	padding: 18px 20px 24px;
+}
+
+.rk-header-row {
+	display: grid;
+	grid-template-columns: 110px 1fr 130px;
+	padding: 6px 15px 14px;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+	font-weight: 600;
+	color: #555;
+}
+
+.rk-row {
+	display: grid;
+	grid-template-columns: 110px 1fr 130px;
+	align-items: center;
+	margin-top: 10px;
+	background: #fff;
+	border-radius: 14px;
+	min-height: 55px;
+	padding: 0 15px;
+}
+
+/* 1~3등 색상 */
+.rk-top1 {
+	background: #e9ffe4;
+}
+
+.rk-top2 {
+	background: #f1ffe9;
+}
+
+.rk-top3 {
+	background: #f9ffef;
+}
+
+.rk-rank-num {
+	font-size: 18px;
+	font-weight: 700;
+}
+
+.rk-nick-wrap {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+.rk-medal {
+	width: 28px;
+	height: 28px;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 14px;
+}
+
+.rk-gold {
+	background: #ffb300;
+	color: #fff;
+}
+
+.rk-silver {
+	background: #d0d5de;
+	color: #fff;
+}
+
+.rk-bronze {
+	background: #d79a5c;
+	color: #fff;
+}
+
+.rk-nickname {
+	font-size: 14px;
+}
+
+.rk-score {
+	text-align: right;
+	font-weight: 600;
+}
+
+/* ... 점 3개 */
+.rk-dots {
+	display: flex;
+	justify-content: center;
+	gap: 14px;
+	margin: 26px 0 20px;
+}
+
+.rk-dot {
+	width: 10px;
+	height: 10px;
+	background: #000;
+	border-radius: 50%;
+}
+
+/* 내 순위 */
+.rk-my {
+	background: #d4ebff;
+	border-radius: 16px;
+	padding: 14px 20px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.rk-my-left {
+	font-weight: 600;
+}
+
+.rk-my-right {
+	font-weight: 700;
+}
