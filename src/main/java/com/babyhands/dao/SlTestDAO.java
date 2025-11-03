@@ -32,22 +32,24 @@ public class SlTestDAO {
 	public MemberScoreRank getScoreRankByEmail(String email) {
 		SqlSession sqlSession = factory.openSession();
 
-		MemberScoreRank result =  sqlSession.selectOne("SLTestMapper.getScoreRankByEmail", email);
+		MemberScoreRank result = sqlSession.selectOne("SLTestMapper.getScoreRankByEmail", email);
 
 		sqlSession.close();
-		
+
 		return result;
 	}
 
 	// TOP N 랭킹
 	public List<Map<String, Object>> selectRankingTopN(int topN) {
 		SqlSession sqlSession = factory.openSession();
-		
+
 		List<Map<String, Object>> result = sqlSession.selectList("SLTestMapper.selectRankingTopN", topN);
-		
+
 		sqlSession.close();
-		
+
 		return result;
-		
+
 	}
+
+	
 }
