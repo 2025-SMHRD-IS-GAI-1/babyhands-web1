@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -17,7 +18,6 @@
 </head>
 <body>
 	<div class="app-wrap">
-
 		<!-- NAV -->
 		<jsp:include page="/WEB-INF/views/header.jsp">
 			<jsp:param name="nav" value="learn" />
@@ -71,6 +71,7 @@
 			</div>
 		</div>
 	</div>
+
 
 	<script>
 		window.APP_CTX = '${ctx}';

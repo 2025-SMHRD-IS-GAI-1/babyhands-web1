@@ -53,6 +53,7 @@ public class FrontController extends HttpServlet {
 		map.put("DeleteMember.do", new DeleteMemberService());
 		map.put("FindId.do", new FindIdService());
 		map.put("FindPw.do", new FindPwService());
+		map.put("SelectAttendance.do", new com.babyhands.controller.SelectAttendanceService());
 	}
 
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
