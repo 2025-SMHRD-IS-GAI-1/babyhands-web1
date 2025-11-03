@@ -4,7 +4,7 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <!-- namespace : DAO가 아니라 논리적인 Mapper 이름으로! -->
-<mapper namespace="SLTestMapper">
+<mapper namespace="com.babyhands.dao.SlTestDAO">
 
 	<!-- 마이페이지 : 누적 점수, 랭킹 가져오기 (이메일 기준) -->
 	<select id="getScoreRankByEmail" parameterType="string"
@@ -18,40 +18,43 @@
 		T.MEMBER_ID,
 		COUNT(*) * 10 AS TOTALSCORE
 		FROM SL_TEST T
-		JOIN SIGN_LANGUAGE S
+		JOIN
+		SIGN_LANGUAGE S
 		ON T.SL_ID = S.SL_ID
 		AND T.CHOOSE_ANSWER = S.MEANING
 		GROUP BY T.MEMBER_ID
 		) SUB
 		WHERE SUB.MEMBER_ID = (
-		SELECT MEMBER_ID FROM MEMBER WHERE EMAIL = #{email}
+		SELECT MEMBER_ID FROM
+		MEMBER WHERE EMAIL = #{email}
 		)
 	</select>
 
 
 	<!-- TOP N 랭킹 (상위 100명 등) -->
-<select id="selectRankingTopN" parameterType="int" resultType="map">
-  SELECT *
-  FROM (
-    SELECT
-      ROWNUM AS RN,
-      M.NICKNAME,
-      SUB.TOTALSCORE AS SCORE
-    FROM (
-      SELECT
-        T.MEMBER_ID,
-        COUNT(*) * 10 AS TOTALSCORE
-      FROM SL_TEST T
-      JOIN SIGN_LANGUAGE S
-        ON T.SL_ID = S.SL_ID
-       AND T.CHOOSE_ANSWER = S.MEANING
-      GROUP BY T.MEMBER_ID
-      ORDER BY TOTALSCORE DESC
-    ) SUB
-    JOIN MEMBER M
-      ON SUB.MEMBER_ID = M.MEMBER_ID
-  )
-  WHERE RN &lt;= #{topN}   <!-- 요기! -->
-</select>
+	<select id="selectRankingTopN" parameterType="int"
+		resultType="map">
+		SELECT *
+		FROM (
+		SELECT
+		ROWNUM AS RN,
+		M.NICKNAME,
+		SUB.TOTALSCORE AS SCORE
+		FROM (
+		SELECT
+		T.MEMBER_ID,
+		COUNT(*) * 10 AS TOTALSCORE
+		FROM SL_TEST T
+		JOIN SIGN_LANGUAGE S
+		ON T.SL_ID = S.SL_ID
+		AND T.CHOOSE_ANSWER = S.MEANING
+		GROUP BY T.MEMBER_ID
+		ORDER BY TOTALSCORE DESC
+		) SUB
+		JOIN MEMBER M
+		ON SUB.MEMBER_ID = M.MEMBER_ID
+		)
+		WHERE RN &lt;= #{topN}   <!-- 요기! -->
+	</select>
 
 </mapper>

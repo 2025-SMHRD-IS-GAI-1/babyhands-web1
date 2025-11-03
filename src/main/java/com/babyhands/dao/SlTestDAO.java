@@ -31,20 +31,23 @@ public class SlTestDAO {
 	// 내 순위/점수 - email로 조회
 	public MemberScoreRank getScoreRankByEmail(String email) {
 		SqlSession sqlSession = factory.openSession();
-		try {
-			return sqlSession.selectOne("SLTestMapper.getScoreRankByEmail", email);
-		} finally {
-			sqlSession.close();
-		}
+
+		MemberScoreRank result =  sqlSession.selectOne("SLTestMapper.getScoreRankByEmail", email);
+
+		sqlSession.close();
+		
+		return result;
 	}
 
 	// TOP N 랭킹
 	public List<Map<String, Object>> selectRankingTopN(int topN) {
 		SqlSession sqlSession = factory.openSession();
-		try {
-			return sqlSession.selectList("SLTestMapper.selectRankingTopN", topN);
-		} finally {
-			sqlSession.close();
-		}
+		
+		List<Map<String, Object>> result = sqlSession.selectList("SLTestMapper.selectRankingTopN", topN);
+		
+		sqlSession.close();
+		
+		return result;
+		
 	}
 }
