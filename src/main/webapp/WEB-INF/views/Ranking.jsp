@@ -7,10 +7,21 @@
 <meta charset="UTF-8">
 <title>랭킹</title>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" />
+<link
+	href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap"
+	rel="stylesheet" />
+<link rel="stylesheet" href="${ctx}/assets/css/header.css" />
 <link rel="stylesheet" href="${ctx}/assets/css/Ranking.css" />
 
 </head>
 <body>
+	<div class="container">
+		<!-- 상단바 -->
+		<jsp:include page="/WEB-INF/views/header.jsp">
+			<jsp:param name="nav" value="learn" />
+		</jsp:include>
 	<div class="rk-wrapper">
 		<div class="rk-title">랭킹</div>
 
@@ -93,5 +104,12 @@
 
 		</div>
 	</div>
+	</div>
+	<script>
+		window.APP_CTX = '${ctx}';
+	</script>
+	<!-- [호환성] 이클립스 경로로 수정 -->
+	<script src="${ctx}/assets/js/header.js"></script>
+	<!-- /page -->
 </body>
 </html>
