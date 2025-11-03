@@ -71,6 +71,8 @@
 		// 날짜 버튼
 		for (let d = 1; d <= lengthOfMonth; d++) {
 			const btn = document.createElement("button");
+			btn.dataset.day = String(d);
+
 			// 오늘 강조
 			if (
 				year === today.getFullYear() &&
@@ -94,7 +96,7 @@
 
 		// (선택) 상태 저장
 		saveState();
-		
+
 		// 출석 날짜 불러오기
 		getAttendanceDay();
 	}
@@ -123,7 +125,7 @@
 	}
 
 	function getAttendanceDay() {
-		const body = new URLSearchParams({ curYear: curYear, curMonth : curMonth });
+		const body = new URLSearchParams({ curYear: curYear, curMonth: curMonth });
 
 		fetch(`${APP_CTX}/GetAttendanceDay.do`, {
 			method: "POST",
@@ -136,7 +138,7 @@
 			})
 			.then((data) => {
 				if (data && data.ok) {
-					console.log(data.days);
+					applyAttendance(data.days);
 				} else {
 					alert(data.message);
 				}
@@ -145,6 +147,20 @@
 				console.error(err);
 				alert("네트워크 오류가 발생했습니다.");
 			})
+	}
+
+	function applyAttendance(dayArray) {
+		// 이전 표시 제거
+		grid.querySelectorAll('button.check').forEach(b => b.classList.remove('check'));
+
+		// 숫자 Set로 변환
+		const days = new Set((dayArray || []).map(n => parseInt(n, 10)).filter(Number.isInteger));
+
+		// 버튼들 순회하며 해당 일자에 check 클래스 추가
+		grid.querySelectorAll('button').forEach(btn => {
+			const d = parseInt(btn.dataset.day, 10);
+			if (days.has(d)) btn.classList.add('check');   // ← 네 CSS에 맞춤
+		});
 	}
 
 	// 이벤트
