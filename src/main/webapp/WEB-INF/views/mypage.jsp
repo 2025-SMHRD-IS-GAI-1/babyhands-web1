@@ -20,7 +20,7 @@
 	<div class="app-wrap">
 		<!-- NAV -->
 		<jsp:include page="/WEB-INF/views/header.jsp">
-			<jsp:param name="nav" value="learn" />
+			<jsp:param name="nav" value="mypage" />
 		</jsp:include>
 
 		<!-- PAGE TITLE -->
