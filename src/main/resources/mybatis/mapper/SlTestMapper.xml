@@ -2,30 +2,56 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<!-- namespace : 해당하는 파일을 구분할 수 있는 고유의 이름을 정해주는 작업 해당하는 공간에는, mapper 파일을 
-	사용하게 될 DAO의 full name을 기술하는 것을 원칙으로 한다. -->
-<mapper namespace="com.babyhands.dao.SlTestDAO">
 
-	<!-- SQL 구문들을 기술할 수 있는 공간 -->
-	<!-- * \#{} : JDBC기준 ?인자를 대신해서 사용하는 방식 : Java에서 전달받은 매개변수를 채울 때, 사용하는 mybatis만의 
-		방식 -->
+<!-- namespace : DAO가 아니라 논리적인 Mapper 이름으로! -->
+<mapper namespace="SLTestMapper">
 
-	<!-- 마이페이지 : 누적 점수, 랭킹 가져오기 -->
-	<select id="getScoreRank" parameterType="string" resultType="com.babyhands.dto.MemberScoreRank">
+	<!-- 마이페이지 : 누적 점수, 랭킹 가져오기 (이메일 기준) -->
+	<select id="getScoreRankByEmail" parameterType="string"
+		resultType="com.babyhands.dto.MemberScoreRank">
 		SELECT
-			SUB.MEMBER_ID,
-			SUB.totalScore,
-			DENSE_RANK() OVER(ORDER BY SUB.TOTALSCORE DESC) AS rankNo
+		SUB.MEMBER_ID,
+		SUB.TOTALSCORE AS totalScore,
+		DENSE_RANK() OVER(ORDER BY SUB.TOTALSCORE DESC) AS rankNo
 		FROM (
-			SELECT
-			T.MEMBER_ID,
-			COUNT(*) * 10 AS "TOTALSCORE"
-			FROM SL_TEST T, SIGN_LANGUAGE S
-			WHERE T.SL_ID = S.SL_ID
-			AND T.CHOOSE_ANSWER = S.MEANING
-			GROUP BY MEMBER_ID
+		SELECT
+		T.MEMBER_ID,
+		COUNT(*) * 10 AS TOTALSCORE
+		FROM SL_TEST T
+		JOIN SIGN_LANGUAGE S
+		ON T.SL_ID = S.SL_ID
+		AND T.CHOOSE_ANSWER = S.MEANING
+		GROUP BY T.MEMBER_ID
 		) SUB
-		WHERE MEMBER_ID = #{memberId}
+		WHERE SUB.MEMBER_ID = (
+		SELECT MEMBER_ID FROM MEMBER WHERE EMAIL = #{email}
+		)
 	</select>
+
+
+	<!-- TOP N 랭킹 (상위 100명 등) -->
+<select id="selectRankingTopN" parameterType="int" resultType="map">
+  SELECT *
+  FROM (
+    SELECT
+      ROWNUM AS RN,
+      M.NICKNAME,
+      SUB.TOTALSCORE AS SCORE
+    FROM (
+      SELECT
+        T.MEMBER_ID,
+        COUNT(*) * 10 AS TOTALSCORE
+      FROM SL_TEST T
+      JOIN SIGN_LANGUAGE S
+        ON T.SL_ID = S.SL_ID
+       AND T.CHOOSE_ANSWER = S.MEANING
+      GROUP BY T.MEMBER_ID
+      ORDER BY TOTALSCORE DESC
+    ) SUB
+    JOIN MEMBER M
+      ON SUB.MEMBER_ID = M.MEMBER_ID
+  )
+  WHERE RN &lt;= #{topN}   <!-- 요기! -->
+</select>
 
 </mapper>
