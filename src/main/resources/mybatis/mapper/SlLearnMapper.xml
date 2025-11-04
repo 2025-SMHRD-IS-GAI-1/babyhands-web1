@@ -61,14 +61,4 @@
 		]]>
 	</select>
 	
-	<!-- 지난 학습결과 : 총 학습일 수 가져오기 -->
-	<select id="getTotalLearnDay" parameterType="string" resultType="int">
-		<![CDATA[
-			SELECT COUNT(DISTINCT(TRUNC(SL_LEARN_DATE)))
-			FROM SL_LEARN
-			WHERE MEMBER_ID = #{memberId}
-		]]>
-	</select>
-
-
 </mapper>

@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class LastLearnDTO {
+public class LastTestDTO {
 	private int slTestGroup;
     private int correct;
     private Date slTestDate;

@@ -48,14 +48,14 @@
 				<!-- 왼쪽 리스트 -->
 				<div class="lr-left card">
 					<c:choose>
-					  <c:when test="${not empty lastLearnList}">
-					    <c:forEach items="${lastLearnList}" var="lastLearn">
+					  <c:when test="${not empty lastTestList}">
+					    <c:forEach items="${lastTestList}" var="lastTest">
 					      <div class="lr-row">
 					        <div class="lr-row-text">
-					        	<fmt:formatDate value="${lastLearn.slTestDate}" pattern="yyyy/MM/dd HH:mm:ss" />
-					          	 : ${lastLearn.correct}/5
+					        	<fmt:formatDate value="${lastTest.slTestDate}" pattern="yyyy/MM/dd HH:mm:ss" />
+					          	 : ${lastTest.correct}/5
 					        </div>
-					        <button type="button" class="lr-btn" value="${lastLearn.slTestGroup}">이동</button>
+					        <button type="button" class="lr-btn" value="${lastTest.slTestGroup}">이동</button>
 					      </div>
 					    </c:forEach>
 					  </c:when>
