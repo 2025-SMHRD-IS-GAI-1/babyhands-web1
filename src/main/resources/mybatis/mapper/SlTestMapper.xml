@@ -90,5 +90,33 @@
 		ORDER BY rankNo, totalScore
 		DESC, memberId
 	</select>
+	
+	<!-- 지난 학습 결과 : 평균 값 가져오기 -->
+	<select id="getAvgScore" parameterType="string" resultType="int">
+		SELECT AVG(COUNT(*) * 10)
+		FROM SL_TEST T, SIGN_LANGUAGE L
+		WHERE T.SL_ID = L.SL_ID
+		AND MEMBER_ID = #{memberId}
+		AND T.CHOOSE_ANSWER = L.MEANING
+		GROUP BY SL_TEST_GROUP
+	</select>
+	
+	<!-- 지난 학습 결과 : 지난 학습 목록 리스트 가져오기 -->
+	<select id="getLastLearnList" parameterType="string" resultType="com.babyhands.dto.LastLearnDTO">
+		SELECT DISTINCT
+			SUB.SL_TEST_GROUP,
+			SUB.CORRECT,
+			T.SL_TEST_DATE
+		FROM (
+			SELECT SL_TEST_GROUP, COUNT(*) AS CORRECT
+			FROM SL_TEST T, SIGN_LANGUAGE L
+			WHERE T.SL_ID = L.SL_ID
+			AND MEMBER_ID = #{memberId}
+			AND T.CHOOSE_ANSWER = L.MEANING
+			GROUP BY SL_TEST_GROUP
+		) SUB, 
+		SL_TEST T
+		WHERE SUB.SL_TEST_GROUP = T.SL_TEST_GROUP
+	</select>
 
 </mapper> 

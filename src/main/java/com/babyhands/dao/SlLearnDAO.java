@@ -59,4 +59,15 @@ public class SlLearnDAO {
 		return result;
 	}
 	
+	// 지난 학습결과 : 총 학습일 수 가져오기
+	public int getTotalLearnDay(String memberId) {
+		SqlSession sqlSession = factory.openSession();
+
+		int result = sqlSession.selectOne("getTotalLearnDay", memberId);
+
+		sqlSession.close();
+
+		return result;
+	}
+	
 }

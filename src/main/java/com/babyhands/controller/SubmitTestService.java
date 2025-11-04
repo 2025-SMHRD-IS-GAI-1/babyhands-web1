@@ -1,6 +1,8 @@
 package com.babyhands.controller;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,10 +52,13 @@ public class SubmitTestService implements Command {
 		
 		int row = 0;
 		
+		Date nowDate = new Date();
+		
 		List<SlTestVO> list = new ArrayList<>();
 		for (int i = 0; i < 5; i++) {
 			SlTestVO testVo = SlTestVO.builder()
 					.slTestGroup(group)
+					.slTestDate(nowDate)
 					.chooseAnswer(answerList.get(i))
 					.memberId(memberId)
 					.slId(idList.get(i))

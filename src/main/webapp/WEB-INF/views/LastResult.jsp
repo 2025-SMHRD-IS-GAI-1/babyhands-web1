@@ -35,10 +35,10 @@
 			<!-- 요약 박스 -->
 			<div class="lr-top">
 				<div class="lr-chip">
-					총 학습일 수 : <strong>${TotalDays}</strong>일
+					총 학습일 수 : <strong>${totalLearnDay}</strong>일
 				</div>
 				<div class="lr-chip">
-					평균 : <strong>${AverageScore}</strong>점
+					평균 : <strong>${avgScore}</strong>점
 				</div>
 			</div>
 
@@ -46,15 +46,21 @@
 			<div class="lr-grid">
 				<!-- 왼쪽 리스트 -->
 				<div class="lr-left card">
-					<c:forEach var="d" items="${recentDays}">
-						<div class="lr-row">
-							<div class="lr-row-text">${d.title}</div>
-							<button class="lr-btn">이동</button>
-						</div>
-					</c:forEach>
-					<c:if test="${empty recentDays}">
-						<div class="lr-empty">최근 데이터가 없습니다.</div>
-					</c:if>
+					<c:choose>
+					  <c:when test="${not empty lastLearnList}">
+					    <c:forEach items="${lastLearnList}" var="lastLearn">
+					      <div class="lr-row">
+					        <div class="lr-row-text">
+					          ${lastLearn.slTestDate} : ${lastLearn.correct} / 5
+					        </div>
+					        <button type="button" class="lr-btn" value="${lastLearn.slTestGroup}">이동</button>
+					      </div>
+					    </c:forEach>
+					  </c:when>
+					  <c:otherwise>
+					    <div class="lr-empty">최근 데이터가 없습니다.</div>
+					  </c:otherwise>
+					</c:choose>
 				</div>
 
 				<!-- 오른쪽 차트 -->
