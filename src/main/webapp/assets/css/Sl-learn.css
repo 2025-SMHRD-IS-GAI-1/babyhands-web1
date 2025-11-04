@@ -409,3 +409,122 @@ button {
 		font-size: 0.9rem;
 	}
 }
+
+/* ============================================
+   공통 테마 & 컴포넌트 스킨 (학습하기 기준)
+   - 다른 페이지에서도 이 규칙이 기본값처럼 동작
+   - HTML/클래스 변경 없이 적용되도록 범용 셀렉터 사용
+============================================ */
+
+/* 0) 토큰 보강: 다른 CSS가 있어도 fallback 됨 */
+:root{
+  --container-max: 1400px;
+  --container-pad: 1.5rem;           /* 24px */
+  --container-pad-lg: 2.5rem;        /* 40px */
+  --radius-md: 1rem;                 /* 16px */
+  --radius-lg: 1.5rem;               /* 24px */
+  --shadow-1: 0 10px 30px rgba(0,0,0,.07);
+}
+
+/* 1) 페이지 기본 크기/정렬 계약 */
+.container{
+  width: 100%;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding: var(--container-pad) var(--container-pad-lg);
+  border-radius: var(--radius-lg);
+  background: var(--container-bg);
+  box-shadow: var(--shadow-1);
+  border: 1px solid var(--border-color);
+}
+
+/* 2) '카드같은 박스'를 전부 하나의 스킨으로 통일 */
+:where(.card, .panel, .box, .list, .list-card, .video-box, .sidebar){
+  background: #fff;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-1);
+}
+
+/* 3) 제목/부제 톤 통일 (페이지별 클래스 잡기 어려우니 범용 선택자) */
+:where(.page-title, .section-title, h1, h2){
+  color: var(--text-dark);
+  letter-spacing: .2px;
+}
+:where(.section-subtitle, .muted, .desc){
+  color: var(--text-light);
+}
+
+/* 4) 버튼 스킨 통일: 파란/초록 계열 */
+:where(.btn, .button, button){
+  height: 44px;
+  padding: 0 16px;
+  border-radius: 999px;
+  font-weight: 700;
+  border: 1px solid transparent;
+  transition: filter .15s ease, transform .05s ease;
+}
+:where(.btn, .button, button):active{ transform: translateY(1px); }
+
+:where(.btn-primary, .button-primary, .logout-btn){
+  background: var(--secondary-color);
+  color: #fff;
+}
+:where(.btn-primary, .button-primary, .logout-btn):hover{
+  filter: brightness(1.04);
+}
+
+/* 5) 비디오/미디어 공통(모서리/그림자/배경) */
+:where(video, .video, .media, #learning_video, #webcam){
+  width: 100%;
+  border-radius: 12px;
+  background: #000;
+  display: block;
+}
+
+/* 6) 비율 헬퍼 (aspect-ratio 안 써도 되는 패딩 해크) */
+.ratio{ position: relative; width: 100%; overflow: hidden; border-radius: 12px; }
+.ratio > *{ position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
+.ratio-16x10{ padding-top: 62.5%; }   /* 16:10 */
+.ratio-4x3 { padding-top: 75%; }      /* 4:3  */
+.ratio-mirror{ transform: scaleX(-1); } /* 웹캠 좌우반전 용도 */
+
+/* 7) 프로그레스/퍼센트 통일 */
+:where(.progress, .meter, .progress-container){
+  width: 100%; height: 10px; border-radius: 999px; background: #e9ecef; overflow: hidden;
+}
+:where(.progress__bar, .meter__bar, .progress-bar){
+  height: 100%; background: var(--primary-color); border-radius: inherit;
+}
+:where(.progress-label, .accuracy-percent){ color: var(--primary-color); font-weight: 700; }
+
+/* 8) 테이블(랭킹 등에 재사용될 기본 스킨) */
+:where(table){
+  width: 100%; border-collapse: separate; border-spacing: 0;
+  background: #fff; border: 1px solid var(--border-color); border-radius: 12px; overflow: hidden;
+}
+:where(thead th){
+  background: #f9fafb; color: var(--text-light); text-align: left;
+  padding: 12px 16px; font-weight: 700; border-bottom: 1px solid var(--border-color);
+}
+:where(tbody td){
+  padding: 14px 16px; border-bottom: 1px solid var(--border-color);
+}
+:where(tbody tr:last-child td){ border-bottom: 0; }
+
+/* 9) 반응형: 학습하기 사이즈를 표준으로 유지 */
+@media (max-width: 992px){
+  .container{
+    padding: 1rem 1.5rem;
+    border-radius: var(--radius-md);
+  }
+  :where(.grid){ grid-template-columns: 1fr !important; gap: 1.5rem !important; }
+  :where(.btn, .button){ width: 100%; }
+}
+
+@media (max-width: 576px){
+  body{ padding: .5rem; }
+  .container{ padding: 1rem; border-radius: .75rem; box-shadow: none; }
+  /* 아주 작은 화면에서 카드 패딩 살짝 축소 */
+  :where(.card, .panel, .box, .list-card, .video-box, .sidebar){ border-radius: 12px; }
+}
