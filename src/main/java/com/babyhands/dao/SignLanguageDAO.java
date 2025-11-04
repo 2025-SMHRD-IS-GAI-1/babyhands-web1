@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 
 import com.babyhands.config.MysqlSessionManager;
+import com.babyhands.dto.QuestionDTO;
 import com.babyhands.vo.SignLanguageVO;
 
 public class SignLanguageDAO {
@@ -41,6 +42,17 @@ public class SignLanguageDAO {
 
 		List<SignLanguageVO> result = sqlSession.selectList("getVowelList");
 
+		sqlSession.close();
+
+		return result;
+	}
+	
+	// 수어 테스트 : 문제 5개 랜덤 생성
+	public List<QuestionDTO> getQuestionList() {
+		SqlSession sqlSession = factory.openSession();
+
+		List<QuestionDTO> result = sqlSession.selectList("getQuestionList");
+		
 		sqlSession.close();
 
 		return result;
