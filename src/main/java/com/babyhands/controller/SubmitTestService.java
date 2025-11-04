@@ -50,13 +50,15 @@ public class SubmitTestService implements Command {
 		
 		int row = 0;
 		
-		for (int i = 0; i < 10; i++) {
+		List<SlTestVO> list = new ArrayList<>();
+		for (int i = 0; i < 5; i++) {
 			SlTestVO testVo = SlTestVO.builder()
 					.slTestGroup(group)
 					.chooseAnswer(answerList.get(i))
 					.memberId(memberId)
 					.slId(idList.get(i))
 					.build();
+			list.add(testVo);
 			// DB INSERT
 			int result = testDao.insert(testVo);
 			row += result;
@@ -64,7 +66,7 @@ public class SubmitTestService implements Command {
 		
 		Map<String, Object> payload = new HashMap<>();
 
-		if (row >= 10) {
+		if (row >= 5) {
 			payload.put("ok", true);
 			payload.put("redirect", request.getContextPath() + "/GoLastResult.do");
 		} else {
