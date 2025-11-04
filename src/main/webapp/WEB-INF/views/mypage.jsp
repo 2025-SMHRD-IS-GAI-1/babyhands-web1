@@ -61,7 +61,6 @@
 
 				<!-- Shortcut Card -->
 				<section class="card mypage-card profile-wrap">
-					<h2 class="sr-only">바로가기</h2>
 					<div class="quick-list">
 						<a class="btn btn--xl btn--primary" href="GoLastResult.do">지난
 							학습결과</a> <a class="btn btn--xl btn--success" href="GomemberUpdate.do">회원
