@@ -14,17 +14,18 @@
 	rel="stylesheet">
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/assets/css/mypage.css">
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/assets/css/mypage.css?v=1">
 <link rel="stylesheet" href="${ctx}/assets/css/header.css" />
 </head>
 <body>
 	<div class="app-wrap">
-		<!-- NAV -->
-		<jsp:include page="/WEB-INF/views/header.jsp">
-			<jsp:param name="nav" value="mypage" />
-		</jsp:include>
-
 		<!-- PAGE TITLE -->
-		<div class="container">
+		<main class="container mypage-container">
+			<!-- NAV -->
+			<jsp:include page="/WEB-INF/views/header.jsp">
+				<jsp:param name="nav" value="learn" />
+			</jsp:include>
 			<h1 class="page-title">마이페이지</h1>
 
 			<div class="grid">
@@ -53,15 +54,13 @@
 						<div class="stat__divider" aria-hidden="true"></div>
 						<div class="stat__item">
 							<div class="stat__label">현재 랭킹</div>
-							<div class="stat__value">${memberScoreRank.rankNo}위
-							</div>
+							<div class="stat__value">${memberScoreRank.rankNo}위</div>
 						</div>
 					</div>
 				</section>
 
 				<!-- Shortcut Card -->
-				<section class="card quick-card">
-					<h2 class="sr-only">바로가기</h2>
+				<section class="card mypage-card profile-wrap">
 					<div class="quick-list">
 						<a class="btn btn--xl btn--primary" href="GoLastResult.do">지난
 							학습결과</a> <a class="btn btn--xl btn--success" href="GomemberUpdate.do">회원
@@ -69,7 +68,7 @@
 					</div>
 				</section>
 			</div>
-		</div>
+	</div>
 	</div>
 
 
@@ -79,5 +78,7 @@
 	<!-- [호환성] 이클립스 경로로 수정 -->
 	<script src="${ctx}/assets/js/header.js"></script>
 
+
+	<script src="/assets/js/mypage.js"></script>
 </body>
 </html>

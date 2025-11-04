@@ -27,7 +27,39 @@
 			WHERE MEMBER_ID = #{memberId}
 		]]>
 	</select>
-	
-	
+
+	<!-- 수어 학습 : 일정 정확도 이상이면 db에 값 저장 -->
+	<update id="success" parameterType="com.babyhands.vo.SlLearnVO">
+		MERGE INTO SL_LEARN t
+		USING (
+		SELECT
+		#{memberId} AS member_id,
+		#{slId} AS sl_id,
+		SYSDATE AS learn_date
+		FROM dual
+		) s
+		ON (
+		t.MEMBER_ID = s.member_id
+		AND t.SL_ID = s.sl_id
+		AND
+		TRUNC(t.SL_LEARN_DATE) = TRUNC(s.learn_date)
+		)
+		WHEN NOT MATCHED THEN
+		INSERT (SL_LEARN_ID, SL_LEARN_DATE, SL_ID, MEMBER_ID)
+		VALUES
+		(SL_LEARN_SEQ.NEXTVAL, s.learn_date, s.sl_id, s.member_id)
+	</update>
+
+	<!-- 수어 학습 : 수어 학습 성공한 리스트 불러오기 -->
+	<select id="getSuccessList" parameterType="string" resultType="string">
+		<![CDATA[
+			SELECT SL_ID
+			FROM SL_LEARN
+			WHERE MEMBER_ID = #{memberId}
+			AND SL_LEARN_DATE >= TRUNC(SYSDATE)
+			AND SL_LEARN_DATE < TRUNC(SYSDATE) + 1
+		]]>
+	</select>
+
 
 </mapper>

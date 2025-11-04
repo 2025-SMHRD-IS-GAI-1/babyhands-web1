@@ -7,34 +7,37 @@ const videoEl = document.getElementById('learning_video');
 const subtitleEl = document.querySelector('.section-subtitle');
 const progressBar = document.querySelector('.progress-bar');
 const percentEl = document.querySelector('.accuracy-percent');
+const hiddenSlId = document.getElementById('slId');
 
 
 function startApp() {
+
 	// 1. 사이드바 HTML 요소 가져오기
-	const CharDisplay = document.querySelector('.section-subtitle');
-	const jamoBtn = document.querySelectorAll('.word-item');
 	const actJamoBtn = document.querySelector('.word-item.active');
-
 	const webcam = document.getElementById('webcam');
-	const learningVideo = document.getElementById('learning_video');
-
-	const accuracyPercent = document.querySelector('.accuracy-percent');
-	const progressBar = document.querySelector('.progress-bar');
 
 	// -----------------------------------------------------------------------
 	// 2. 초기 글자 설정
 	if (actJamoBtn) {
 		CharDisplay.textContent = `학습 글자 : ${actJamoBtn.textContent}`;
+		currentSlId = Number(actJamoBtn.dataset.slId);
+		if (hiddenSlId) hiddenSlId.value = currentSlId;
+		if (actJamoBtn.dataset.src) {
+			videoEl.src = actJamoBtn.dataset.src;
+			videoEl.load();
+		}
 	} else {
-		CharDisplay.textContent = '학습 글자 : 글자를 선택하세요';
+		subtitleEl.textContent = '학습 글자 : 글자를 선택하세요';
 	}
 
 	//-------------------------------------------------------
 	// 5. 웹캠 연결 함수 호출
-	if (webcam && accuracyPercent && progressBar) {
-		startWebcam(webcam, accuracyPercent, progressBar);
+	if (webcam && percentEl && progressBar) {
+		startWebcam(webcam, percentEl, progressBar);
 	}
 }
+
+document.addEventListener('DOMContentLoaded', startApp);
 
 // -----------------------------------------------------
 // 5. 웹캠 연결 함수 (함수 정의)
@@ -107,38 +110,111 @@ function startWebcam(videoElement, accuracyPercent, progressBar) {
 // 메인 이벤트 리스너 (HTML 로드 후 실행)
 document.addEventListener('DOMContentLoaded', startApp);
 
+function learnMark() {
 
+	const body = new URLSearchParams({});
 
+	fetch(`${APP_CTX}/LearnSuccessList.do`, {
+		method: "POST",
+		headers: { "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8" },
+		body,
+		credentials: "same-origin",
+	})
+		.then(function(res) {
+			return res.json();
+		})
+		.then((data) => {
+			if (data && data.ok) {
+				const set = new Set(data.successlist);
+
+				document.querySelectorAll('.word-item').forEach(a => {
+					const id = String(a.dataset.slId);
+					if (set.has(id)) a.closest('li').classList.add('learned');
+					else a.closest('li').classList.remove('learned');
+				});
+			} else {
+				alert(data.message);
+			}
+		})
+		.catch(function(err) {
+			console.error(err);
+			alert("네트워크 오류가 발생했습니다.");
+		})
+}
+
+learnMark();
+
+// 사이드바 클릭 이벤트(이벤트 위임)
 (function() {
-	// 이벤트 위임
-	sidebar.addEventListener('click', async (e) => {
+	if (!sidebar) return;
+
+	sidebar.addEventListener('click', function(e) {
 		const a = e.target.closest('a.word-item');
 		if (!a) return;
 		e.preventDefault();
 
-		const src = a.dataset.src;
-		const meaning = a.dataset.meaning || '';
+		// 1) slId 세팅
+		currentSlId = Number(a.dataset.slId);
 
-		// 섹션 서브타이틀 갱신
+		console.log(currentSlId);
+
+		if (hiddenSlId) hiddenSlId.value = currentSlId;
+
+		// 2) 자막/정확도 초기화
+		const meaning = a.dataset.meaning || a.textContent.trim();
 		if (subtitleEl) subtitleEl.textContent = '학습 글자 : ' + meaning;
-
-		// 정확도 UI 초기화(원하면)
 		if (progressBar) progressBar.style.width = '0%';
 		if (percentEl) percentEl.textContent = '0%';
 
-		// 비디오 교체
+		// 3) 비디오 교체
 		try {
-			// 소스만 바꾸고 재생
-			videoEl.src = src;
-			// 형식 명확히 하고 싶으면 <source> 동적 생성해도 됨
-			// videoEl.innerHTML = `<source src="${src}" type="video/mp4">`;
+			if (a.dataset.src) {
+				videoEl.src = a.dataset.src;
+				videoEl.load();
 
-			await videoEl.load(); // 메타데이터 로드
-			// 자동재생은 브라우저 정책 때문에 실패할 수 있으니 play는 try/catch
-			try { await videoEl.play(); } catch (err) { /* 사용자가 눌러야 재생될 수 있음 */ }
+				const tryPlay = () => {
+					const p = videoEl.play();
+					if (p && typeof p.then === 'function') p.catch(() => { });
+				};
+
+				if (videoEl.readyState >= 1) tryPlay();
+				else {
+					videoEl.addEventListener('loadedmetadata', function onMeta() {
+						videoEl.removeEventListener('loadedmetadata', onMeta);
+						tryPlay();
+					});
+				}
+			}
 		} catch (err) {
 			console.error('비디오 로드 실패:', err);
 			alert('영상을 불러오지 못했습니다. 경로를 확인하세요.');
 		}
+
+		// (선택) active 클래스 토글
+		document.querySelectorAll('.word-item.active').forEach(el => el.classList.remove('active'));
+		a.classList.add('active');
+
+		//const body = new URLSearchParams({ slId: hiddenSlId.value });
+
+		//fetch(`${APP_CTX}/SlLearnSuccess.do`, {
+		//	method: "POST",
+		//	headers: { "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8" },
+		//	body,
+		//	credentials: "same-origin",
+		//})
+		//	.then(function(res) {
+		//		return res.json();
+		//	})
+		//	.then((data) => {
+		//		if (data && data.ok) {
+		//			alert("수어 학습 성공");
+		//		} else {
+		//			alert(data.message);
+		//		}
+		//	})
+		//	.catch(function(err) {
+		//		console.error(err);
+		//		alert("네트워크 오류가 발생했습니다.");
+		//	})
 	});
 })();
