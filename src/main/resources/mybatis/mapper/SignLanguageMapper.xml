@@ -32,7 +32,7 @@
 		]]>
 	</select>
 	
-	<!-- 수어 테스트 : 랜덤 10개 문제 리스트 가져오기 -->
+	<!-- 수어 테스트 : 랜덤 5개 문제 리스트 가져오기 -->
 	<select id="getQuestionList" resultType="com.babyhands.dto.QuestionDTO">
 		<![CDATA[
 			SELECT SL_ID, MEANING, VIDEO_PATH
@@ -41,7 +41,7 @@
 			  FROM SIGN_LANGUAGE
 			  ORDER BY DBMS_RANDOM.VALUE
 			)
-			WHERE ROWNUM <= 10
+			WHERE ROWNUM <= 5
 		]]>
 	</select>
 

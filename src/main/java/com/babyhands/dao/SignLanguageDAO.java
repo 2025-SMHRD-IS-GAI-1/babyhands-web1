@@ -47,7 +47,7 @@ public class SignLanguageDAO {
 		return result;
 	}
 	
-	// 수어 테스트 : 문제 10개 랜덤 생성
+	// 수어 테스트 : 문제 5개 랜덤 생성
 	public List<QuestionDTO> getQuestionList() {
 		SqlSession sqlSession = factory.openSession();
 
