@@ -99,38 +99,38 @@ button {
    =========================== */
 
 .container{
-    max-width: 1400px;               
-    width: 90%;                      
-    margin: 2rem auto; 
-    padding: 1.5rem 2.5rem; /* 새 여백 */
-
-    /* ✨ Grid 대신 Flex (수직)로 변경 */
-    display: flex; 
-    flex-direction: column;
-    
-    background: var(--container-bg); 
-    border: 1px solid var(--border-color); /* 새 테두리 색상 */
-    border-radius: 1.5rem; /* 새 Radius */
-    box-shadow: 0 10px 30px rgba(0,0,0,.07); /* 새 그림자 */
+    /* ✨ "Learn" 테마의 크기 및 디자인 속성 적용 */
+	width: 90%;
+	max-width: 1400px;
+	background-color: var(--container-bg);
+	border-radius: 1.5rem;
+	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
+	overflow: hidden;
+	padding: 1.5rem 2.5rem;
+    margin: 2rem auto; /* 헤더와의 간격 */
     box-sizing: border-box;          
-    overflow: hidden;
+
+    /* ✨ "Main" 페이지의 2행 Grid 레이아웃 (복원) */
+    display: grid; 
+    grid-template-rows: auto 1fr; /* 1행(헤더), 2행(본문) */
+    grid-template-areas:
+        "header header"
+        "calendar kpi";
+    
+    /* ✨ 캘린더/KPI 비율 복원 (안정적인 값) */
+    grid-template-columns: 1.3fr 1fr; 
+    /* ✨ 간격 복원 */
+    gap: 60px; 
 }
 
 /* ✨ 헤더 래퍼 스타일: 이중 구분선 제거 */
 .main-header-area {
+    grid-area: header;
     padding-bottom: 0; 
     margin-bottom: 30px; /* 헤더와 본문 간격 */
     border-bottom: 1px solid var(--border-color); /* header.css 대신 여기서 구분선 정의 */
     display: block; 
-    width: 100%; /* Flex 자식 요소이므로 너비 100% */
-}
-
-/* ✨ 캘린더와 KPI 래퍼 (Grid 7:3 적용) */
-.main-content-wrapper {
-    display: grid;
-    grid-template-columns: 7fr 3fr; /* 캘린더 7 : KPI 3 */
-    gap: 50px;
-    grid-template-areas: "calendar kpi";
+    width: 100%;
 }
 
 
@@ -385,19 +385,19 @@ button {
    =========================== */
 
 @media (max-width: 1024px){
-	.container {
-		/* ✨ 모바일에서는 Flex 수직 정렬로 변경 */
-		display: flex;
-		flex-direction: column;
-		gap: 40px; 
+    /* ✨ 992px -> 1024px로 캘린더 기준에 맞춤 */
+    .container{ 
+        grid-template-columns:1fr; 
+        grid-template-areas:
+            "header"
+            "calendar"
+            "kpi";
+        gap: 40px; 
         
-		/* ✨ 와이어프레임 모바일 스타일 적용 */
+        /* ✨ 와이어프레임 모바일 스타일 적용 */
 		padding: 1rem 1.5rem;
 		border-radius: 1rem;
         margin: 1rem auto;
-	}
-    .main-content-wrapper {
-        flex-direction: column; /* 모바일에서 캘린더와 KPI 수직 정렬 */
     }
     body {
         padding: 0; /* 모바일에서는 body 패딩 제거 */

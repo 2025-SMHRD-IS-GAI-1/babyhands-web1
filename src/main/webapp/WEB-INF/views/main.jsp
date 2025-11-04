@@ -14,15 +14,18 @@
     
 </head>
 <body>
-
-    <!-- 1. 헤더 (로고, 네비게이션, 사용자 정보) - ✨ 컨테이너 밖으로 이동 -->
-    <jsp:include page="/WEB-INF/views/header.jsp">
-        <jsp:param name="nav" value="main" />
-    </jsp:include>
     
-    <!-- 2. 메인 콘텐츠 (캘린더 + KPI) -->
+    <!-- ✨ 1. 메인 콘텐츠 (헤더 + 캘린더 + KPI) -->
     <main class="container">
+     
+        <!-- ✨ 1-1. 헤더 (로고, 네비게이션, 사용자 정보) - 컨테이너 안으로 이동 -->
+        <header class="main-header-area">
+			<jsp:include page="/WEB-INF/views/header.jsp">
+				<jsp:param name="nav" value="main" />
+			</jsp:include>
+        </header>
         
+        <!-- ✨ 1-2. 캘린더 -->
         <section class="calendar-section card" id="calendar">
             <div class="cal__titlebar">
                 <h2 class="card__title">출석 캘린더</h2>
@@ -49,16 +52,12 @@
                 </div>
 
                 <div class="cal__grid" id="calGrid">
-                    <span></span><span></span><span></span><span></span>
-                    <button>1</button><button>2</button>
-                    <button>3</button><button class="check">4</button><button class="today">5</button><button>6</button><button>7</button><button>8</button><button>9</button>
-                    <button>10</button><button>11</button><button>12</button><button>13</button><button>14</button><button>15</button><button>16</button>
-                    <button>17</button><button>18</button><button>19</button><button>20</button><button>21</button><button>22</button><button>23</button>
-                    <button>24</button><button>25</button><button>26</button><button>27</button><button>28</button><button>29</button><button>30</button>
+                    <!-- JS가 동적으로 채웁니다 -->
                 </div>
             </div>
         </section>
 
+        <!-- ✨ 1-3. KPI -->
         <aside class="kpi-wrap">
             <div class="card kpi">
                 <h3 class="card__title">오늘의 목표</h3>
@@ -76,6 +75,7 @@
                 </div>
             </div>
         </aside>
+            
     </main>
     <script>
         // 도넛 차트의 percent 값을 data-percent에서 읽어 CSS 변수 --percent에 설정
