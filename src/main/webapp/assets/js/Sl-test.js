@@ -82,10 +82,10 @@ let score = 0;               // 맞춘 문제 수
 function startTest() {
     // 1. 필요한 HTML 요소 가져오기
     const questionVideo = document.getElementById('question_video'); 
-    // [수정] '문제 영상 1 / 10' 텍스트를 올바르게 선택
     const questionNumber = document.getElementById('question-subtitle'); 
     const answerForm = document.querySelector('.answer-form');
     const answerLabels = document.querySelectorAll('.answer-list label');
+    const answerRadios = document.querySelectorAll('.answer-list input[type="radio"]');
 
     // 요소가 없으면 실행 중지
     if (!questionVideo || !questionNumber || !answerForm || answerLabels.length === 0) {
@@ -94,23 +94,22 @@ function startTest() {
     }
 
     // 2. 초기 문제 로드
-    Firt_Question(currentQ_Index, questionVideo, questionNumber, answerLabels);
+    Firt_Question(currentQ_Index, questionVideo, questionNumber, answerLabels, answerRadios);
 
     // 3. 정답 제출 이벤트 리스너 연결
     answerForm.addEventListener('submit', (event) => {
-        event.preventDefault(); // 폼 기본 제출 방지
-        submitAnswer(event, questionVideo, questionNumber, answerLabels);
+        event.preventDefault(); // 폼 기본 제출 방지 (404 방지)
+        // submitAnswer 호출 시 필요한 모든 요소 전달 (기능 오류 수정)
+        submitAnswer(event, questionVideo, questionNumber, answerLabels, answerRadios);
     });
 }
 
 /**
  * 특정 인덱스의 문제를 화면에 표시합니다.
  */
-function Firt_Question(index, videoElement, displayElement, labelElements) {
+function Firt_Question(index, videoElement, displayElement, labelElements, radioElements) {
     if (index >= questions.length) {
         console.log(`테스트 종료. 최종 점수: ${score}.`);
-       // [수정] alert 대신 console.log로 변경하고, 결과 페이지로 이동 (예시)
-       // 실제 결과 페이지 URL로 변경하세요.
        alert(`테스트가 종료되었습니다. 최종 점수: ${score} / ${questions.length}`);
        window.location.href = window.APP_CTX || '/'; // 메인 페이지로 이동 (APP_CTX는 JSP에서 설정)
         return;
@@ -118,7 +117,7 @@ function Firt_Question(index, videoElement, displayElement, labelElements) {
 
     const question = questions[index];
 
-    // 1. 문제 번호 업데이트
+    // 1. 문제 번호 업데이트 (숫자 증가 기능)
     displayElement.textContent = `문제 영상 ${index + 1} / ${questions.length}`;
 
     // 2. 영상 로드 및 재생
@@ -127,7 +126,11 @@ function Firt_Question(index, videoElement, displayElement, labelElements) {
     // 3. 선택지 업데이트
     labelElements.forEach((label, i) => {
         const optionText = question.options[i];
+        
+        const listItem = label.closest('li');
+
         if (optionText) {
+            if (listItem) listItem.style.display = 'block'; // li 표시
             label.textContent = optionText;
             label.htmlFor = `ans${i + 1}`;
             
@@ -137,23 +140,20 @@ function Firt_Question(index, videoElement, displayElement, labelElements) {
                 inputElement.checked = false; // 선택 초기화
             }
         } else {
+            if (listItem) listItem.style.display = 'none'; // li 숨김
             label.textContent = ''; // 선택지가 부족할 경우 빈칸
-            // [수정] 선택지가 없는 경우 라디오 버튼과 라벨을 숨깁니다.
-            label.style.display = 'none';
-            if (label.previousElementSibling) {
-                label.previousElementSibling.style.display = 'none';
-            }
         }
     });
 }
 
-// 영상 로드 함수
+// 영상 로드 함수 (muted autoplay 및 표시 문제 해결)
 function fetchVideo(videoElement, videoURL) {
     if (!videoElement) return;
 
     videoElement.src = videoURL;
     videoElement.load();
-    videoElement.muted = false; 
+    // 자동 재생을 위해 음소거 상태로 시작
+    videoElement.muted = true; 
     videoElement.controls = true; 
 
     const playPromise = videoElement.play();
@@ -164,14 +164,20 @@ function fetchVideo(videoElement, videoURL) {
                 console.log(`[테스트] 문제 영상 재생 시작: ${videoURL}`);
             })  
             .catch((error) => {
-                // 자동 재생이 실패하면 비디오 컨트롤이 보이므로 사용자가 직접 누를 수 있습니다.
-                console.warn(`[테스트] 영상 자동 재생 실패. 사용자의 상호작용이 필요할 수 있습니다. (오류: ${error.name})`);
+                console.warn(`[테스트] 영상 자동 재생 실패. 수동 재생이 필요합니다. (오류: ${error.name})`);
             });
     }
+    
+    // 사용자가 영상을 클릭하면 음소거를 해제합니다.
+    videoElement.onclick = () => {
+        if (videoElement.muted) {
+            videoElement.muted = false;
+        }
+    };
 }
 
-// 정답 제출 함수
-function submitAnswer(event, videoElement, displayElement, labelElements) {
+// 정답 제출 함수 (문제 인덱스 증가 및 다음 문제 로드)
+function submitAnswer(event, videoElement, displayElement, labelElements, radioElements) {
     const selectedRadio = event.target.querySelector('input[name="answer"]:checked');
 
     if (!selectedRadio) {        
@@ -182,9 +188,7 @@ function submitAnswer(event, videoElement, displayElement, labelElements) {
     const selectedAnswerValue = parseInt(selectedRadio.value, 10);
     const question = questions[currentQ_Index];
     
-    // [수정] alert 대신 좀 더 부드러운 피드백 (예: 모달)을 사용하는 것이 좋지만,
-    // 일단 alert을 유지하되, 정답/오답 피드백을 개선합니다.
-    // 정답 확인
+    // 정답 확인 및 점수 업데이트
     if (selectedAnswerValue === question.correctAnswer) {
         score++;        
         alert(`정답입니다! (현재 ${score}점)`); 
@@ -192,16 +196,16 @@ function submitAnswer(event, videoElement, displayElement, labelElements) {
         alert(`오답입니다. 정답은 "${question.answerText}" 입니다.`); 
     }
     
-    // 다음 문제로 이동
+    // 다음 문제로 이동 (기능 구현 핵심)
     currentQ_Index++;
 
-    // [수정] 비디오 정지
+    // 비디오 정지 및 소스 비우기 (다음 문제 로드 준비)
     videoElement.pause();
-    videoElement.src = ""; // 다음 문제 로드 전 소스 비우기
+    videoElement.src = ""; 
 
-    // 다음 문제 로드 (딜레이를 짧게 줄이거나 없애도 됩니다)
+    // 다음 문제 로드
     setTimeout(() => {
-        Firt_Question(currentQ_Index, videoElement, displayElement, labelElements);
+        Firt_Question(currentQ_Index, videoElement, displayElement, labelElements, radioElements);
     }, 500); // 0.5초 후 다음 문제 로드
 }
 
