@@ -32,4 +32,15 @@ public class SlLearnDAO {
 		return result;
 	}
 	
+	// 수어 학습 : 일정 정확도 이상이면 db에 추가
+	public int success() {
+		SqlSession sqlSession = factory.openSession();
+
+		int result = sqlSession.selectOne("success");
+
+		sqlSession.close();
+
+		return result;
+	}
+	
 }

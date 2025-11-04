@@ -26,6 +26,7 @@ import com.babyhands.controller.JoinService;
 import com.babyhands.controller.LoginService;
 import com.babyhands.controller.LogoutService;
 import com.babyhands.controller.NickNameCheckService;
+import com.babyhands.controller.SlLearnSuccessService;
 import com.babyhands.controller.UpdateEmailCheckService;
 import com.babyhands.controller.UpdateMemberService;
 import com.babyhands.controller.UpdateNickCheckService;
@@ -59,6 +60,7 @@ public class FrontController extends HttpServlet {
 		map.put("FindPw.do", new FindPwService());
 		map.put("GetAttendanceDay.do", new GetAttendanceDayService());
 		map.put("GoSl-learn.do", new GoSlLearnService());
+		map.put("SlLearnSuccess.do", new SlLearnSuccessService());
 	}
 
 	protected void service(HttpServletRequest request, HttpServletResponse response)
