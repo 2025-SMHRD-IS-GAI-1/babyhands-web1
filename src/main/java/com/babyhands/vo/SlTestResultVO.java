@@ -1,5 +1,6 @@
 package com.babyhands.vo;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 import lombok.AllArgsConstructor;
@@ -12,13 +13,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class SlTestResultVO {
-    private int slTestId;
+    private Long slTestId;          // 오라클 NUMBER → Long 권장
     private String memberId;
-    private int totalQuestions;
-    private int correctCount;
-    private int score;
-    private int elapsedSec;
-    private Date createdAt;
-    private double accuracy;
-    private int rankNo;
+    private Integer totalQuestions;
+    private Integer correctCount;
+    private Integer score;
+    private Integer elapsedSec;
+    private Timestamp createdAt;    // DATE 대신 Timestamp로 바꾸면 CAST 매핑 문제 X
+    private Double accuracy;
+    private Integer rankNo;
 }
