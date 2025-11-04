@@ -78,5 +78,7 @@
 	<!-- [호환성] 이클립스 경로로 수정 -->
 	<script src="${ctx}/assets/js/header.js"></script>
 
+
+	<script src="/assets/js/mypage.js"></script>
 </body>
 </html>
