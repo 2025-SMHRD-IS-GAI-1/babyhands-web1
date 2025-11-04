@@ -14,6 +14,10 @@ public class SlTestDAO {
     // DBCP 세션 공장
     private final SqlSessionFactory factory = MysqlSessionManager.getFactory();
 
+    // =====================================
+    // 🔹 랭킹 관련 기능
+    // =====================================
+
     // TOP N 랭킹 (DTO 리스트로 반환)
     public List<MemberScoreRank> selectRankingTopN(int topN) {
         SqlSession s = factory.openSession();
@@ -66,4 +70,5 @@ public class SlTestDAO {
         s.close();
         return out;
     }
+
 }
