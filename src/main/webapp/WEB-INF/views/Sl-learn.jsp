@@ -38,12 +38,16 @@
 							<a 
 								href="#" 
 								class="word-item"
+								data-sl-id="${consonant.slId}"
 								data-src="${ctx}/assets/video/${consonant.videoPath}"
-								data-meaning="${consonant.meaning}"> ${consonant.meaning} 
+								data-meaning="${consonant.meaning}">
+								${consonant.meaning} 
 							</a>
 						</li>
 					</c:forEach>
 				</ul>
+				
+				<input type="hidden" id="slId" name="slId" />
 
 				<div id="vacant"></div>
 
@@ -54,8 +58,10 @@
 							<a 
 								href="#" 
 								class="word-item"
+								data-sl-id="${vowel.slId}"
 								data-src="${ctx}/assets/video/${vowel.videoPath}"
-								data-meaning="${vowel.meaning}"> ${vowel.meaning} 
+								data-meaning="${vowel.meaning}">
+								${vowel.meaning} 
 							</a>
 						</li>
 					</c:forEach>
