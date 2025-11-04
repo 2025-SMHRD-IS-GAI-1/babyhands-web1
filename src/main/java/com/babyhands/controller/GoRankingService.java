@@ -1,41 +1,56 @@
 package com.babyhands.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.util.*;
 
-import com.babyhands.frontController.Command;
 import com.babyhands.dao.SlTestDAO;
-import com.babyhands.vo.MemberVO;              // 세션에 들어있는 VO
-import com.babyhands.dto.MemberScoreRank;     // 랭킹 DTO (rankNo, totalScore)
+import com.babyhands.dto.MemberScoreRank;     // rankNo, memberId, totalScore
+import com.babyhands.frontController.Command;
+import com.babyhands.vo.MemberVO;
 
 public class GoRankingService implements Command {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        HttpSession session = request.getSession(false);
-        MemberVO login = (MemberVO) session.getAttribute("loginMember");
 
-        // ★ MemberVO에 memberId가 없으므로 email로 전달하고,
-        //    Mapper에서 email -> MEMBER_ID 변환하도록 할 것
-        String myEmail = login.getEmail();
+        // --- 세션/로그인 정보 ---
+        HttpSession session = request.getSession(false);
+        MemberVO login = (session == null) ? null : (MemberVO) session.getAttribute("loginMember");
+        String myEmail = (login == null) ? null : login.getEmail();
 
         SlTestDAO dao = new SlTestDAO();
 
-        // 내 순위/점수
-        MemberScoreRank mine = dao.getScoreRankByEmail(myEmail); // <- 아래 DAO/Mapper 추가
-        int myRank  = (mine == null) ? 0 : mine.getRankNo();      // DTO 필드명에 맞춤
-        int myScore = (mine == null) ? 0 : mine.getTotalScore();  // DTO 필드명에 맞춤
+        // --- 내 순위/점수 (로그인 안 되어 있으면 0) ---
+        int myRank = 0;
+        int myScore = 0;
+        if (myEmail != null && !myEmail.isEmpty()) {
+            MemberScoreRank mine = dao.getScoreRankByEmail(myEmail);
+            if (mine != null) {
+                Integer r = mine.getRankNo();
+                Integer s = mine.getTotalScore();
+                myRank  = (r == null) ? 0 : r;
+                myScore = (s == null) ? 0 : s;
+            }
+        }
 
-        // TOP 100 랭킹
-        List<Map<String,Object>> rankList = dao.selectRankingTopN(100);
+     // --- TOP 100 랭킹 (DTO 리스트) ---
+        List<MemberScoreRank> rankList = dao.selectRankingTopN(100);
 
-        // JSP 바인딩
-        request.setAttribute("rankList", rankList);  // Map: RN/NICKNAME/SCORE
+        // 디버그 로그는 return 전에!
+        System.out.println("[RANK DEBUG] size=" + (rankList == null ? "null" : rankList.size()));
+        if (rankList != null && !rankList.isEmpty()) {
+            MemberScoreRank r0 = rankList.get(0);
+            System.out.println("[RANK DEBUG] first=" + r0.getMemberId() + "/" + r0.getTotalScore() + "/" + r0.getRankNo());
+        }
+
+        // --- JSP 바인딩 ---
+        request.setAttribute("rankList", rankList);
         request.setAttribute("myRank", myRank);
         request.setAttribute("myScore", myScore);
 
-        return "/WEB-INF/views/Ranking.jsp";
+        return "Ranking.jsp";
     }
 }

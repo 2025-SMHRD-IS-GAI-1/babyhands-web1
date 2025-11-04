@@ -126,7 +126,6 @@ function render() {
 function updateNavButtons() {
 	if (btnPrev) btnPrev.disabled = (currentIndex === 0);
 	if (btnNext) btnNext.textContent = isLast() ? '제출하기' : '다음';
-
 	var checked = $('input[name="answer"]:checked');
 	if (btnNext) btnNext.disabled = !checked;
 }
@@ -150,7 +149,7 @@ function submitResult() {
 			correct: ok
 		});
 	}
-	
+
 	fetch(APP_CTX + '/SubmitTest.do', {
 		method: 'POST',
 		headers: { "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8" },
@@ -200,7 +199,7 @@ function getQuestionList() {
 					videoUrl: joinUrl(window.APP_CTX || '', '/assets/video/' + q.videoPath),
 					options: q.answers,
 					correctAnswer: q.answers ? (q.answers.indexOf(q.meaning) + 1) : null,
-					meaning : q.meaning
+					meaning: q.meaning
 				};
 			});
 
@@ -215,6 +214,6 @@ function getQuestionList() {
 			console.error(err);
 			alert('네트워크 오류가 발생했습니다.');
 		});
-		
-	
+
 }
+
