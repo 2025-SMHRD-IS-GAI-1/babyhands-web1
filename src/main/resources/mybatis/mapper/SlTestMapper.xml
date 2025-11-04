@@ -117,6 +117,20 @@
 		) SUB, 
 		SL_TEST T
 		WHERE SUB.SL_TEST_GROUP = T.SL_TEST_GROUP
+		ORDER BY T.SL_TEST_DATE DESC
+	</select>
+	
+	<!-- 지난 학습 결과 : 지난 학습 목록 리스트 가져오기 -->
+	<select id="dailyTestList" parameterType="string" resultType="com.babyhands.dto.DailyTestDTO">
+	<![CDATA[
+		SELECT TRUNC(sl_test_date) AS day, COUNT(*) AS testCount
+		FROM sl_test
+		WHERE sl_test_date >= TRUNC(SYSDATE) - 6
+  		AND sl_test_date <  TRUNC(SYSDATE) + 1
+  		AND member_id = 'test1'
+		GROUP BY TRUNC(sl_test_date)
+		ORDER BY d
+	]]>
 	</select>
 
 </mapper> 

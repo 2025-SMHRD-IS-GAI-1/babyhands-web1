@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 import com.babyhands.dao.MemberDAO;
 import com.babyhands.dao.SlLearnDAO;
 import com.babyhands.dao.SlTestDAO;
+import com.babyhands.dto.DailyTestDTO;
 import com.babyhands.dto.LastLearnDTO;
 import com.babyhands.dto.MemberScoreRank;
 import com.babyhands.frontController.Command;
@@ -33,10 +34,12 @@ public class GoLastResultService implements Command {
 		int totalLearnDay = slLearndao.getTotalLearnDay(memberId); // 총 학습일 수
 		int avgScore = slTestdao.getAvgScore(memberId); // 평균 점수
 		List<LastLearnDTO> lastLearnList = slTestdao.getLastLearnList(memberId);
+		List<DailyTestDTO> dailyTestList = slTestdao.dailyTestList(memberId);
 		
 		request.setAttribute("totalLearnDay", totalLearnDay);
 		request.setAttribute("avgScore", avgScore);
 		request.setAttribute("lastLearnList", lastLearnList);
+		request.setAttribute("dailyTestList", dailyTestList);
 		
 		return "LastResult.jsp";
 	}
