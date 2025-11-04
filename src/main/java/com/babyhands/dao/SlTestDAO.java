@@ -1,7 +1,6 @@
 package com.babyhands.dao;
 
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -11,45 +10,33 @@ import com.babyhands.dto.MemberScoreRank;
 
 public class SlTestDAO {
 
-	// 필드영역
-	// DBCP를 만드는 공장을 꺼내오기
-	private SqlSessionFactory factory = MysqlSessionManager.getFactory();
+    // DBCP 세션 공장
+    private final SqlSessionFactory factory = MysqlSessionManager.getFactory();
 
-	// 마이페이지 : 누적점수, 랭킹 가져오기
-	public MemberScoreRank getScoreRank(String memberId) {
-		SqlSession sqlSession = factory.openSession();
+    // TOP N 랭킹 (DTO 리스트로 반환)
+    public List<MemberScoreRank> selectRankingTopN(int topN) {
+        SqlSession s = factory.openSession();
+        List<MemberScoreRank> out =
+            s.selectList("com.babyhands.dao.SlTestDAO.selectRankingTopN", topN);
+        s.close();
+        return out;
+    }
 
-		MemberScoreRank result = sqlSession.selectOne("getScoreRank", memberId);
+    // 이메일로 내 점수/순위 (DTO 단건)
+    public MemberScoreRank getScoreRankByEmail(String email) {
+        SqlSession s = factory.openSession();
+        MemberScoreRank out =
+            s.selectOne("com.babyhands.dao.SlTestDAO.getScoreRankByEmail", email);
+        s.close();
+        return out;
+    }
 
-		sqlSession.close();
-
-		return result;
-	}
-
-	// ... 기존 필드/생성 로직 유지 (MysqlSessionManager.getFactory() 등)
-
-	// 내 순위/점수 - email로 조회
-	public MemberScoreRank getScoreRankByEmail(String email) {
-		SqlSession sqlSession = factory.openSession();
-
-		MemberScoreRank result = sqlSession.selectOne("getScoreRankByEmail", email);
-
-		sqlSession.close();
-
-		return result;
-	}
-
-	// TOP N 랭킹
-	public List<Map<String, Object>> selectRankingTopN(int topN) {
-		SqlSession sqlSession = factory.openSession();
-
-		List<Map<String, Object>> result = sqlSession.selectList("selectRankingTopN", topN);
-
-		sqlSession.close();
-
-		return result;
-
-	}
-
-	
+    // (옵션) 멤버ID로 내 점수/순위 필요하면
+    public MemberScoreRank getScoreRank(String memberId) {
+        SqlSession s = factory.openSession();
+        MemberScoreRank out =
+            s.selectOne("com.babyhands.dao.SlTestDAO.getScoreRank", memberId);
+        s.close();
+        return out;
+    }
 }

@@ -6,72 +6,75 @@
 <mapper namespace="com.babyhands.dao.SlTestDAO">
 	
 	<!-- 마이페이지 : 누적 점수, 랭킹 가져오기 -->
-	<select id="getScoreRank" parameterType="string" resultType="com.babyhands.dto.MemberScoreRank">
-		SELECT
-			SUB.MEMBER_ID,
-			SUB.totalScore,
-			DENSE_RANK() OVER(ORDER BY SUB.TOTALSCORE DESC) AS rankNo
-		FROM (
-			SELECT
-			T.MEMBER_ID,
-			COUNT(*) * 10 AS "TOTALSCORE"
-			FROM SL_TEST T, SIGN_LANGUAGE S
-			WHERE T.SL_ID = S.SL_ID
-			AND T.CHOOSE_ANSWER = S.MEANING
-			GROUP BY MEMBER_ID
-		) SUB
-		WHERE MEMBER_ID = #{memberId}
-	</select>
+<select id="getScoreRank" parameterType="string"
+        resultType="com.babyhands.dto.MemberScoreRank">
+  SELECT *
+  FROM (
+    SELECT
+      sub.MEMBER_ID       AS memberId,
+      NVL(sub.totalScore, 0) AS totalScore,
+      DENSE_RANK() OVER (ORDER BY NVL(sub.totalScore, 0) DESC) AS rankNo
+    FROM (
+      SELECT
+        m.MEMBER_ID,
+        COUNT(t.SL_ID) * 10 AS totalScore
+      FROM MEMBER m
+      LEFT OUTER JOIN SL_TEST t
+        ON m.MEMBER_ID = t.MEMBER_ID
+       AND t.CHOOSE_ANSWER IN (
+             SELECT s.MEANING
+             FROM SIGN_LANGUAGE s
+             WHERE s.SL_ID = t.SL_ID
+           )
+      GROUP BY m.MEMBER_ID
+    ) sub
+  )
+  WHERE ROWNUM &lt;= 1 
+</select>
 	
-	<!-- 마이페이지 : 누적 점수, 랭킹 가져오기 (이메일 기준) -->
-	<select id="getScoreRankByEmail" parameterType="string"
-		resultType="com.babyhands.dto.MemberScoreRank">
-		SELECT
-		SUB.MEMBER_ID,
-		SUB.TOTALSCORE AS totalScore,
-		DENSE_RANK() OVER(ORDER BY SUB.TOTALSCORE DESC) AS rankNo
-		FROM (
-		SELECT
-		T.MEMBER_ID,
-		COUNT(*) * 10 AS TOTALSCORE
-		FROM SL_TEST T
-		JOIN
-		SIGN_LANGUAGE S
-		ON T.SL_ID = S.SL_ID
-		AND T.CHOOSE_ANSWER = S.MEANING
-		GROUP BY T.MEMBER_ID
-		) SUB
-		WHERE SUB.MEMBER_ID = (
-		SELECT MEMBER_ID FROM
-		MEMBER WHERE EMAIL = #{email}
-		)
-	</select>
+<!-- 내 점수/순위 (이메일) : 아직 문제 안 푼 회원도 0점 나오게 하려면 LEFT OUTER JOIN 버전 권장 -->
+<select id="getScoreRankByEmail" parameterType="string"
+        resultType="com.babyhands.dto.MemberScoreRank">
+  SELECT memberId, totalScore, rankNo
+  FROM (
+    SELECT
+      sub.memberId,
+      sub.totalScore,
+      DENSE_RANK() OVER(ORDER BY sub.totalScore DESC) AS rankNo
+    FROM (
+      SELECT
+        m.MEMBER_ID AS memberId,
+        NVL(COUNT(t.SL_ID), 0) * 10 AS totalScore
+      FROM MEMBER m
+      LEFT OUTER JOIN SL_TEST t
+        ON m.MEMBER_ID = t.MEMBER_ID
+       AND t.CHOOSE_ANSWER IN (
+           SELECT s.MEANING FROM SIGN_LANGUAGE s WHERE s.SL_ID = t.SL_ID
+       )
+      GROUP BY m.MEMBER_ID
+    ) sub
+  )
+  WHERE memberId = (SELECT MEMBER_ID FROM MEMBER WHERE EMAIL = #{email})
+</select>
 
 
-	<!-- TOP N 랭킹 (상위 100명 등) -->
-	<select id="selectRankingTopN" parameterType="int"
-		resultType="map">
-		SELECT *
-		FROM (
-		SELECT
-		ROWNUM AS RN,
-		M.NICKNAME,
-		SUB.TOTALSCORE AS SCORE
-		FROM (
-		SELECT
-		T.MEMBER_ID,
-		COUNT(*) * 10 AS TOTALSCORE
-		FROM SL_TEST T
-		JOIN SIGN_LANGUAGE S
-		ON T.SL_ID = S.SL_ID
-		AND T.CHOOSE_ANSWER = S.MEANING
-		GROUP BY T.MEMBER_ID
-		ORDER BY TOTALSCORE DESC
-		) SUB
-		JOIN MEMBER M
-		ON SUB.MEMBER_ID = M.MEMBER_ID
-		)
-		WHERE RN &lt;= #{topN}   <!-- 요기! -->
-	</select>
+<!-- TOP N -->
+<select id="selectRankingTopN" parameterType="int"
+        resultType="com.babyhands.dto.MemberScoreRank">
+  SELECT memberId, totalScore, rankNo
+  FROM (
+    SELECT
+      m.MEMBER_ID AS memberId,
+      NVL(COUNT(s.SL_ID),0) * 10 AS totalScore,
+      DENSE_RANK() OVER (ORDER BY NVL(COUNT(s.SL_ID),0) * 10 DESC) AS rankNo
+    FROM MEMBER m
+    LEFT JOIN SL_TEST t ON m.MEMBER_ID = t.MEMBER_ID
+    LEFT JOIN SIGN_LANGUAGE s
+           ON t.SL_ID = s.SL_ID AND t.CHOOSE_ANSWER = s.MEANING
+    GROUP BY m.MEMBER_ID
+  )
+  WHERE rankNo &lt;= #{value}
+  ORDER BY rankNo, totalScore DESC, memberId
+</select>
 
-</mapper>
+</mapper> 
