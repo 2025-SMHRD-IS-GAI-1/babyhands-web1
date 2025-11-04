@@ -17,7 +17,7 @@
     --btn-font: clamp(13px, 1.7vw, 25px);         
     --header-height: clamp(72px, 10vw, 180px);    
 
-	/* ✨ "학습하기" 테마 색상 변수 (업데이트) */
+	/*  "학습하기" 테마 색상 변수 (업데이트) */
 	--primary-color: #6d5bff;
 	--secondary-color: #007bff;
 	--green-color: #28a745;
@@ -43,9 +43,12 @@ body {
 	background-color: #f4f7f6;
 	color: #333;
 	min-height: 100vh;
-	padding: 1rem 0; /* 상하 여백 추가 */
-    /* ✨ 레이아웃 충돌을 일으키는 display:flex 제거, block으로 복원 */
-    display: block; 
+	margin: 0;
+	padding: 0; /* 상하 여백 추가 */
+    /*  레이아웃 충돌을 일으키는 display:flex 제거, block으로 복원 */
+    display: flex; 
+    justify-content: center;
+    align-items: center;
 }
 
 a {
@@ -99,35 +102,44 @@ button {
    =========================== */
 
 .container{
-    /* ✨ "Learn" 테마의 크기 및 디자인 속성 적용 */
-	width: 90%;
+    /*  "Learn" 테마의 크기 및 디자인 속성 적용 */
+    min-height: 750px;
 	max-width: 1400px;
-	background-color: var(--container-bg);
+	border: 1px solid var(--border-color, #dee2e6);
+	width: 100%;
+	height: 750px;
+	background-color: #ffffff;
 	border-radius: 1.5rem;
 	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
+	overflow-x: hidden;
+	min-width: 320px;
+	box-sizing: border-box;
+	margin-top: auto;
+	margin-bottom: auto;
 	overflow: hidden;
 	padding: 1.5rem 2.5rem;
-    margin: 2rem auto; /* 헤더와의 간격 */
+	outline: 1px dashed red;
+		
     box-sizing: border-box;          
 
-    /* ✨ "Main" 페이지의 2행 Grid 레이아웃 (복원) */
+    /*  "Main" 페이지의 2행 Grid 레이아웃 (복원) */
     display: grid; 
     grid-template-rows: auto 1fr; /* 1행(헤더), 2행(본문) */
     grid-template-areas:
         "header header"
         "calendar kpi";
     
-    /* ✨ 캘린더/KPI 비율 복원 (안정적인 값) */
+    /*  캘린더/KPI 비율 복원 (안정적인 값) */
     grid-template-columns: 1.3fr 1fr; 
-    /* ✨ 간격 복원 */
-    gap: 60px; 
+    /*  간격 복원 */
+    gap: 10px; 
 }
 
-/* ✨ 헤더 래퍼 스타일: 이중 구분선 제거 */
+/*  헤더 래퍼 스타일: 이중 구분선 제거 */
 .main-header-area {
     grid-area: header;
     padding-bottom: 0; 
-    margin-bottom: 30px; /* 헤더와 본문 간격 */
+    margin-bottom: 10px; /* 헤더와 본문 간격 */
     border-bottom: 1px solid var(--border-color); /* header.css 대신 여기서 구분선 정의 */
     display: block; 
     width: 100%;
@@ -143,7 +155,7 @@ button {
     display: flex;
     flex-direction: column;          
     justify-content: center; /* 세로 중앙 정렬 */
-    gap: 30px; 
+    gap: 5px; 
     align-items: center; 
 }
 
@@ -158,7 +170,7 @@ button {
     display:flex;
     align-items:center;
     justify-content:space-between;
-    margin-bottom:8px;
+    margin-bottom:5px;
 }
 
 /* 오늘 버튼 디자인 */
@@ -205,7 +217,7 @@ button {
 
 /* 이전/다음 버튼(작은 사각형) */
 .icon-btn{
-    width:38px; height:38px;
+    width:30px; height:30px;
     border-radius:10px; 
     background: var(--container-bg); /* 새 테마 색상 */
     border:1px solid var(--border-color); /* 새 테두리 색상 */
@@ -233,8 +245,8 @@ button {
     display:grid; grid-template-columns:repeat(7,1fr);
     gap: 0; 
     padding:0;
-    margin-top: 50px; 
-    margin-bottom: 50px; 
+    margin-top: 30px; 
+    margin-bottom: 25px; 
 }
 .cal__week span{
     justify-self: center; 
@@ -248,7 +260,7 @@ button {
 }
 /* 일요일 색상 변경 */
 .cal__week .sun{ 
-    background: #FFB3B3; /* 분홍색 배경 */
+    background: #f2410d; /* 분홍색 배경 */
     color: #fff; /* 흰색 글자 */
     font-weight:700 
 }
@@ -271,7 +283,7 @@ button {
     background: var(--container-bg);
     
     display: flex; align-items: center; justify-content: center;
-    position: relative; /* ✨ 체크 표시 기준점 추가 */
+    position: relative; /*  체크 표시 기준점 추가 */
 }
 
 /* hover 시 안쪽 보더 효과 */
@@ -338,9 +350,9 @@ button {
 /* 도넛 크기 및 렌더링 수정 */
 .donut{
     --percent:var(--data-percent, 80); 
-    --size: clamp(160px, 20vw, 220px); 
-    --thickness: clamp(12px, 1.5vw, 7px); /* 👈 링 두께 50% 축소 (7px) */
-    width: 250px; height: 250px; /* 고정 크기 */
+    --size: clamp(140px, 20vw, 180px); 
+    --thickness: clamp(5px, 1.2vw, 5px); /* 👈 링 두께 50% 축소 (7px) */
+    width: 190px; height: 190px; /* 고정 크기 */
     position:relative; 
     
     /* Flexbox 중앙 정렬 유지 */
@@ -385,7 +397,7 @@ button {
    =========================== */
 
 @media (max-width: 1024px){
-    /* ✨ 992px -> 1024px로 캘린더 기준에 맞춤 */
+    /*  992px -> 1024px로 캘린더 기준에 맞춤 */
     .container{ 
         grid-template-columns:1fr; 
         grid-template-areas:
@@ -394,10 +406,11 @@ button {
             "kpi";
         gap: 40px; 
         
-        /* ✨ 와이어프레임 모바일 스타일 적용 */
+        /*  와이어프레임 모바일 스타일 적용 */
 		padding: 1rem 1.5rem;
 		border-radius: 1rem;
         margin: 1rem auto;
+        
     }
     body {
         padding: 0; /* 모바일에서는 body 패딩 제거 */
@@ -418,7 +431,7 @@ button {
 }
 
 @media (max-width: 640px) {
-    /* ✨ 576px -> 640px로 캘린더 기준에 맞춤 */
+    /*  576px -> 640px로 캘린더 기준에 맞춤 */
     body { padding: 0; }
 	.container {
 		padding: 1rem;
