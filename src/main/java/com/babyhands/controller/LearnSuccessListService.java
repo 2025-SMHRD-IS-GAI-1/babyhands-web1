@@ -1,6 +1,7 @@
 package com.babyhands.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -10,11 +11,10 @@ import javax.servlet.http.HttpSession;
 import com.babyhands.dao.SlLearnDAO;
 import com.babyhands.frontController.Command;
 import com.babyhands.vo.MemberVO;
-import com.babyhands.vo.SignLanguageVO;
 import com.babyhands.vo.SlLearnVO;
 import com.google.gson.Gson;
 
-public class SlLearnSuccessService implements Command {
+public class LearnSuccessListService implements Command {
 
 	private final Gson gson = new Gson();
 
@@ -29,24 +29,19 @@ public class SlLearnSuccessService implements Command {
 
 		MemberVO loginVO = (MemberVO) session.getAttribute("loginVO");
 		String memberId = loginVO.getMemberId();
-		String stringSlId = request.getParameter("slId");
-		int slId = Integer.parseInt(stringSlId);
-		
-		SlLearnVO slLearnvo = SlLearnVO.builder()
-				.memberId(memberId)
-				.slId(slId)
-				.build();
 		
 		// 3. DB에 해당하는 내용이 전달되도록 작업! => DAO 클래스
 
 		SlLearnDAO slLearndao = new SlLearnDAO();
-		int result = slLearndao.success(slLearnvo);
+		List<String> successlist = slLearndao.getSuccessList(memberId);
 		Map<String, Object> payload = new HashMap<>();
 
-		if (result > 0) {
+		if (successlist != null) {
 			payload.put("ok", true);
+			payload.put("successlist", successlist);
 		} else {
 			payload.put("ok", false);
+			payload.put("message", "수어 학습 성공한 목록 불러오기 실패");
 		}
 
 		return "fetch:/" + gson.toJson(payload);

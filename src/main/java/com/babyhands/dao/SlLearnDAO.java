@@ -1,9 +1,12 @@
 package com.babyhands.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 
 import com.babyhands.config.MysqlSessionManager;
+import com.babyhands.vo.SlLearnVO;
 
 public class SlLearnDAO {
 	// 필드영역
@@ -33,10 +36,23 @@ public class SlLearnDAO {
 	}
 	
 	// 수어 학습 : 일정 정확도 이상이면 db에 추가
-	public int success() {
+	public int success(SlLearnVO slLearnvo) {
 		SqlSession sqlSession = factory.openSession();
 
-		int result = sqlSession.selectOne("success");
+		int result = sqlSession.update("success", slLearnvo);
+		
+		sqlSession.commit(); // 커밋 필수
+
+		sqlSession.close();
+
+		return result;
+	}
+	
+	// 수어 학습 : 수어 학습 성공한 리스트 불러오기
+	public List<String> getSuccessList(String memberId) {
+		SqlSession sqlSession = factory.openSession();
+
+		List<String> result = sqlSession.selectList("getSuccessList", memberId);
 
 		sqlSession.close();
 
