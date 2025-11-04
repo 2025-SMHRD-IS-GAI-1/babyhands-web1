@@ -36,7 +36,7 @@
 
             <div class="st-info-box">
               <div class="st-info-title">총 점수</div>
-              <div class="st-info-value"><c:out value="${totalScore}" default="0"/></div>
+              <div class="st-info-value"><c:out value="${r.totalScore}" default="0"/></div>
             </div>
 
             <div class="st-info-box">

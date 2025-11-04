@@ -20,6 +20,7 @@ import com.babyhands.controller.GetAttendanceDayService;
 import com.babyhands.controller.GoMainService;
 import com.babyhands.controller.GoMyPageService;
 import com.babyhands.controller.GoRankingService;
+import com.babyhands.controller.GoSignTestResultService;
 import com.babyhands.controller.GoSlLearnService;
 import com.babyhands.controller.GomemberUpdateService;
 import com.babyhands.controller.IdCheckService;
@@ -65,6 +66,7 @@ public class FrontController extends HttpServlet {
 		map.put("SlLearnSuccess.do", new SlLearnSuccessService());
 		map.put("LearnSuccessList.do", new LearnSuccessListService());
 		map.put("GoRanking.do", new GoRankingService());
+		map.put("GoSignTestResult.do", new GoSignTestResultService());
 	}
 
 	protected void service(HttpServletRequest request, HttpServletResponse response)
@@ -94,7 +96,7 @@ public class FrontController extends HttpServlet {
 			// 회원 수정 페이지 따로 분기
 			if (finalUri.equals("GomemberUpdate.do") || finalUri.equals("Gomypage.do") ||
 					finalUri.equals("Gomain.do") || finalUri.equals("GoSl-learn.do") || 
-					finalUri.equals("GoRanking.do")) {
+					finalUri.equals("GoRanking.do") || finalUri.equals("GoSignTestResult.do")) {
 				com = map.get(finalUri);
 				moveUrl = com.execute(request, response);
 			} else {
