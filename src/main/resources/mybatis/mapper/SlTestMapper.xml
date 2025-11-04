@@ -10,28 +10,19 @@
 		resultType="com.babyhands.dto.MemberScoreRank">
 		SELECT *
 		FROM (
-		SELECT
-		sub.MEMBER_ID AS memberId,
-		NVL(sub.totalScore, 0) AS totalScore,
-		DENSE_RANK() OVER (ORDER BY
-		NVL(sub.totalScore, 0) DESC) AS rankNo
-		FROM (
-		SELECT
-		m.MEMBER_ID,
-		COUNT(t.SL_ID) * 10 AS totalScore
-		FROM MEMBER m
-		LEFT OUTER JOIN SL_TEST
-		t
-		ON m.MEMBER_ID = t.MEMBER_ID
-		AND t.CHOOSE_ANSWER IN (
-		SELECT s.MEANING
-		FROM SIGN_LANGUAGE s
-		WHERE s.SL_ID = t.SL_ID
-		)
-		GROUP BY m.MEMBER_ID
-		) sub
-		)
-		WHERE ROWNUM &lt;= 1
+		    SELECT 
+		        T.MEMBER_ID AS memberId,
+		        COUNT(T.SL_ID) * 10 AS totalScore,
+		        DENSE_RANK() OVER (ORDER BY COUNT(T.SL_ID) * 10 DESC) AS rankNo
+		    FROM SL_TEST T
+		    LEFT JOIN MEMBER M
+		        ON T.MEMBER_ID = M.MEMBER_ID
+		    INNER JOIN SIGN_LANGUAGE S
+		        ON T.SL_ID = S.SL_ID
+		        AND T.CHOOSE_ANSWER = S.MEANING
+		    GROUP BY T.MEMBER_ID
+		) S
+		WHERE S.memberId = #{memberId}
 	</select>
 
 	<!-- 내 점수/순위 (이메일) : 아직 문제 안 푼 회원도 0점 나오게 하려면 LEFT OUTER JOIN 버전 권장 -->
@@ -75,7 +66,7 @@
 		SL_TEST(SL_TEST_DATE, SL_TEST_GROUP, CHOOSE_ANSWER, MEMBER_ID, SL_ID)
 		VALUES(SYSDATE, #{slTestGroup}, #{chooseAnswer}, #{memberId}, #{slId})
 	</insert>
-	
+
 	<!-- TOP N -->
 	<select id="selectRankingTopN" parameterType="int"
 		resultType="com.babyhands.dto.MemberScoreRank">
