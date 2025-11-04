@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSessionFactory;
 
 import com.babyhands.config.MysqlSessionManager;
 import com.babyhands.dto.MemberScoreRank;
+import com.babyhands.vo.SlTestVO;
 
 public class SlTestDAO {
 
@@ -49,6 +50,31 @@ public class SlTestDAO {
 
 		return result;
 
+	}
+	
+	// db insert 전에 group 가져옴
+	public int getGroup() {
+		SqlSession sqlSession = factory.openSession();
+
+		int result = sqlSession.selectOne("getGroup");
+
+		sqlSession.close();
+
+		return result;
+
+	}
+	
+	// 수어 테스트 db insert
+	public int insert(SlTestVO testVo) {
+		SqlSession sqlSession = factory.openSession();
+
+		int result = sqlSession.insert("insert", testVo);
+		
+		sqlSession.commit(); // 커밋 필수
+
+		sqlSession.close();
+
+		return result;
 	}
 
 	

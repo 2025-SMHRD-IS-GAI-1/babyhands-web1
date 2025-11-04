@@ -73,5 +73,16 @@
 		)
 		WHERE RN &lt;= #{topN}   <!-- 요기! -->
 	</select>
+	
+	<!-- 수어 학습 테스트 : 입력 전 group 가져오기 -->
+	<select id="getGroup" resultType="int">
+		SELECT MAX(SL_TEST_GROUP) + 1
+		from SL_TEST
+	</select>
+	
+	<insert id="insert" parameterType="com.babyhands.vo.SlTestVO">
+		INSERT INTO SL_TEST(SL_TEST_DATE, SL_TEST_GROUP, CHOOSE_ANSWER, MEMBER_ID, SL_ID)
+		VALUES(SYSDATE, #{slTestGroup}, #{chooseAnswer}, #{memberId}, #{slId})
+	</insert>
 
 </mapper>

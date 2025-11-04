@@ -20,6 +20,7 @@ import com.babyhands.controller.GetAttendanceDayService;
 import com.babyhands.controller.GoMainService;
 import com.babyhands.controller.GoMyPageService;
 import com.babyhands.controller.GoSlLearnService;
+import com.babyhands.controller.GetQuestionListService;
 import com.babyhands.controller.GomemberUpdateService;
 import com.babyhands.controller.IdCheckService;
 import com.babyhands.controller.JoinService;
@@ -28,6 +29,7 @@ import com.babyhands.controller.LoginService;
 import com.babyhands.controller.LogoutService;
 import com.babyhands.controller.NickNameCheckService;
 import com.babyhands.controller.SlLearnSuccessService;
+import com.babyhands.controller.SubmitTestService;
 import com.babyhands.controller.UpdateEmailCheckService;
 import com.babyhands.controller.UpdateMemberService;
 import com.babyhands.controller.UpdateNickCheckService;
@@ -61,8 +63,10 @@ public class FrontController extends HttpServlet {
 		map.put("FindPw.do", new FindPwService());
 		map.put("GetAttendanceDay.do", new GetAttendanceDayService());
 		map.put("GoSl-learn.do", new GoSlLearnService());
+		map.put("GetQuestionList.do", new GetQuestionListService());
 		map.put("SlLearnSuccess.do", new SlLearnSuccessService());
 		map.put("LearnSuccessList.do", new LearnSuccessListService());
+		map.put("SubmitTest.do", new SubmitTestService());
 	}
 
 	protected void service(HttpServletRequest request, HttpServletResponse response)
