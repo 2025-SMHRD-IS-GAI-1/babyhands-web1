@@ -45,17 +45,27 @@ button, input[type="submit"], input[type="button"] {
 	--text-light: #6c757d;
 	--hover-color: #aab0ffc2;
 	--selected-option-bg: #f4f2ff; /* 선택된 옵션 배경색 */
+	
 }
 
 /* --- Main Layout --- */
 .container {
-	width: 100%;
+	min-height: 750px;
 	max-width: 1400px;
-	background-color: var(--container-bg);
+	border: 1px solid var(--border-color, #dee2e6);
+	width: 100%;
+	height: 750px;
+	background-color: #ffffff;
 	border-radius: 1.5rem;
 	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
+	overflow-x: hidden;
+	min-width: 320px;
+	box-sizing: border-box;
+	margin-top: auto;
+	margin-bottom: auto;
 	overflow: hidden;
 	padding: 1.5rem 2.5rem;
+	outline: 1px dashed red;
 }
 
 /* --- 1. Header (header.css가 담당) --- */
@@ -265,6 +275,9 @@ button, input[type="submit"], input[type="button"] {
 	.test-panel, .answer-panel {
 		min-width: unset;
 		padding: 1rem;
+		min-height: 420px;
+  		max-height: 560px;
+  		outline: 1px dashed blue;
 	}
 	.video-placeholder-test.video-box {
 		min-height: unset;
