@@ -1,112 +1,100 @@
-/* 화면 크기에 맞춰서 자동으로 변하기 */
-:root{
-  --nav-font: clamp(16px, 2.2vw, 35px);         /* 네비 글씨 크기 */
-  --brand-font: clamp(24px, 4vw, 60px);         /* 브랜드 글씨 크기 */
-  --logo-size: clamp(38px, 4.5vw, 66px);        /* 로고 크기 */
-  --nav-gap: clamp(28px, 6vw, 200px);           /* 네비 메뉴 간격 */
-  --user-font: clamp(14px, 1.8vw, 30px);        /* 우측 사용자 글씨 */
-  --btn-font: clamp(13px, 1.7vw, 25px);         /* 버튼 글씨 */
-  --header-height: clamp(72px, 10vw, 180px);    /* 헤더 높이 */
+@charset "UTF-8";
+/* --- Global Reset & Font --- */
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+/* --- Color Variables --- */
+:root {
+    /* 캘린더 레이아웃 변수 (유지) */
+    --nav-font: clamp(16px, 2.2vw, 35px);         
+    --brand-font: clamp(24px, 4vw, 60px);         
+    --logo-size: clamp(38px, 4.5vw, 66px);        
+    --nav-gap: clamp(28px, 6vw, 200px);           
+    --user-font: clamp(14px, 1.8vw, 30px);        
+    --btn-font: clamp(13px, 1.7vw, 25px);         
+    --header-height: clamp(72px, 10vw, 180px);    
+
+	/*  "학습하기" 테마 색상 변수 (업데이트) */
+	--primary-color: #6d5bff;
+	--secondary-color: #007bff;
+	--green-color: #28a745;
+	--light-gray-bg: #f8f9fa;
+	--container-bg: #ffffff;
+	--border-color: #dee2e6;
+	--text-dark: #212529;
+	--text-light: #6c757d;
+	--hover-color: #aab0ffc2;
+    --selected-option-bg: #f4f2ff;
+
+    /* 캘린더/도넛 테마 (새 변수에 맞춰 조정) */
+    --primary-light: #9d87ff; /* (이전 그라데이션 값 유지) */
+    --primary-dark: #6e50ea;  /* (이전 그라데이션 값 유지) */
+    --donut-bg: #EAEAEA; 
+    --check-border: #b5a5ff; 
+    --check-bg: #f4f2ff; /* --selected-option-bg와 동일 */
 }
 
 
-*{ box-sizing: border-box }   /* 기본 박스 모델 */
-html, body{ margin:0; padding:0 } /* 브라우저 여백 없애기 */
-
-
-
-/* 폰트 설정 */
-body{
-  font-family:"Pretendard","Noto Sans KR",system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
-  background: linear-gradient(180deg,#eef5ff,#f7fbff); 
-  color:#1f2a44;
+body {
+	font-family: 'Noto Sans KR', sans-serif;
+	background-color: #f4f7f6;
+	color: #333;
+	min-height: 100vh;
+	margin: 0;
+	padding: 0; /* 상하 여백 추가 */
+    /*  레이아웃 충돌을 일으키는 display:flex 제거, block으로 복원 */
+    display: flex; 
+    justify-content: center;
+    align-items: center;
 }
 
+a {
+	text-decoration: none;
+	color: inherit;
+	font-weight: 700;
+}
 
+ul {
+	list-style: none;
+}
+
+button {
+	cursor: pointer;
+	border: none;
+	font-family: 'Noto Sans KR', sans-serif;
+}
 
 /* 카드 스타일 */
 .card{
-  background:#fff; /* 흰 배경 */
-  border:1px solid #e8eef6; /* 옅은 테두리 */
-  border-radius:18px; /* 둥근 모서리 */
-  padding:22px; /* 안쪽 여백 */
-  box-shadow:0 6px 18px rgba(45,61,89,.06); /* 그림자 */
+    background:#fff; 
+    border:1px solid var(--border-color); /* 새 테두리 색상 */
+    border-radius:18px; 
+    padding:22px; 
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07); /* 새 그림자 */
 }
 
 /* 카드 제목 */
 .card__title{
-	margin:0 0 12px;
-	font-size:30px;
-	font-weight:800
+    margin:0 0 12px;
+    font-size:35px;
+    font-weight:800;
+    text-align: left;
+    color: var(--text-dark); /* 새 텍스트 색상 */
 } 
 
-/* 꼬마손 */
-.brand{
-	font-size:var(--brand-font);
-	font-weight:900
-	}
+/* .brand, .nav, .user 등 헤더 스타일은
+   header.css에서 관리하므로 main.css에서 제거합니다.
+*/
 
-
-
-/* 네비게이션 바 메뉴부분  */
-.nav{
-  display:flex;
-  justify-content:center;
-  align-items:center; /* 가운데 설정 */
-  gap: var(--nav-gap); /* 반응형 */
-  font-weight:700;
-  flex-wrap: nowrap; /* 화면 줄어들면 아래로 내리기 */
-}
-
-
-
-/* 메뉴 링크 공통 */
-.nav a{
-  color:#21304b;
-  text-decoration:none;
-  opacity:.9; /* 기본 색/투명도 */
-  font-size: var(--nav-font); /* 글씨 크기(반응형) */
-  line-height:1;
-  padding:6px 2px; /* 클릭 영역 확보 */
-  transition:.2s ease; /* hover 애니메이션 */
-}
-.nav a:hover{
-	opacity:1;
-	color:#7a5cf5;
-	transform: translateY(-1px) } /* hover 효과 */
-
-
-
-
-/* 우측 사용자 영역(절대 위치) */
-
-/* 사용자 이름 부분 */
-.user{
-  position:absolute;
-  right:40px; /* 우측 고정 */
-  display:flex;
-  align-items:center;
-  gap: clamp(12px,2vw,40px); /* 간격(반응형) */
-  color:#6b778c;
-  font-weight:700;
-  font-size: var(--user-font); /* 글씨(반응형) */
-}
-
-/* 로그아웃 부분 */
-.btn{
-  padding:8px 16px; /* 내부 여백 */
-  border-radius:12px; border:0; cursor:pointer; /* 기본 스타일 */
-  font-weight:700; font-size: var(--btn-font); /* 글씨(반응형) */
-  transition: .2s ease; /* hover 애니메이션 */
-}
-/* 로그아웃 부분 */
-.btn--primary{ background:#7a5cf5; color:#fff } /* 기본 색 */
-.btn--primary:hover{ filter:brightness(.95) } /* hover 밝기 */
-
-
-
-
-
+/* 로그아웃 버튼 (header.css에 있어야 함) */
+.btn--primary{ 
+    background:var(--primary-color); 
+    color:#fff;
+    box-shadow: 0 4px 15px rgba(109, 91, 255, 0.3); /* 새 기본색 그림자 */
+} 
 
 
 /* ===========================
@@ -114,280 +102,345 @@ body{
    =========================== */
 
 .container{
-  max-width: 2500px;               /* 화면 전체에서 너무 넓지 않게 제한 */
-  width: 90%;                      /* 브라우저 폭의 90%만 사용 (양쪽 여백 확보) */
-  margin: 80px auto;               /* 위아래 여백 + 중앙 정렬 */
-  padding: 20px 32px;              /* 내부 여백(좌우 살짝 띄움) */
+    /*  "Learn" 테마의 크기 및 디자인 속성 적용 */
+    min-height: 750px;
+	max-width: 1400px;
+	border: 1px solid var(--border-color, #dee2e6);
+	width: 100%;
+	height: 750px;
+	background-color: #ffffff;
+	border-radius: 1.5rem;
+	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
+	overflow-x: hidden;
+	min-width: 320px;
+	box-sizing: border-box;
+	margin-top: auto;
+	margin-bottom: auto;
+	overflow: hidden;
+	padding: 1.5rem 2.5rem;
+	outline: 1px dashed red;
+		
+    box-sizing: border-box;          
 
-  display: grid;                   /* 2열 구조 */
-  grid-template-columns: 1.3fr 1fr;/* 왼쪽이 조금 더 넓게 */
-  gap: 60px;                       /* 두 섹션 사이 여백 */
-  
-  background: rgba(255,255,255,0.5); /* 은은한 흰색 반투명 배경 */
-  border-radius: 24px;             /* 부드러운 모서리 */
-  box-shadow: 0 8px 24px rgba(0,0,0,0.05); /* 살짝 그림자 */
-  box-sizing: border-box;          /* 패딩 포함 계산 */
+    /*  "Main" 페이지의 2행 Grid 레이아웃 (복원) */
+    display: grid; 
+    grid-template-rows: auto 1fr; /* 1행(헤더), 2행(본문) */
+    grid-template-areas:
+        "header header"
+        "calendar kpi";
+    
+    /*  캘린더/KPI 비율 복원 (안정적인 값) */
+    grid-template-columns: 1.3fr 1fr; 
+    /*  간격 복원 */
+    gap: 10px; 
 }
+
+/*  헤더 래퍼 스타일: 이중 구분선 제거 */
+.main-header-area {
+    grid-area: header;
+    padding-bottom: 0; 
+    margin-bottom: 10px; /* 헤더와 본문 간격 */
+    border-bottom: 1px solid var(--border-color); /* header.css 대신 여기서 구분선 정의 */
+    display: block; 
+    width: 100%;
+}
+
+
+.calendar-section{ grid-area: calendar; }
+.kpi-wrap{ grid-area: kpi; }
+
 
 /* KPI 카드 묶음 (오른쪽 세로 정렬) */
 .kpi-wrap{
-  display: flex;
-  flex-direction: column;          /* 세로로 쌓기 */
-  justify-content: space-between;  /* 위아래로 균등 배치 */
-  gap: 30px;                       /* 카드 간격 (적당히 넓게) */
+    display: flex;
+    flex-direction: column;          
+    justify-content: center; /* 세로 중앙 정렬 */
+    gap: 5px; 
+    align-items: center; 
 }
-
-
-
-
 
 
 /* ===========================
    Calendar
    =========================== */
 
-/* 캘린더 래퍼 */
-.cal{ display:flex; flex-direction:column; gap:12px }
+/* 출석 캘린더 제목줄 (제목 + 오늘버튼) */
+.cal__titlebar{
+    position: relative; 
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:5px;
+}
+
+/* 오늘 버튼 디자인 */
+.today-btn {
+    position: absolute; 
+    top: 6px; 
+    right: 0;
+    height: 32px; 
+    padding: 0 14px; 
+    font-size: 16px; 
+    border-radius: 8px; 
+    border: 1px solid var(--primary-color);
+    background: var(--primary-color); 
+    color: #fff; 
+    font-weight: 700;
+    box-shadow: none; 
+}
+.today-btn:hover {
+    filter: brightness(0.98);
+    box-shadow: none;
+}
+.today-btn:active {
+    transform: translateY(0); 
+}
 
 /* 상단(월 네비게이션 바) */
 .cal__header{
-  display:flex; align-items:center; justify-content:space-between;
-  background:#f7f9fe; border:1px solid #e8eef6; border-radius:12px; padding:10px 12px;
+    display:flex; align-items:center; justify-content:space-between;
+    background: var(--light-gray-bg); /* 새 테마 색상 */
+    border:1px solid var(--border-color); /* 새 테두리 색상 */
+    border-radius:14px; 
+    padding:10px 18px; 
+    margin-bottom: 15px; 
 }
+
+/* 월 표시 라벨 */
 .cal__month{
-  font-weight:900;                      /* 월 표기 가중치 ↑ */
-  font-size:clamp(8px,10vw,35px);     /* 월 글자 크기 반응형 */
-  letter-spacing:.2px;                  /* 가독성 소폭 ↑ */
+    font-weight:900;                      
+    font-size:clamp(20px, 3.5vw, 35px);     
+    letter-spacing:.2px;                 
+    text-align: center;                  
+    flex-grow: 1;                        
 }
 
 /* 이전/다음 버튼(작은 사각형) */
 .icon-btn{
-  width:32px;
-  height:38px;
-  border-radius:18px;
-  background:#fff;
-  border:3px solid #e8eef6;
-  display:grid;
-  place-items:center;
-  cursor:pointer;
+    width:30px; height:30px;
+    border-radius:10px; 
+    background: var(--container-bg); /* 새 테마 색상 */
+    border:1px solid var(--border-color); /* 새 테두리 색상 */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    flex-shrink: 0;                    
+    display: grid; place-items: center; 
 }
+.icon-btn:hover {
+    border-color: var(--primary-color);
+}
+
+/* 화살표 아이콘 스타일 재정의 */
 .chev{
-	width:10px;
-	height:10px;
-	border:2px solid #7a5cf5;
-	border-left:0;
-	border-top:0;
-	transform: rotate(45deg)
-	}
+    width:10px; height:10px;
+    border:2px solid var(--primary-color); 
+    border-left:0; border-top:0;
+    transform: rotate(45deg); display: block; 
+}
 .chev--left{ transform: rotate(-135deg) }
 .chev--right{ transform: rotate(45deg) }
 
+
 /* 요일 줄(월~일) — 동그라미 뱃지 */
 .cal__week{
-  display:grid; grid-template-columns:repeat(7,1fr);
-  gap:30px; padding:0 4px;
+    display:grid; grid-template-columns:repeat(7,1fr);
+    gap: 0; 
+    padding:0;
+    margin-top: 30px; 
+    margin-bottom: 25px; 
 }
 .cal__week span{
-  justify-self:center;
-  width:36px; height:36px; border-radius:50%;
-  display:flex; align-items:center; justify-content:center;
-  background:#e9edf6;                  /* 약간 더 진한 배경으로 대비 ↑ */
-  color:#2b344a;                       /* 글자색 진하게 */
-  font-weight:800;                     /* 굵게 */
-  font-size:clamp(13px,2.1vw,25px);    /* 반응형 크기 */
-  box-shadow: inset 0 -2px 0 rgba(0,0,0,0.04);
-  transition:.15s ease;
+    justify-self: center; 
+    width:35px; height:35px; 
+    border-radius:50%; 
+    background:#eff3f9; 
+    box-shadow: none; 
+    font-size: 1rem; 
+    font-weight: 700;
+    text-align: center;
 }
-.cal__week span:hover{ background:#dde5f5; transform:scale(1.05) }
-.cal__week .sat{ background:#e6eeff; color:#354fcf }
-.cal__week .sun{ background:#ffb3b3; color:#fff; font-weight:900 }
+/* 일요일 색상 변경 */
+.cal__week .sun{ 
+    background: #f2410d; /* 분홍색 배경 */
+    color: #fff; /* 흰색 글자 */
+    font-weight:700 
+}
 
 /* 날짜 그리드 */
 .cal__grid{
-  display:grid; grid-template-columns:repeat(7,1fr); gap:20px; margin-top:15px;
+    display:grid; grid-template-columns:repeat(7,1fr); 
+    gap: 10px; 
+    margin-top:0;
 }
 
 /* 날짜 셀(버튼/빈칸 공통) */
 .cal__grid button, .cal__grid span{
-  position:relative;                   /* ::after(체크) 기준 */
-  height:60px; border-radius:12px; border:1px solid #e8eef6;
-  background:#fff; color:#101827;      /* 숫자 컬러 더 진하게 */
-  display:flex; align-items:flex-start; justify-content:flex-start; /* 숫자는 좌상단 */
-  padding:10px 12px;                   /* 숫자 여백 살짝 ↑ */
-  font-weight:700;                     /* 숫자 굵게 */
-  font-size:clamp(20px,1.2vw,36px);    /* 숫자 크기 반응형 */
-  letter-spacing:.1px;                 /* 가독성 ↑ */
+    height:50px; 
+    border-radius:10px; 
+    padding:8px 10px; 
+    font-size:clamp(16px, 1.1vw, 24px); 
+    font-weight: 600;
+    border: 1px solid var(--border-color);
+    background: var(--container-bg);
+    
+    display: flex; align-items: center; justify-content: center;
+    position: relative; /*  체크 표시 기준점 추가 */
 }
 
 /* hover 시 안쪽 보더 효과 */
-.cal__grid button:hover{ box-shadow: inset 0 0 0 2px #e8edff }
+.cal__grid button:hover{ box-shadow: inset 0 0 0 2px #d5daff }
 
-/* 출석 체크된 날(연한 초록 배경) */
+/* 출석 체크된 날 (이미지 색상에 맞춰 조정) */
 .cal__grid .check{
-  background:#f1fff7;                  /* 더 밝은 그린 톤 */
-  border-color:#aae1c2;
+    background: var(--check-bg); 
+    border-color: var(--check-border); 
+    color: var(--primary-color); 
+    font-weight: 700;
 }
-
-/* ✅ 체크 아이콘 — "칸 정중앙" 배치 */
 .cal__grid .check::after{
-  content:"✔";                         /* 체크 문자 */
-  position:absolute; left:50%; top:50%;/* 정중앙 기준점 */
-  transform:translate(-50%,-50%);      /* 정확히 중앙에 놓기 */
-  font-size:clamp(34px,3.1vw,44px);    /* 크기 반응형 */
-  color:#22c55e;                       /* 초록색 */
-  font-weight:900; line-height:1;
-  text-shadow:0 2px 0 rgba(0,0,0,0.05);/* 살짝 입체감 */
-  pointer-events:none;                 /* 클릭 방해 X */
+    content:"✔";                         
+    position:absolute; left:50%; top:50%;
+    transform:translate(-50%,-50%);      
+    font-size:clamp(24px,2.5vw,34px);    
+    color:var(--primary-color);          
+    font-weight:900; line-height:1;
+    text-shadow:0 1px 0 rgba(0,0,0,0.05);
+    pointer-events:none;
 }
 
 /* 오늘 날짜 강조 */
 .cal__grid button.today{
-  position: relative;
-  border-color: #cfd6ff;                 /* 테두리 살짝 파랑 */
-  background: #eef2ff;                   /* 연보라 배경 */
-  color: #2b3a67;
-  box-shadow: 0 0 0 3px rgba(122,92,245,.18); /* 외곽 반짝 */
+    border-color: var(--primary-color);                 
+    background: var(--check-bg);                   
+    color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(122,92,245,.1); 
 }
-
-/* 출석 캘린더 제목줄 (제목 + 오늘버튼) */
-.cal__titlebar{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  margin-bottom:8px;
-}
-
-
-/* 오늘 버튼 디자인 (기존 유지) */
-.today-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  height: 32px;
-  padding: 0 12px;
-  border-radius: 999px;
-  border: 1px solid #dcdff7;
-  background: #f4f5ff;
-  color: #4950a8;
-  font-weight: 800;
-  text-decoration: none;
-  font-size: 14px;
-  transition: .18s ease;
-}
-.today-btn:hover {
-  filter: brightness(1.05);
-  box-shadow: 0 2px 10px rgba(122, 92, 245, 0.18);
-}
-.today-btn:active {
-  transform: translateY(1px);
-}
-
-
-
-
-
-
-
-
-
 
 /* ===========================
-   KPI Donut
+   KPI Donut (카드 중앙 정렬)
    =========================== */
 
-/* ===== 레이아웃 간격(캘린더 ↔ KPI) ===== */
-.container{
-  gap: clamp(28px, 4vw, 48px);          /* 화면 넓으면 여유, 줄면 촘촘 */
+/* KPI 카드 내부 정렬을 위한 설정 추가 */
+.card.kpi {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* 수평 중앙 정렬 (도넛과 제목 모두 중앙으로) */
+    text-align: center; /* 제목 텍스트 중앙 정렬 */
+    /* 너비 제한 추가 */
+    max-width: 350px;
+    width: 100%;
 }
 
-/* ===== KPI 스택 간격 & 카드 여백 ===== */
+/* KPI 카드 묶음: 자식 카드들을 중앙에 모으기 위해 추가 */
 .kpi-wrap{
-  display:flex;
-  flex-direction:column;     /* 기본은 세로(데스크톱 우측 스택) */
-  align-items:center;
-  gap: 24px;                 /* 기본 간격 */
+    display: flex;
+    flex-direction: column;          
+    justify-content: center; /* 세로 중앙 정렬 */
+    gap: 30px; 
+    align-items: center; /* 수평 중앙 정렬 유지 */
+}
+
+/* 카드 제목 강제 중앙 정렬 */
+.card__title {
+    /* 기존: text-align: left; */
+    text-align: center; 
+    width: 100%; /* 전체 너비 사용 */
 }
 
 
-
-/* 화면이 줄어서 캘린더 아래로 내려오고, 도넛을 가로로 나란히 배치할 때 */
-@media (max-width: 1024px){
-  .kpi-wrap{
-    flex-direction: row;           /* 가로 나란히 */
-    justify-content: center;       /* 가운데 몰기 */
-    gap: clamp(8px, 1.8vw, 36px);  /* ← 여기! 도넛-도넛 사이 간격 줄이기 */
-  }
-}
-
-
-
-/* ===== 도넛 크기 & 느낌 ===== */
-.kpi{ display:flex; flex-direction:column; align-items:center; gap:14px }
-
+/* 도넛 크기 및 렌더링 수정 */
 .donut{
-  --percent:80;
-  /* 화면 넓을 땐 적당, 중간~좁아질수록 커지게(가까워 보이도록) */
-  --size: clamp(200px, 28vw, 260px);
-  --thickness: clamp(14px, 1.8vw, 22px);
-  width:var(--size); height:var(--size);
-  position:relative; display:grid; place-items:center;
+    --percent:var(--data-percent, 80); 
+    --size: clamp(140px, 20vw, 180px); 
+    --thickness: clamp(5px, 1.2vw, 5px); /* 👈 링 두께 50% 축소 (7px) */
+    width: 190px; height: 190px; /* 고정 크기 */
+    position:relative; 
+    
+    /* Flexbox 중앙 정렬 유지 */
+    display:flex; 
+    align-items:center; /* 수직 중앙 정렬 */
+    justify-content:center; /* 수평 중앙 정렬 */
 }
 
 .donut__ring{
-  position:absolute; inset:0; border-radius:50%;
-  background: conic-gradient(#7a5cf5 calc(var(--percent)*1%), #e6e9f0 0);
-  -webkit-mask: radial-gradient(farthest-side, transparent calc(50% - var(--thickness)), #000 0);
-          mask: radial-gradient(farthest-side, transparent calc(50% - var(--thickness)), #000 0);
-  filter: drop-shadow(0 4px 8px rgba(79,70,229,.12));
+    position:absolute; inset:0; border-radius:50%;
+    
+    /* 수정: 새로운 그라데이션 적용 (새 테마 색상) */
+    background: conic-gradient(
+        var(--primary-color) 0%, /* 단순화된 그라데이션 */
+        var(--primary-color) calc(var(--percent) * 1%),
+        var(--donut-bg) 0%
+    );
+    
+    -webkit-mask: radial-gradient(farthest-side, transparent calc(50% - var(--thickness)), #000 0);
+    mask: radial-gradient(farthest-side, transparent calc(50% - var(--thickness)), #000 0);
+    /* 화질 개선을 위한 필터 추가 */
+    filter: drop-shadow(0 4px 8px rgba(109, 91, 255, .12)) blur(0);
+    
 }
 
 .donut__label{
-  position:relative;
-  font-size: clamp(24px, 2.3vw, 34px);
-  font-weight:900; color:#111827;
+    /* 폰트 렌더링 오차를 수동으로 보정 */
+    font-size: clamp(24px, 2.3vw, 34px);
+    font-weight:900; 
+    color:var(--text-dark); 
+    text-align: center; /* 텍스트 정렬 */
+    white-space: nowrap; /* 텍스트 줄 바꿈 방지 */
+    
+    /* 수직 보정 속성 */
+    transform: translateY(2px); 
+    line-height: 1; 
 }
-
-
-
-
-
-
-
-
-
-
-
 
 
 /* ===========================
    Responsive (Breakpoints)
    =========================== */
 
-/* 1280px 이하: 네비 간격 살짝 줄임 */
-@media (max-width:1300px){
-  .nav{ gap: clamp(20px, 4vw, 80px) } /* 큰 화면 대비 축소 */
-  .container{ grid-template-columns:1fr } .kpi-wrap{ flex-direction:row }
+@media (max-width: 1024px){
+    /*  992px -> 1024px로 캘린더 기준에 맞춤 */
+    .container{ 
+        grid-template-columns:1fr; 
+        grid-template-areas:
+            "header"
+            "calendar"
+            "kpi";
+        gap: 40px; 
+        
+        /*  와이어프레임 모바일 스타일 적용 */
+		padding: 1rem 1.5rem;
+		border-radius: 1rem;
+        margin: 1rem auto;
+        
+    }
+    body {
+        padding: 0; /* 모바일에서는 body 패딩 제거 */
+    }
+    
+    .kpi-wrap{ 
+        /* 모바일에서 가로 정렬로 전환 */
+        flex-direction: row; flex-wrap: wrap; justify-content: center; 
+    }
+    .kpi-wrap > .card{
+        flex: 1 1 45%; 
+        min-width: 250px; 
+        align-items: center;
+        max-width: none; /* 모바일에서 너비 제한 해제 */
+    }
+    .cal__grid{ gap: 8px; } 
+    .card__title { font-size: 1.8rem; } /* 와이어프레임 폰트 크기 적용 */
 }
 
-/* 1024px 이하: 로고/좌우 여백 축소 */
-@media (max-width:1024px){
-  .logo-area{ left:24px }  /* 좌측 여백 줄임 */
-  .user{ right:24px }      /* 우측 여백 줄임 */
-  .nav{ gap: clamp(16px, 3.5vw, 56px) } /* 간격 더 축소 */
-   .container{ grid-template-columns:1fr } .kpi-wrap{ flex-direction:row }
-
+@media (max-width: 640px) {
+    /*  576px -> 640px로 캘린더 기준에 맞춤 */
+    body { padding: 0; }
+	.container {
+		padding: 1rem;
+		border-radius: 0.75rem;
+        margin: 0.5rem auto;
+        width: 100%;
+        border-radius: 0;
+        box-shadow: none;
+	}
+    .card__title { font-size: 1.6rem; } /* 와이어프레임 폰트 크기 적용 */
 }
 
-/* 820px 이하: 메뉴 자동 줄바꿈 허용 */
-@media (max-width:820px){
-  .nav{ flex-wrap: wrap; row-gap:8px; column-gap:24px } /* 두 줄 배치 */
-  .header{ padding:12px 20px } /* 헤더 여백 축소 */
-  .container{ grid-template-columns:1fr } .kpi-wrap{ flex-direction:row }
-}
-
-/* 640px 이하: 사용자 이름 숨기고 버튼만 */
-@media (max-width:640px){
-  .user span{ display:none } /* 이름 숨김 */
-  .user{ gap:8px } /* 버튼과 간격 조정 */
-  .container{ grid-template-columns:1fr } .kpi-wrap{ flex-direction:row }
-}

@@ -18,38 +18,38 @@ public class GoRankingService implements Command {
 
         // --- 세션/로그인 정보 ---
         HttpSession session = request.getSession(false);
-        MemberVO login = (session == null) ? null : (MemberVO) session.getAttribute("loginMember");
-        String myEmail = (login == null) ? null : login.getEmail();
+        MemberVO loginVO = (session == null) ? null : (MemberVO) session.getAttribute("loginVO");
+        //세션이 없으면 loginVO=null. 있으면 세션에 저장해 둔 로그인 정보("loginVO")를 꺼냄.
+        
+        
+        // 로그인 필터가 있다고 해도 NPE 방지 1줄 권장
+        if (loginVO == null || loginVO.getMemberId() == null || loginVO.getMemberId().isBlank()) {
+            // 필터가 있다면 이 분기는 사실상 안 탑니다. 디버깅용 or 안전망.
+            request.setAttribute("msg", "로그인이 필요합니다.");
+            return "Login.jsp";
+        }
 
-        SlTestDAO dao = new SlTestDAO();
+        String memberId = loginVO.getMemberId();  //이후 DAO 호출에 사용할 안전한 사용자 식별자
 
-        // --- 내 순위/점수 (로그인 안 되어 있으면 0) ---
+        SlTestDAO dao = new SlTestDAO(); // DAO 인스턴스 생성
+    
         int myRank = 0;
-        int myScore = 0;
-        if (myEmail != null && !myEmail.isEmpty()) {
-            MemberScoreRank mine = dao.getScoreRankByEmail(myEmail);
-            if (mine != null) {
-                Integer r = mine.getRankNo();
-                Integer s = mine.getTotalScore();
-                myRank  = (r == null) ? 0 : r;
-                myScore = (s == null) ? 0 : s;
-            }
+        int myScore = 0; //점수 초기값 아직 가져오지 않은 상태니까 0
+        
+        MemberScoreRank mine = dao.getScoreRank(memberId);   // memberId 기준
+        if (mine != null) {
+            myRank  = (mine.getRankNo()     != null) ? mine.getRankNo()     : 0;
+            myScore = (mine.getTotalScore() != null) ? mine.getTotalScore() : 0;
         }
+        // mine이 없을 수도 있으니 NPE 방지.
+        // DTO 필드가 Integer(객체형)라면 null일 수 있으므로 다시 한 번 기본값 처리.
 
-     // --- TOP 100 랭킹 (DTO 리스트) ---
         List<MemberScoreRank> rankList = dao.selectRankingTopN(100);
-
-        // 디버그 로그는 return 전에!
-        System.out.println("[RANK DEBUG] size=" + (rankList == null ? "null" : rankList.size()));
-        if (rankList != null && !rankList.isEmpty()) {
-            MemberScoreRank r0 = rankList.get(0);
-            System.out.println("[RANK DEBUG] first=" + r0.getMemberId() + "/" + r0.getTotalScore() + "/" + r0.getRankNo());
-        }
-
-        // --- JSP 바인딩 ---
+        // 전체 랭킹 목록을 최대 100명까지 조회.
         request.setAttribute("rankList", rankList);
         request.setAttribute("myRank", myRank);
         request.setAttribute("myScore", myScore);
+        request.setAttribute("loginVO", loginVO);
 
         return "Ranking.jsp";
     }
