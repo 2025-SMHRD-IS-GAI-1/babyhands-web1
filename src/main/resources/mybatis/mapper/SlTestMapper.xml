@@ -139,12 +139,16 @@
 	
 	<!-- 지난 학습 결과 : 평균 값 가져오기 -->
 	<select id="getAvgScore" parameterType="string" resultType="int">
-		SELECT AVG(COUNT(*) * 10)
-		FROM SL_TEST T, SIGN_LANGUAGE L
-		WHERE T.SL_ID = L.SL_ID
-		AND MEMBER_ID = #{memberId}
-		AND T.CHOOSE_ANSWER = L.MEANING
-		GROUP BY SL_TEST_GROUP
+	  SELECT NVL(ROUND(AVG(sub.correct_cnt * 10)), 0) AS avg_score
+	  FROM (
+	    SELECT t.sl_test_group,
+	           COUNT(*) AS correct_cnt
+	    FROM sl_test t
+	    JOIN sign_language l ON t.sl_id = l.sl_id
+	    WHERE t.member_id = #{memberId}
+	      AND t.choose_answer = l.meaning
+	    GROUP BY t.sl_test_group
+	  ) sub
 	</select>
 	
 	<!-- 지난 학습 결과 : 지난 학습 목록 리스트 가져오기 -->

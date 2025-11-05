@@ -269,3 +269,37 @@ body {
     font-size: 0.9rem;
   }
 }
+
+
+
+
+
+
+
+/* === 현재 페이지가 마이페이지일 때, 헤더의 '마이페이지' 메뉴만 보라색으로 고정 === */
+/* 헤더의 메뉴가 nav/gnb 등에 있어도 다 잡히도록 넓게 지정 */
+header a[href*="mypage"],
+nav a[href*="mypage"],
+.gnb a[href*="mypage"],
+a.nav-link[href*="mypage"] {
+  color: var(--primary-color, #6d5bff) !important;
+  font-weight: 500;
+}
+
+/* hover 시에도 색 안 바뀌게 고정 */
+header a[href*="mypage"]:hover,
+nav a[href*="mypage"]:hover,
+.gnb a[href*="mypage"]:hover,
+a.nav-link[href*="mypage"]:hover {
+  color: var(--primary-color, #6d5bff) !important;
+}
+
+
+/* (필요할 때만) 학습하기 고정색을 초기화 */
+header a[href*="learn"],
+nav a[href*="learn"],
+.gnb a[href*="learn"],
+a.nav-link[href*="learn"] {
+  color: #555 !important;
+  font-weight: 500;
+}
