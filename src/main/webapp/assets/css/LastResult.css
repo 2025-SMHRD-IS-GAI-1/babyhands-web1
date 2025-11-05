@@ -159,7 +159,7 @@ body {
 	align-items: flex-end;
 	justify-content: space-between;
 	gap: clamp(8px, 1.5vw, 14px);
-	height: clamp(180px, 28vw, 320px);
+	height: clamp(180px, 28vw, 500px);
 	padding: clamp(10px, 1.5vw, 16px);
 	border-radius: 12px;
 	background: #fafbff;

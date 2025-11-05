@@ -71,6 +71,7 @@ public class SlTestDAO {
 		Integer r = s.selectOne("selectLatestGroup", memberId);
 		s.close();
 		return (r == null) ? 0 : r;
+	}
 	
     // (옵션) 멤버ID로 내 점수/순위 필요하면
     public MemberScoreRank getScoreRank(String memberId) {
