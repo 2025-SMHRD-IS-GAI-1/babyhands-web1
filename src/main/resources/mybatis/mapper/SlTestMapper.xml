@@ -90,6 +90,43 @@
 		ORDER BY rankNo, totalScore
 		DESC, memberId
 	</select>
+
+	 <!-- 1) 해당 회원의 '최신 응시 그룹' 번호 (없으면 0) -->
+  <select id="selectLatestGroup" parameterType="string" resultType="int">
+    SELECT NVL(MAX(SL_TEST_GROUP), 0)
+    FROM SL_TEST
+    WHERE MEMBER_ID = #{memberId}
+  </select>
+
+  <!-- 2) 최신 그룹의 문항별 결과 (내답/정답/정오) -->
+  <select id="selectQuestionResultsByGroup"
+          parameterType="map"
+          resultType="com.babyhands.dto.SignQuestionResult">
+    SELECT
+      t.SL_ID                 AS slId,
+      t.CHOOSE_ANSWER         AS jamo,         -- 내가 고른 답
+      s.MEANING               AS correctJamo,  -- 정답
+      CASE WHEN s.MEANING = t.CHOOSE_ANSWER THEN 1 ELSE 0 END AS isCorrect
+    FROM SL_TEST t
+    JOIN SIGN_LANGUAGE s ON s.SL_ID = t.SL_ID
+    WHERE t.MEMBER_ID = #{memberId}
+      AND t.SL_TEST_GROUP = #{groupNo}
+    ORDER BY t.SL_TEST_DATE
+  </select>
+
+  <!-- 3) 최신 그룹 요약 (정답 수 / 총 문항 / 총 점수) -->
+  <select id="selectSummaryByGroup"
+          parameterType="map"
+          resultType="com.babyhands.dto.SignTestSummary">
+    SELECT
+      SUM(CASE WHEN s.MEANING = t.CHOOSE_ANSWER THEN 1 ELSE 0 END) AS correctCount,
+      COUNT(*)                                                     AS totalCount,
+      SUM(CASE WHEN s.MEANING = t.CHOOSE_ANSWER THEN 1 ELSE 0 END) * 10 AS totalScore
+    FROM SL_TEST t
+    JOIN SIGN_LANGUAGE s ON s.SL_ID = t.SL_ID
+    WHERE t.MEMBER_ID = #{memberId}
+      AND t.SL_TEST_GROUP = #{groupNo}
+  </select>
 	
 	<!-- 지난 학습결과 : 총 학습일 수 가져오기 -->
 	<select id="getTotalTestDay" parameterType="string" resultType="int">
