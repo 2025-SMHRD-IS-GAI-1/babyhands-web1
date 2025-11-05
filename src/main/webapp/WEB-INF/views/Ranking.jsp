@@ -4,7 +4,8 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>랭킹</title>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
