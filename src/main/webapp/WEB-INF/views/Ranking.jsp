@@ -32,9 +32,9 @@
 
 				<div class="rk-board">
 					<div class="rk-header-row">
-						<div>순위</div>
-						<div>닉네임</div>
-						<div>누적점수</div>
+						<div >순위</div>
+						<div >닉네임</div>						
+						<div><div style="text-align: right;">누적점수</div></div>
 					</div>
 
 					<c:choose>

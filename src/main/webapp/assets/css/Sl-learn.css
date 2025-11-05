@@ -13,8 +13,7 @@ body {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	min-height: 100vh;
-	padding: 1rem;
+	min-height: 100vh;	
 }
 
 a {
@@ -62,8 +61,7 @@ button {
 	margin-top: auto;
 	margin-bottom: auto;
 	overflow: hidden;
-	padding: 1.5rem 2.5rem;
-	outline: 1px dashed red;
+	
 }
 
 .logout-btn {
@@ -96,7 +94,7 @@ button {
 .main-content {
 	display: flex;
 	gap: 2rem;
-	padding-top: 2rem;
+	padding-top: 0; /* 패딩 0 유지 */
 	flex-wrap: wrap;
 }
 
@@ -312,7 +310,7 @@ button {
 /* --- Media Queries --- */
 @media ( max-width : 992px) {
 	.container {
-		padding: 1rem 1.5rem;
+		padding: 0; /* ⬅️ 1rem 1.5rem 에서 0으로 수정 */
 		border-radius: 1rem;
 	}
 	.header-left {
@@ -374,7 +372,7 @@ button {
 		padding: 0.5rem;
 	}
 	.container {
-		padding: 1rem;
+		padding: 0; /* ⬅️ 1rem 에서 0으로 수정 */
 		border-radius: 0.75rem;
 	}
 	.header {
