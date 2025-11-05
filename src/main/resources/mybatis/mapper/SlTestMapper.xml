@@ -86,7 +86,6 @@
 		GROUP BY
 		m.MEMBER_ID
 		)
-		WHERE rankNo &lt;= #{value}
 		ORDER BY rankNo, totalScore
 		DESC, memberId
 	</select>

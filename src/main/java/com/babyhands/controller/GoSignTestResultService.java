@@ -34,8 +34,6 @@ public class GoSignTestResultService implements Command {
         if (groupNo == 0) {
             groupNo = dao.selectLatestGroup(memberId);
         }
-        /* 👇 [로그 #1] 최종 조회 키 확인 */
-        System.out.printf("[Result] memberId=%s, groupNo=%d%n", memberId, groupNo);
 
         // --- 회차가 없을 때 방어 ---
         List<SignQuestionResult> resultList;
