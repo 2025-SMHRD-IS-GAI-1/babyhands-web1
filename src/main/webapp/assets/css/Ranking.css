@@ -62,7 +62,7 @@ body {
 .rk-wrapper {
     width: 100%;
 }
-	
+
 /* ===== 페이지 제목 ===== */
 .rk-title {
     font-size: 1.8rem;
@@ -99,11 +99,6 @@ body {
     padding: 10px 15px;
     background: #fafafa;
     border-radius: 10px;
-
-    /* [추가] 랭킹 헤더는 스크롤 시 상단에 고정 */
-    position: sticky;
-    top: 0;
-    z-index: 10;
 }
 
 
@@ -217,15 +212,8 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    
-    /* [수정] .rk-board 안으로 이동했으므로, 마진값 변경 */
-    margin-top: 10px; 
+    margin-top: 1.5rem;
     border: 1px solid #c5dbf6;
-
-    /* [추가] 파란색 박스를 스크롤 영역 하단에 고정 */
-    position: sticky;
-    bottom: 0;
-    z-index: 5;
 }
 
 .rk-my-left {
