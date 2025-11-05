@@ -1,102 +1,98 @@
-@charset "UTF-8";
-
-:root {
-  --primary-color: #6d5bff;
-  --secondary-color: #007bff;
-  --green-color: #28a745;
-  --light-gray-bg: #f8f9fa;
-  --container-bg: #ffffff;
-  --border-color: #dee2e6;
-  --text-dark: #212529;
-  --text-light: #6c757d;
-  --hover-color: #aab0ffc2;
-}
-
-.header-a {
-  text-decoration: none;
-  color: inherit;
-  font-weight: 700;
-}
-
-.header-ul {
-  list-style: none;
-}
-
-.header-button {
-  cursor: pointer;
-  border: none;
-  font-family: 'Noto Sans KR', sans-serif;
-  
-  background-color: var(--secondary-color);
-  color: white;
-  padding: 0.6rem 1rem;
-  border-radius: 0.5rem;
-  font-weight: 500;
-  transition: background-color 0.2s ease;
-}
-
-/* --- 1. Header --- */
+/* --- 1. Header (전체 래퍼) --- */
 .header {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	border-bottom: 1px solid var(--border-color);
-	flex-wrap: wrap;
-	padding: 0.5rem 2rem 0.5rem 2rem;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border-color);
+    padding: 10px 30px;
 }
 
+/* --- 2. Header Left (로고) --- */
 .header-left {
-	display: flex;
-	align-items: center;
-	gap: 2.5rem;
-	flex-wrap: wrap;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* ✅ (추가) 왼쪽 정렬 명시 */
+    flex-basis: 200px;           /* ✅ (추가) 좌우 균형을 위한 기본 너비 */
+    min-width: 150px;            /* ✅ (추가) 최소 너비 보장 */
+    gap: 15px;
+    white-space: nowrap;
 }
 
+/* ... .logo, .logo-icon, .logo-text ... (기존 코드 유지) */
 .logo {
-	display: flex;
-	align-items: center;
-	gap: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
-
 .logo-icon {
-	font-size: 1.8rem;
+    font-size: 1.8rem;
 }
-
 .logo-text {
-	font-weight: 700;
-	font-size: 1.2rem;
-	color: var(--text-dark);
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: var(--text-dark);
 }
 
+
+/* --- 3. Header Center (메뉴) --- */
+.header-center {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+/* ul 태그 중앙 정렬 */
 .main-nav ul {
-	display: flex;
-	gap: 2rem;
-	flex-wrap: wrap;
+    display: flex;
+    align-items: center;
+    gap: 4rem; /* ✅ (수정) 170px -> 4rem (약 64px) / 원하는 값으로 조절 */
+    list-style: none;
+    margin: 0;
+    padding: 0;
 }
 
+/* ... .main-nav a, .main-nav a:hover ... (기존 코드 유지) */
 .main-nav a {
-	font-size: 1.1rem;
-	font-weight: 500;
-	color: var(--text-light);
-	transition: color 0.2s ease;
-	white-space: nowrap;
-	text-decoration: none;
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--text-light);
+    white-space: nowrap;
+    text-decoration: none;
+}
+.main-nav a:hover {
+    color: var(--primary-color);
 }
 
-.main-nav a:hover, .main-nav a:focus, .main-nav a.active {
-	color: var(--primary-color);
-	text-decoration: none;
-}
 
+/* --- 4. Header Right (닉네임, 버튼) --- */
 .header-right {
-	display: flex;
-	align-items: center;
-	gap: 1rem;
-	flex-wrap: wrap;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end; /* ✅ (추가) 오른쪽 정렬 명시 */
+    flex-basis: 200px;         /* ✅ (추가) 좌우 균형을 위한 기본 너비 */
+    min-width: 150px;          /* ✅ (추가) 최소 너비 보장 */
+    gap: 1rem;
+    white-space: nowrap;
 }
 
+/* ... .username, .header-button, .header-button:hover ... (기존 코드 유지) */
 .username {
-	font-weight: 500;
-	color: var(--text-dark);
-	white-space: nowrap;
+    font-weight: 500;
+    color: var(--text-dark);
+}
+.header-button {
+    cursor: pointer;
+    border: none;
+    font-family: 'Noto Sans KR', sans-serif;
+    background-color: var(--secondary-color);
+    color: white;
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-weight: 500;
+}
+.header-button:hover {
+    background-color: #0056d2;
 }
