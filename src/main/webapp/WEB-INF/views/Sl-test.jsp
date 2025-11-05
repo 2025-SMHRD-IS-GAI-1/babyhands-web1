@@ -8,13 +8,19 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>수어 학습 테스트</title>
-    <!-- Bootstrap CSS (오타 수정 완료) -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    
-    <!-- Google Fonts (Noto Sans KR) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<!-- Bootstrap CSS (오타 수정 완료) -->
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+	crossorigin="anonymous">
+
+<!-- Google Fonts (Noto Sans KR) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link
+	href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap"
+	rel="stylesheet">
 
 <!-- Bootstrap CSS (integrity 오타 수정) -->
 <link
@@ -39,35 +45,34 @@
 		<div class="page-title-header">
 			<h1 class="page-title">수어 학습 테스트</h1>
 		</div>
-		
+
 		<!-- 4. 메인 컨텐츠 (박스 2개) -->
 		<main class="main-content-test">
-		
-            <!-- 4-1. 좌측 영상 패널 -->
-            <section class="test-panel">
-                
-                <!-- 박스 내부 제목 -->
-                <div class="section-header">
-                    <div class="section-subtitle" id="question-subtitle">문제 영상 1 / 10</div>
-                </div>
 
-                <!-- 비디오 박스 구조 -->
-                <div class="video-placeholder-test video-box">                                                
-                    <div class="video-placeholder">
-                        <video id="question_video" controls>
-                            <span>수어 문제 영상 플레이스홀더</span>
-                        </video>
-                    </div>
-                </div>
-            </section>
-            
-            
+			<!-- 4-1. 좌측 영상 패널 -->
+			<section class="test-panel">
 
-            <!-- 4-2. 우측 정답 패널 -->
-            <section class="answer-panel">
-                
-                <!-- 박스 내부 제목 -->
-                <div class="section-header">
+				<!-- 박스 내부 제목 -->
+				<div class="section-header">
+					<div class="section-subtitle" id="question-subtitle">문제 영상 1
+						/ 10</div>
+				</div>
+
+				<!-- 비디오 박스 구조 -->
+				<div class="video-placeholder-test video-box">
+					<div class="video-placeholder">
+						<video id="question_video" controls>
+							<span>수어 문제 영상 플레이스홀더</span>
+						</video>
+					</div>
+				</div>
+			</section>
+
+			<!-- 4-2. 우측 정답 패널 -->
+			<section class="answer-panel">
+
+				<!-- 박스 내부 제목 -->
+				<div class="section-header">
 					<p class="section-subtitle">정답 선택</p>
 				</div>
 
@@ -83,18 +88,19 @@
 						<li><input type="radio" id="ans4" name="answer" value="4">
 							<label for="ans4"></label></li>
 					</ul>
-					
+
 					<div class="answer-actions">
 						<button type="button" id="btnPrev"
 							class="btn btn-outline-secondary">이전</button>
 						<button type="button" id="btnNext" class="btn btn-primary">다음</button>
 					</div>
-					
-				</form>
-            </section>
 
-        </main>
-    </div> <!-- /container -->
+				</form>
+			</section>
+
+		</main>
+	</div>
+	<!-- /container -->
 
 	<!-- Bootstrap JS (integrity 오타 수정) -->
 	<script
@@ -107,13 +113,7 @@
 		window.APP_CTX = '${ctx}';
 	</script>
 	<script src="${ctx}/assets/js/header.js"></script>
-    <script src="${ctx}/assets/js/Sl-test.js"></script>
-
-
-
-
-
-
+	<script src="${ctx}/assets/js/Sl-test.js"></script>
 
 </body>
 </html>
