@@ -60,6 +60,5 @@
 			AND SL_LEARN_DATE < TRUNC(SYSDATE) + 1
 		]]>
 	</select>
-
-
+	
 </mapper>

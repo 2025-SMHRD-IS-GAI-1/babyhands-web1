@@ -8,6 +8,8 @@ import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 
 import com.babyhands.config.MysqlSessionManager;
+import com.babyhands.dto.DailyTestDTO;
+import com.babyhands.dto.LastTestDTO;
 import com.babyhands.dto.MemberScoreRank;
 import com.babyhands.dto.SignQuestionResult;
 import com.babyhands.dto.SignTestSummary;
@@ -25,7 +27,7 @@ public class SlTestDAO {
 	// TOP N 랭킹 (DTO 리스트로 반환)
 	public List<MemberScoreRank> selectRankingTopN(int topN) {
 		SqlSession s = factory.openSession();
-		List<MemberScoreRank> out = s.selectList("com.babyhands.dao.SlTestDAO.selectRankingTopN", topN);
+		List<MemberScoreRank> out = s.selectList("selectRankingTopN", topN);
 		s.close();
 		return out;
 	}
@@ -33,7 +35,7 @@ public class SlTestDAO {
 	// 이메일로 내 점수/순위 (DTO 단건)
 	public MemberScoreRank getScoreRankByEmail(String email) {
 		SqlSession s = factory.openSession();
-		MemberScoreRank out = s.selectOne("com.babyhands.dao.SlTestDAO.getScoreRankByEmail", email);
+		MemberScoreRank out = s.selectOne("getScoreRankByEmail", email);
 		s.close();
 		return out;
 	}
@@ -47,7 +49,6 @@ public class SlTestDAO {
 		sqlSession.close();
 
 		return result;
-
 	}
 
 	// 수어 테스트 db insert
@@ -62,23 +63,66 @@ public class SlTestDAO {
 
 		return result;
 	}
-
-	// (옵션) 멤버ID로 내 점수/순위 필요하면
-	public MemberScoreRank getScoreRank(String memberId) {
-		SqlSession s = factory.openSession();
-		MemberScoreRank out = s.selectOne("com.babyhands.dao.SlTestDAO.getScoreRank", memberId);
-		s.close();
-		return out;
-	}
-
 	// ───────── 결과 화면용(최신 그룹 기준) ─────────
 
 	// 1) 해당 회원의 최신 응시 그룹 번호
 	public int selectLatestGroup(String memberId) {
 		SqlSession s = factory.openSession();
-		Integer r = s.selectOne("com.babyhands.dao.SlTestDAO.selectLatestGroup", memberId);
+		Integer r = s.selectOne("selectLatestGroup", memberId);
 		s.close();
 		return (r == null) ? 0 : r;
+	
+    // (옵션) 멤버ID로 내 점수/순위 필요하면
+    public MemberScoreRank getScoreRank(String memberId) {
+        SqlSession s = factory.openSession();
+        MemberScoreRank out =
+            s.selectOne("getScoreRank", memberId);
+        s.close();
+        return out;
+    }
+    
+    // 지난 학습결과 : 총 학습일 수 가져오기
+ 	public int getTotalTestDay(String memberId) {
+ 		SqlSession sqlSession = factory.openSession();
+
+ 		int result = sqlSession.selectOne("getTotalTestDay", memberId);
+
+ 		sqlSession.close();
+
+ 		return result;
+ 	}
+    
+    // 지난 학습 결과 : 평균 점수 가져오기
+	public int getAvgScore(String memberId) {
+		SqlSession sqlSession = factory.openSession();
+
+		int result = sqlSession.selectOne("getAvgScore", memberId);
+
+		sqlSession.close();
+
+		return result;
+	}
+	
+	// 지난 학습 결과 : 지난 학습 목록 리스트 가져오기
+	public List<LastTestDTO> getLastTestList(String memberId) {
+		SqlSession sqlSession = factory.openSession();
+
+		List<LastTestDTO> result = sqlSession.selectList("getLastTestList", memberId);
+
+		sqlSession.close();
+
+		return result;
+	}
+	
+	// 지난 학습 결과 : 지난 일주일 일일 학습량 리스트 가져오기
+	public List<DailyTestDTO> dailyTestList(String memberId) {
+		SqlSession sqlSession = factory.openSession();
+
+		List<DailyTestDTO> result = sqlSession.selectList("dailyTestList", memberId);
+
+		sqlSession.close();
+
+		return result;
 	}
 
 	// 2) 최신 그룹의 문항별 결과 리스트 (내답/정답/정오)
@@ -89,7 +133,7 @@ public class SlTestDAO {
 		p.put("memberId", memberId);
 		p.put("groupNo", groupNo);
 
-		List<SignQuestionResult> out = s.selectList("com.babyhands.dao.SlTestDAO.selectQuestionResultsByGroup", p);
+		List<SignQuestionResult> out = s.selectList("selectQuestionResultsByGroup", p);
 
 		s.close();
 		return out;
@@ -103,7 +147,7 @@ public class SlTestDAO {
 		p.put("memberId", memberId);
 		p.put("groupNo", groupNo);
 
-		SignTestSummary out = s.selectOne("com.babyhands.dao.SlTestDAO.selectSummaryByGroup", p);
+		SignTestSummary out = s.selectOne("selectSummaryByGroup", p);
 
 		if (out == null) {
 			out = SignTestSummary.builder().correctCount(0).totalCount(0).totalScore(0).build();
