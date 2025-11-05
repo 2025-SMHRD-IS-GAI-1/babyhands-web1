@@ -6,6 +6,8 @@ import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 
 import com.babyhands.config.MysqlSessionManager;
+import com.babyhands.dto.DailyTestDTO;
+import com.babyhands.dto.LastTestDTO;
 import com.babyhands.dto.MemberScoreRank;
 import com.babyhands.vo.SlTestVO;
 
@@ -70,5 +72,49 @@ public class SlTestDAO {
         s.close();
         return out;
     }
+    
+    // 지난 학습결과 : 총 학습일 수 가져오기
+ 	public int getTotalTestDay(String memberId) {
+ 		SqlSession sqlSession = factory.openSession();
+
+ 		int result = sqlSession.selectOne("getTotalTestDay", memberId);
+
+ 		sqlSession.close();
+
+ 		return result;
+ 	}
+    
+    // 지난 학습 결과 : 평균 점수 가져오기
+	public int getAvgScore(String memberId) {
+		SqlSession sqlSession = factory.openSession();
+
+		int result = sqlSession.selectOne("getAvgScore", memberId);
+
+		sqlSession.close();
+
+		return result;
+	}
+	
+	// 지난 학습 결과 : 지난 학습 목록 리스트 가져오기
+	public List<LastTestDTO> getLastTestList(String memberId) {
+		SqlSession sqlSession = factory.openSession();
+
+		List<LastTestDTO> result = sqlSession.selectList("getLastTestList", memberId);
+
+		sqlSession.close();
+
+		return result;
+	}
+	
+	// 지난 학습 결과 : 지난 일주일 일일 학습량 리스트 가져오기
+	public List<DailyTestDTO> dailyTestList(String memberId) {
+		SqlSession sqlSession = factory.openSession();
+
+		List<DailyTestDTO> result = sqlSession.selectList("dailyTestList", memberId);
+
+		sqlSession.close();
+
+		return result;
+	}
 
 }

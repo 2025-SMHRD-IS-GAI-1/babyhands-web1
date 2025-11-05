@@ -90,5 +90,68 @@
 		ORDER BY rankNo, totalScore
 		DESC, memberId
 	</select>
+	
+	<!-- 지난 학습결과 : 총 학습일 수 가져오기 -->
+	<select id="getTotalTestDay" parameterType="string" resultType="int">
+		<![CDATA[
+			SELECT COUNT(DISTINCT(TRUNC(SL_TEST_DATE)))
+			FROM SL_TEST
+			WHERE MEMBER_ID = #{memberId}
+		]]>
+	</select>
+	
+	<!-- 지난 학습 결과 : 평균 값 가져오기 -->
+	<select id="getAvgScore" parameterType="string" resultType="int">
+		SELECT AVG(COUNT(*) * 10)
+		FROM SL_TEST T, SIGN_LANGUAGE L
+		WHERE T.SL_ID = L.SL_ID
+		AND MEMBER_ID = #{memberId}
+		AND T.CHOOSE_ANSWER = L.MEANING
+		GROUP BY SL_TEST_GROUP
+	</select>
+	
+	<!-- 지난 학습 결과 : 지난 학습 목록 리스트 가져오기 -->
+	<select id="getLastTestList" parameterType="string" resultType="com.babyhands.dto.LastTestDTO">
+		SELECT DISTINCT
+			SUB.SL_TEST_GROUP,
+			SUB.CORRECT,
+			T.SL_TEST_DATE
+		FROM (
+			SELECT SL_TEST_GROUP, COUNT(*) AS CORRECT
+			FROM SL_TEST T, SIGN_LANGUAGE L
+			WHERE T.SL_ID = L.SL_ID
+			AND MEMBER_ID = #{memberId}
+			AND T.CHOOSE_ANSWER = L.MEANING
+			GROUP BY SL_TEST_GROUP
+		) SUB, 
+		SL_TEST T
+		WHERE SUB.SL_TEST_GROUP = T.SL_TEST_GROUP
+		ORDER BY T.SL_TEST_DATE DESC
+	</select>
+	
+	<!-- 지난 학습 결과 : 지난 일주일 일일 학습량 리스트 가져오기 -->
+	<select id="dailyTestList" parameterType="string" resultType="com.babyhands.dto.DailyTestDTO">
+	<![CDATA[
+		WITH days AS (
+		  SELECT TRUNC(SYSDATE) - 6 + LEVEL - 1 AS dt
+		  FROM dual
+		  CONNECT BY LEVEL <= 7
+		),
+		agg AS (
+		  SELECT TRUNC(t.sl_test_date) AS dt,
+		         COUNT(*)              AS cnt
+		  FROM sl_test t
+		  WHERE t.sl_test_date >= TRUNC(SYSDATE) - 6
+		    AND t.sl_test_date <  TRUNC(SYSDATE) + 1
+		    AND t.member_id = #{memberId}
+		  GROUP BY TRUNC(t.sl_test_date)
+		)
+		SELECT TO_CHAR(d.dt, 'DY', 'NLS_DATE_LANGUAGE=KOREAN') AS day,
+		       NVL(a.cnt, 0) AS testCount
+		FROM days d
+		LEFT JOIN agg a ON a.dt = d.dt
+		ORDER BY d.dt
+	]]>
+	</select>
 
 </mapper> 
