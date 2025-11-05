@@ -351,7 +351,7 @@ button {
 .donut{
     --percent:var(--data-percent, 80); 
     --size: clamp(140px, 20vw, 180px); 
-    --thickness: clamp(5px, 1.2vw, 5px); /* 👈 링 두께 50% 축소 (7px) */
+    --thickness: clamp(2px, 1.2vw, 2px); /* 👈 링 두께 50% 축소 (7px) */
     width: 190px; height: 190px; /* 고정 크기 */
     position:relative; 
     
@@ -371,8 +371,7 @@ button {
         var(--donut-bg) 0%
     );
     
-    -webkit-mask: radial-gradient(farthest-side, transparent calc(50% - var(--thickness)), #000 0);
-    mask: radial-gradient(farthest-side, transparent calc(50% - var(--thickness)), #000 0);
+    mask: radial-gradient(farthest-side, transparent calc(75% - var(--thickness)), #000 0);
     /* 화질 개선을 위한 필터 추가 */
     filter: drop-shadow(0 4px 8px rgba(109, 91, 255, .12)) blur(0);
     
