@@ -102,7 +102,7 @@ public class FrontController extends HttpServlet {
 			// db에서 값을 가져오는 페이지들은 따로 분기
 			if (finalUri.equals("GomemberUpdate.do") || finalUri.equals("Gomypage.do") ||
 					finalUri.equals("Gomain.do") || finalUri.equals("GoSl-learn.do") || 
-					finalUri.equals("GoRanking.do") || finalUri.equals("GOSignTestResult.do") ||
+					finalUri.equals("GoRanking.do") || finalUri.equals("GoSignTestResult.do") ||
           finalUri.equals("GoLastResult.do")) {
 
 				com = map.get(finalUri);
