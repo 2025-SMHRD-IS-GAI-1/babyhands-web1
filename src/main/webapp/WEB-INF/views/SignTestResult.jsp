@@ -50,32 +50,70 @@
           </div>
         </div>
 
-        <!-- 오른쪽 문항별 결과 -->
-        <div class="st-right">
-          <div class="st-right-title">
-            문항별 결과 (<c:out value="${totalCount}" default="10"/> 문항)
-          </div>
+<!-- 오른쪽 문항별 결과 -->
+<div class="st-right">
+  <div class="st-right-title">
+    문항별 결과 (<c:out value="${totalCount}" default="5"/> 문항)
+  </div>
 
-          <div class="st-grid">
-            <c:if test="${not empty resultList}">
-              <c:forEach var="item" items="${resultList}">
-                <c:choose>
-                  <c:when test="${item.correct}">
-                    <div class="st-cell st-cell-correct"><c:out value="${item.jamo}" default="ㅇ"/></div>
-                  </c:when>
-                  <c:otherwise>
-                    <div class="st-cell st-cell-wrong"><c:out value="${item.jamo}" default="ㅇ"/></div>
-                  </c:otherwise>
-                </c:choose>
-              </c:forEach>
-            </c:if>
-
-            <c:if test="${empty resultList}">
-              <c:forEach var="i" begin="1" end="10">
-                <div class="st-cell st-cell-correct">ㅇ</div>
-              </c:forEach>
-            </c:if>
+  <div class="st-grid">
+    <!-- 왼쪽 컬럼: 정답 -->
+    <div class="st-col">
+      <h3 class="st-col-title">정답</h3>
+      <c:if test="${not empty resultList}">
+        <c:forEach var="item" items="${resultList}" varStatus="s">
+          <div class="st-card is-correct">
+            <div class="st-card-num">Q<c:out value="${s.index + 1}"/></div>
+            <div class="st-card-text">
+              <c:out value="${item.correctJamo}" default="-" />
+            </div>
           </div>
+        </c:forEach>
+      </c:if>
+
+      <c:if test="${empty resultList}">
+        <c:forEach var="i" begin="1" end="5">
+          <div class="st-card is-correct">
+            <div class="st-card-num">Q${i}</div>
+            <div class="st-card-text">-</div>
+          </div>
+        </c:forEach>
+      </c:if>
+    </div>
+
+    <!-- 오른쪽 컬럼: 내 답(정오답 표시) -->
+    <div class="st-col">
+      <h3 class="st-col-title">내 답안</h3>
+      <c:if test="${not empty resultList}">
+        <c:forEach var="item" items="${resultList}" varStatus="s">
+          <c:set var="isRight" value="${item.jamo == item.correctJamo}" />
+          <div class="st-card ${isRight ? 'is-correct' : 'is-wrong'}">
+            <div class="st-card-num">Q<c:out value="${s.index + 1}"/></div>
+            <div class="st-card-text">
+              <c:out value="${item.jamo}" default="-" />
+              &nbsp;
+              <span class="st-badge ${isRight ? 'ok' : 'bad'}">
+                ${isRight ? 'O' : 'X'}
+              </span>
+            </div>
+          </div>
+        </c:forEach>
+      </c:if>
+
+      <c:if test="${empty resultList}">
+        <c:forEach var="i" begin="1" end="5">
+          <div class="st-card is-wrong">
+            <div class="st-card-num">Q${i}</div>
+            <div class="st-card-text">
+              -
+              &nbsp;<span class="st-badge bad">X</span>
+            </div>
+          </div>
+        </c:forEach>
+      </c:if>
+    </div>
+  </div>
+          <!-- ✅ 새 구조 끝 -->
         </div>
       </div><!-- /st-page -->
     </div><!-- /st-container -->

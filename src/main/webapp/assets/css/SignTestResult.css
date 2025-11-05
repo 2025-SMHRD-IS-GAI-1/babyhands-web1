@@ -82,28 +82,88 @@ body{ margin:0; background:var(--bg); color:#333; }
   box-shadow:0 6px 16px rgba(47,125,255,.25);
 }
 
-/* ===== 오른쪽 결과 그리드 ===== */
+/* ================================
+   오른쪽 결과: 2열(정답/오답) 카드
+   ================================ */
 .st-right-title{ font-weight:700; margin:6px 0 12px; }
+
+/* 바깥 박스(배경/테두리 유지) */
 .st-grid{
   background:#fff; border:1px solid var(--border); border-radius:12px; padding:14px;
   box-shadow:0 4px 14px rgba(0,0,0,.05);
-  display:grid; grid-template-columns: repeat(5, 1fr); gap:12px;
-  min-height:260px;
+  display:grid;
+  grid-template-columns: 1fr 1fr;         /* ← 좌/우 2열 고정 */
+  gap:16px 20px;                          /* 행/열 간격 */
+  align-items:start;
 }
-.st-cell{
-  height:66px; border-radius:10px; display:flex; align-items:center; justify-content:center;
-  font-weight:700; font-size:20px; letter-spacing:1px;
-  border:1px solid #dbe5ff;
+
+/* 각 컬럼(정답/오답) 래퍼 */
+.st-col{
+  display:grid;
+  grid-auto-rows:minmax(66px, auto);      /* 카드 높이 최소 보장 */
+  gap:12px;
 }
-.st-cell-correct{ background:#35c05a; color:#fff; }
-.st-cell-wrong{ background:#ffd6d6; color:#d84141; border-color:#ffc3c3; }
+
+.st-col-title{
+  margin:0 0 6px;
+  font-size:14px; font-weight:700; color:#5f6b7a;
+  letter-spacing:.2px;
+}
+
+/* 카드 공통 */
+.st-card{
+  height:auto;
+  border:2px solid #dbe5ff;
+  background:#fff;
+  border-radius:12px;
+  padding:12px 14px;
+  display:grid;
+  grid-template-columns:56px 1fr;          /* 번호 + 내용 */
+  column-gap:12px;
+  align-items:center;
+  box-shadow:0 1px 0 rgba(16,24,40,.02);
+}
+
+/* 번호 뱃지 */
+.st-card-num{
+  width:56px; height:40px;
+  display:grid; place-items:center;
+  border-radius:10px;
+  background:#f2f4f7;
+  color:#1f2937;
+  font-weight:800;
+}
+
+/* 카드 내용 */
+.st-card-text{
+  font-size:14px;
+  color:#334155;
+  line-height:1.4;
+  word-break:keep-all;
+}
+
+/* 정답/오답 색상 */
+.st-card.is-correct{
+  border-color:#33b36b33;
+  background:#e9f9f033;                   /* 연초록 */
+}
+.st-card.is-wrong{
+  border-color:#ff5a5f33;
+  background:#fff1f133;                   /* 연빨강 */
+}
+
+/* (이전 그리드 점/동그라미 스타일 쓰지 않음)
+   필요 시 .st-cell 관련 규칙 제거 가능 */
 
 /* ===== 반응형 ===== */
 @media (max-width: 992px){
   .st-container{ padding:12px 16px 16px; border-radius:16px; }
   .st-page{ grid-template-columns:1fr; }
-  .st-grid{ grid-template-columns: repeat(4, 1fr); }
+  .st-grid{ grid-template-columns:1fr; }  /* 모바일에선 한 열로 쌓기 */
 }
+
 @media (max-width: 600px){
-  .st-grid{ grid-template-columns: repeat(3, 1fr); }
+  .st-card{ grid-template-columns:48px 1fr; }
+  .st-card-num{ width:48px; height:36px; }
 }
+
