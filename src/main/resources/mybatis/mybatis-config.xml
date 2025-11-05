@@ -42,7 +42,6 @@
         <mapper resource="mybatis/mapper/SlTestMapper.xml" />
         <mapper resource="mybatis/mapper/SlLearnMapper.xml"/>
         <mapper resource="mybatis/mapper/SignLanguageMapper.xml"/>
-        <mapper resource="mybatis/mapper/SlTestResultMapper.xml"/>
     </mappers>
 
 </configuration>
