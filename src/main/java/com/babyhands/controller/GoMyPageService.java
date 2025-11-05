@@ -23,11 +23,12 @@ public class GoMyPageService implements Command {
 		
 		MemberVO loginVO = (MemberVO) session.getAttribute("loginVO");
 		String memberId = loginVO.getMemberId();
+		String nickname = loginVO.getNickname();
 		
 		MemberDAO dao = new MemberDAO();
 		SlTestDAO slTestdao = new SlTestDAO();
 		MemberVO member = dao.getMemberInfo(memberId);
-		MemberScoreRank memberScoreRank = slTestdao.getScoreRank(memberId);
+		MemberScoreRank memberScoreRank = slTestdao.getScoreRank(nickname);
 		
 		request.setAttribute("member", member);
 		request.setAttribute("memberScoreRank", memberScoreRank);

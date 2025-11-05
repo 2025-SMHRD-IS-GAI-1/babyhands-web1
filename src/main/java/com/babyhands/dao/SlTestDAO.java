@@ -74,10 +74,10 @@ public class SlTestDAO {
 	}
 	
     // (옵션) 멤버ID로 내 점수/순위 필요하면
-    public MemberScoreRank getScoreRank(String memberId) {
+    public MemberScoreRank getScoreRank(String nickname) {
         SqlSession s = factory.openSession();
         MemberScoreRank out =
-            s.selectOne("getScoreRank", memberId);
+            s.selectOne("getScoreRank", nickname);
         s.close();
         return out;
     }
