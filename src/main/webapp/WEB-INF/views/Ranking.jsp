@@ -23,7 +23,7 @@
 			<!-- header.css 와 충돌 피하려고 container -> rk-container -->
 			<!-- 상단바 -->
 			<jsp:include page="/WEB-INF/views/header.jsp">
-				<jsp:param name="nav" value="learn" />
+				<jsp:param name="nav" value="rank" />
 			</jsp:include>
 
 			<div class="rk-wrapper">
