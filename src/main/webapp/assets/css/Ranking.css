@@ -1,246 +1,228 @@
-	@charset "UTF-8";
-	
-	/* ===== Reset (가벼운 버전) ===== */
-	* {
-		margin: 0;
-		padding: 0;
-		box-sizing: border-box;
-		font-family: "Noto Sans KR", sans-serif;
-	}
-	
-	/* ===== 전역 색 & 폭 토큰 ===== */
-	:root {
-		--SHELL: 1180px; /* 카드 가로폭 — 필요하면 1200/1280으로만 바꿔 */
-		--border: #dee2e6;
-		--bg: #f4f7f6;
-		--card: #fff;
-	}
-	
-	/* ===== 배경 ===== */
-	body {
-		background: var(--bg);
-		color: #333;
-	}
-	
-	/* ===== 화면 가운데 정렬 래퍼 ===== */
-	.rk-viewport {
-		min-height: 100vh;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		padding: 1rem;
-	}
-	
-	/* ===== 카드 컨테이너 (헤더 포함) =====
-	   └ 헤더는 이 컨테이너 폭을 그대로 따라감  */
-	.rk-container {	
-		min-height: 750px;
-		max-width: 1400px;
-		border: 1px solid var(--border-color, #dee2e6);
-		width: 100%;
-		height: 750px;
-		background-color: #ffffff;
-		border-radius: 1.5rem;
-		box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
-		min-width: 320px;
-		box-sizing: border-box;
-		margin-top: auto;
-		margin-bottom: auto;
-		overflow-y: auto;
-		padding: 1.5rem 2.5rem;
-		outline: 1px dashed red;
-		box-sizing: border-box;
-	}
-	
-	/* 헤더가 어떤 내부 규칙에 갇혀도 풀폭 사용 보장 */
-	.rk-container .header {
-		width: 100% !important;
-		max-width: 100% !important;
-		display: flex;
-		align-items: center;
-		gap: 24px;
-		padding: 8px 32px;
-	}
-	
-	/* ===== 랭킹 본문 래퍼 =====
-	   └ 카드 안에서는 100% 쓰게(900px 고정 금지)  */
-	.rk-wrapper {
-		width: 100%;
-		max-width: 100%;
-		margin: 0 auto;
-	}
-	
-	/* ===== 제목 ===== */
-	.rk-title {
-		font-size: 1.8rem;
-		font-weight: 700;
-		color: #1a2c3a;
-		margin: 0.5rem 0 1rem;
-	}
-	
-	/* ===== 보드 ===== */
-	.rk-board {
-		background: #fff;
-		border-radius: 16px;
-		padding: 1.5rem 2rem;
-		box-shadow: 0 4px 15px rgba(0, 0, 0, .05);
-	}
-	
-	.rk-board-with-scroll::-webkit-scrollbar {
-	    width: 8px; /* 스크롤 바의 너비 설정 */
-	    height: 8px; /* 가로 스크롤 바의 높이 (필요하다면) */
-	}
-	
-	.rk-board-with-scroll::-webkit-scrollbar-track {
-	    background: #f1f1f1;
-	    border-radius: 10px;
-	}
-	
-	.rk-board-with-scroll::-webkit-scrollbar-thumb {
-		background: #888;
-		border-radius: 10px; 	
-	}
-	
-	.rk-board-with-scroll {
-	    max-height: 200px; /* 예시: 최대 높이 설정 */
-	    overflow-y: auto;  /* 높이를 초과할 경우 세로 스크롤 표시 */
-	}
-	
-	.rk-header-row, .rk-row {
-		display: grid;
-		grid-template-columns: 120px 1fr 130px;
-		align-items: center;
-	}
-	
-	.rk-header-row {
-		border-bottom: 1px solid #eee;
-		font-weight: 600;
-		color: #444;
-		padding: 10px 15px;
-		background: #fafafa;
-		border-radius: 10px;
-	}
-	
-	.rk-row {
-		margin-top: 10px;
-		background: #fff;
-		border-radius: 14px;
-		min-height: 55px;
-		padding: 0 15px;
-		border: 1px solid #eee;
-		transition: background-color .2s ease;
-	}
-	
-	.rk-row:hover {
-		background: #f6f9ff;
-	}
-	
-	.rk-top1 {
-		background: #e9ffe4;
-		border-color: #b8ecb5;
-	}
-	
-	.rk-top2 {
-		background: #f1ffe9;
-		border-color: #cceac3;
-	}
-	
-	.rk-top3 {
-		background: #f9ffef;
-		border-color: #e3f3cc;
-	}
-	
-	.rk-rank-num {
-		font-size: 18px;
-		font-weight: 700;
-		color: #333;
-	}
-	
-	.rk-nick-wrap {
-		display: flex;
-		align-items: center;
-		gap: 10px;
-	}
-	
-	.rk-medal {
-		width: 28px;
-		height: 28px;
-		border-radius: 50%;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		font-size: 14px;
-	}
-	
-	.rk-gold {
-		background: #ffb300;
-		color: #fff;
-	}
-	
-	.rk-silver {
-		background: #d0d5de;
-		color: #fff;
-	}
-	
-	.rk-bronze {
-		background: #d79a5c;
-		color: #fff;
-	}
-	
-	.rk-nickname {
-		font-size: 15px;
-		color: #222;
-	}
-	
-	.rk-score {
-		text-align: right;
-		font-weight: 600;
-		color: #0b4da3;
-	}
-	
-	.rk-dots {
-		display: flex;
-		justify-content: center;
-		gap: 12px;
-		margin: 20px 0;
-	}
-	
-	.rk-dot {
-		width: 8px;
-		height: 8px;
-		background: #999;
-		border-radius: 50%;
-	}
-	
-	.rk-my {
-		background: #eaf3ff;
-		border-radius: 14px;
-		padding: 14px 20px;
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		margin-top: 1.5rem;
-		border: 1px solid #c5dbf6;
-	}
-	
-	.rk-my-left {
-		font-weight: 600;
-		color: #1a2c3a;
-	}
-	
-	.rk-my-right {
-		font-weight: 700;
-		color: #0046c8;
-	}
-	
-	/* ===== 반응형 ===== */
-	@media ( max-width : 768px) {
-		.rk-container {
-			padding: 1.25rem 1.25rem;
-			border-radius: 1rem;
-		}
-		.rk-header-row, .rk-row {
-			grid-template-columns: 80px 1fr 100px;
-			font-size: 14px;
-		}
-	}
+@charset "UTF-8";
+
+/* ===== 기본 리셋 ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Noto Sans KR", sans-serif;
+}
+
+/* ===== 색상 및 폭 변수 ===== */
+:root {
+    --SHELL: 1180px;         /* 카드 최대 폭 */
+    --border: #dee2e6;       /* 테두리 색상 */
+    --bg: #f4f7f6;           /* 배경색 */
+    --card: #fff;            /* 카드 배경색 */
+}
+
+/* ===== 전체 배경 및 텍스트 색상 ===== */
+body {
+    background: var(--bg);
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* ===== 화면 가운데 정렬용 래퍼 ===== */
+.rk-viewport {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem 1rem;
+    box-sizing: border-box;
+}
+
+/* ===== 카드 컨테이너 ===== */
+.rk-container {
+    width: 100%;
+    max-width: 1400px;
+    background: var(--card);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .07);
+    border-radius: 1.5rem;
+    padding: 2rem 2.5rem;
+    box-sizing: border-box;
+}
+
+/* ===== 내부 콘텐츠 래퍼 ===== */
+.rk-wrapper {
+    width: 100%;
+}
+
+/* ===== 페이지 제목 ===== */
+.rk-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    text-align: center;
+    color: #1a2c3a;
+    margin: 0.5rem 0 1rem;
+}
+
+/* ===== 랭킹 보드 ===== */
+.rk-board {
+    background: #fff;
+    border-radius: 16px;
+    padding: 1.5rem 2rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, .05);
+
+    /* ✅ 스크롤 추가: 화면 밖으로 안 빠지게 */
+    max-height: 480px;
+    overflow-y: auto;
+}
+
+/* ===== 랭킹 헤더 및 행 ===== */
+.rk-header-row,
+.rk-row {
+    display: grid;
+    grid-template-columns: 120px 1fr 130px;
+    align-items: center;
+}
+
+.rk-header-row {
+    border-bottom: 1px solid #eee;
+    font-weight: 600;
+    color: #444;
+    padding: 10px 15px;
+    background: #fafafa;
+    border-radius: 10px;
+}
+
+/* ===== 랭킹 행 스타일 ===== */
+.rk-row {
+    margin-top: 10px;
+    background: #fff;
+    border-radius: 14px;
+    min-height: 55px;
+    padding: 0 15px;
+    border: 1px solid #eee;
+    transition: background-color .2s ease;
+}
+
+.rk-row:hover {
+    background: #f6f9ff;
+}
+
+/* ===== 상위 랭커 강조 색상 ===== */
+.rk-top1 {
+    background: #e9ffe4;
+    border-color: #b8ecb5;
+}
+
+.rk-top2 {
+    background: #f1ffe9;
+    border-color: #cceac3;
+}
+
+.rk-top3 {
+    background: #f9ffef;
+    border-color: #e3f3cc;
+}
+
+/* ===== 순위 번호 ===== */
+.rk-rank-num {
+    font-size: 18px;
+    font-weight: 700;
+    color: #333;
+}
+
+/* ===== 닉네임 영역 ===== */
+.rk-nick-wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* ===== 메달 아이콘 ===== */
+.rk-medal {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+}
+
+.rk-gold {
+    background: #ffb300;
+    color: #fff;
+}
+
+.rk-silver {
+    background: #d0d5de;
+    color: #fff;
+}
+
+.rk-bronze {
+    background: #d79a5c;
+    color: #fff;
+}
+
+/* ===== 닉네임 텍스트 ===== */
+.rk-nickname {
+    font-size: 15px;
+    color: #222;
+}
+
+/* ===== 점수 영역 ===== */
+.rk-score {
+    text-align: right;
+    font-weight: 600;
+    color: #0b4da3;
+}
+
+/* ===== 하단 점 표시 ===== */
+.rk-dots {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin: 20px 0;
+}
+
+.rk-dot {
+    width: 8px;
+    height: 8px;
+    background: #999;
+    border-radius: 50%;
+}
+
+/* ===== 로그인 사용자 랭킹 박스 ===== */
+.rk-my {
+    background: #eaf3ff;
+    border-radius: 14px;
+    padding: 14px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1.5rem;
+    border: 1px solid #c5dbf6;
+}
+
+.rk-my-left {
+    font-weight: 600;
+    color: #1a2c3a;
+}
+
+.rk-my-right {
+    font-weight: 700;
+    color: #0046c8;
+}
+
+/* ===== 반응형 처리 ===== */
+@media (max-width: 768px) {
+    .rk-container {
+        padding: 1.5rem;
+        border-radius: 1rem;
+    }
+    .rk-header-row,
+    .rk-row {
+        grid-template-columns: 80px 1fr 100px;
+        font-size: 14px;
+    }
+    .rk-board {
+        max-height: 400px;
+    }
+}

@@ -4,10 +4,10 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>랭킹</title>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
-<meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" />
 <link
@@ -21,7 +21,7 @@
 	<div class="rk-viewport">
 		<!-- 화면 높이 기준 수직 가운데 정렬용 -->
 		<div class="rk-container">
-			
+			<!-- header.css 와 충돌 피하려고 container -> rk-container -->
 			<!-- 상단바 -->
 			<jsp:include page="/WEB-INF/views/header.jsp">
 				<jsp:param name="nav" value="learn" />
@@ -30,7 +30,7 @@
 			<div class="rk-wrapper">
 				<div class="rk-title">랭킹</div>
 
-				<div class="rk-board rk-board-with-scroll">
+				<div class="rk-board">
 					<div class="rk-header-row">
 						<div>순위</div>
 						<div>닉네임</div>
