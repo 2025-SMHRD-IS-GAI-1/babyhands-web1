@@ -40,7 +40,7 @@
 						</div>
 
 						<div class="st-gauge">
-							<div class="st-gauge-inner" style="width: 78%;"></div>
+							<div class="st-gauge-inner" style="width: ${scorePercent}%;"></div>
 						</div>
 
 						<div class="st-info-box">
@@ -59,7 +59,7 @@
 							</div>
 						</div>
 
-						<button class="st-btn" onclick="location.href='${ctx}/GoTest.do'">다시
+						<button class="st-btn" onclick="location.href='${ctx}/GoSl-test.do'">다시
 							풀기</button>
 					</div>
 				</div>

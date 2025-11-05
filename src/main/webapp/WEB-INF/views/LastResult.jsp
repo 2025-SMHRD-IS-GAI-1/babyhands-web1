@@ -70,8 +70,9 @@
 										</div>
 									</div>
 
-									<form>
-										<input type="submit" class="lr-btn lr-btn--primary" value="결과">
+									<form action="${ctx}/GoSignTestResult.do" method="get">
+										<input type="hidden" name="groupNo" value="${lastTest.slTestGroup}">
+										<button type="submit" class="lr-btn lr-btn--primary">결과</button>
 									</form>
 								</div>
 							</c:forEach>
