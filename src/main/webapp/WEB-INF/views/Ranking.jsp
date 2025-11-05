@@ -4,8 +4,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
 <title>랭킹</title>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -24,7 +23,7 @@
 			<!-- header.css 와 충돌 피하려고 container -> rk-container -->
 			<!-- 상단바 -->
 			<jsp:include page="/WEB-INF/views/header.jsp">
-				<jsp:param name="nav" value="rank" />
+				<jsp:param name="nav" value="learn" />
 			</jsp:include>
 
 			<div class="rk-wrapper">
