@@ -23,7 +23,7 @@
 			<!-- header.css 와 충돌 피하려고 container -> rk-container -->
 			<!-- 상단바 -->
 			<jsp:include page="/WEB-INF/views/header.jsp">
-				<jsp:param name="nav" value="learn" />
+				<jsp:param name="nav" value="rank" />
 			</jsp:include>
 
 			<div class="rk-wrapper">
@@ -45,7 +45,7 @@
 											<div class="rk-rank-num">1</div>
 											<div class="rk-nick-wrap">
 												<div class="rk-medal rk-gold">🥇</div>
-												<div class="rk-nickname">${r.memberId}</div>
+												<div class="rk-nickname">${r.nickname}</div>
 											</div>
 											<div class="rk-score">${r.totalScore}</div>
 										</div>
@@ -56,7 +56,7 @@
 											<div class="rk-rank-num">2</div>
 											<div class="rk-nick-wrap">
 												<div class="rk-medal rk-silver">🥈</div>
-												<div class="rk-nickname">${r.memberId}</div>
+												<div class="rk-nickname">${r.nickname}</div>
 											</div>
 											<div class="rk-score">${r.totalScore}</div>
 										</div>
@@ -67,7 +67,7 @@
 											<div class="rk-rank-num">3</div>
 											<div class="rk-nick-wrap">
 												<div class="rk-medal rk-bronze">🥉</div>
-												<div class="rk-nickname">${r.memberId}</div>
+												<div class="rk-nickname">${r.nickname}</div>
 											</div>
 											<div class="rk-score">${r.totalScore}</div>
 										</div>
@@ -76,7 +76,7 @@
 									<c:otherwise>
 										<div class="rk-row">
 											<div class="rk-rank-num">${r.rankNo}</div>
-											<div class="rk-nickname">${r.memberId}</div>
+											<div class="rk-nickname">${r.nickname}</div>
 
 											<div class="rk-score">${r.totalScore}</div>
 										</div>
@@ -100,8 +100,8 @@
 					</div>
 
 					<div class="rk-my">
-						<div class="rk-my-left">${loginVO.nickname}님의순위</div>
-						<div class="rk-my-right">${myRank}위/${myScore}점</div>
+						<div class="rk-my-left">${loginVO.nickname} 님의 순위</div>
+						<div class="rk-my-right">${myRank}위 / ${myScore}점</div>
 					</div>
 				</div>
 			</div>
