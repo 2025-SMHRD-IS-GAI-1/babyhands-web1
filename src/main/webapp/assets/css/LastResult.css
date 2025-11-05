@@ -99,7 +99,7 @@ body {
 /* ===== 본문 그리드 ===== */
 .lr-grid {
 	display: grid;
-	grid-template-columns: 320px 1fr;
+	grid-template-columns: 360px 1fr;
 	gap: clamp(1rem, 2vw, 1.5rem);
 }
 
@@ -159,7 +159,7 @@ body {
 	align-items: flex-end;
 	justify-content: space-between;
 	gap: clamp(8px, 1.5vw, 14px);
-	height: clamp(180px, 28vw, 500px);
+	height: clamp(180px, 28vw, 450px);
 	padding: clamp(10px, 1.5vw, 16px);
 	border-radius: 12px;
 	background: #fafbff;
@@ -184,6 +184,10 @@ body {
 	/* 높이는 JS에서 설정 */
 	transition: height .3s ease, background .2s ease, box-shadow .2s ease,
 		transform .08s ease;
+}
+
+.bar {
+	margin-bottom : 10px;
 }
 
 /* 퍼센트 라벨: 항상 '막대 내부 상단'에 고정 */

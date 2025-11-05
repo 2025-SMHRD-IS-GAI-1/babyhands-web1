@@ -61,17 +61,17 @@
         <aside class="kpi-wrap">
             <div class="card kpi">
                 <h3 class="card__title">오늘의 목표</h3>
-                <div class="donut" data-percent="80" style="--percent:80">
+                <div class="donut" data-percent="${todayGoal}" style="--percent:${todayGoal}">
                     <div class="donut__ring"></div>
-                    <div class="donut__label">80%</div>
+                    <div class="donut__label">${todayGoal}%</div>
                 </div>
             </div>
 
             <div class="card kpi">
                 <h3 class="card__title">전체 진행률</h3>
-                <div class="donut" data-percent="45" style="--percent:45">
+                <div class="donut" data-percent="${overallProgress}" style="--percent:${overallProgress}">
                     <div class="donut__ring"></div>
-                    <div class="donut__label">45%</div>
+                    <div class="donut__label">${overallProgress}%</div>
                 </div>
             </div>
         </aside>

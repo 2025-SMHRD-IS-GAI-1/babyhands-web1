@@ -33,7 +33,7 @@
 			h = Math.min(h, usableH);
 
 			// 적용
-			bar.style.height = h-10 + 'px';
+			bar.style.height = h-20 + 'px';
 
 			// 퍼센트(목표 대비)
 			const pctOfGoal = Math.max(0, Math.round((count / GOAL_PER_DAY) * 100));
