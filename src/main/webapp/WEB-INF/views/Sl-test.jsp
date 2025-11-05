@@ -107,7 +107,7 @@
 		window.APP_CTX = '${ctx}';
 	</script>
 	<script src="${ctx}/assets/js/header.js"></script>
-    <script src="${ctx}/assets/js/sl-test.js"></script>
+    <script src="${ctx}/assets/js/Sl-test.js"></script>
 
 
 
