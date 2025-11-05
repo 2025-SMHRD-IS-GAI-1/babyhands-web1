@@ -41,6 +41,15 @@ body {
 
 /* ===== 가운데 정렬 뷰포트 ===== */
 .lr-viewport {
+	min-height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 1rem;
+}
+
+/* ===== 카드 컨테이너 (헤더 포함) ===== */
+.lr-container {		
 	min-height: 750px;
 	max-width: 1400px;
 	border: 1px solid var(--border-color, #dee2e6);
@@ -56,21 +65,8 @@ body {
 	margin-bottom: auto;
 	overflow: hidden;
 	padding: 1.5rem 2.5rem;
-	outline: 1px dashed red;		
+		
     box-sizing: border-box; 
-
-}
-
-/* ===== 카드 컨테이너 (헤더 포함) ===== */
-.lr-container {
-	width: 100%;
-	max-width: var(--SHELL);
-	margin: 0 auto;
-	background: var(--card);
-	border-radius: 1.25rem;
-	box-shadow: 0 10px 30px rgba(0, 0, 0, .07);
-	padding: var(--shell-pad-y) var(--shell-pad-x);
-	overflow: hidden;
 }
 
 /* 헤더는 컨테이너 폭 100% 사용 */
