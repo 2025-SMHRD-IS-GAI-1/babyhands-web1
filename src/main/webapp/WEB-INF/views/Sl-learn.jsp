@@ -1,110 +1,113 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+   pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>랭킹</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>꼬마손 - 수어 학습하기</title>
 
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" />
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+   href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap"
+   rel="stylesheet" />
 
-    <!-- CSS 연결 -->
-    <link rel="stylesheet" href="${ctx}/assets/css/header.css" />
-    <link rel="stylesheet" href="${ctx}/assets/css/Ranking.css" />
+<!-- [호환성] 이클립스 경로로 수정 -->
+<link rel="stylesheet" href="${ctx}/assets/css/header.css" />
+<link rel="stylesheet" href="${ctx}/assets/css/Sl-learn.css" />
+
 </head>
 <body>
-    <div class="rk-viewport">
-        <div class="rk-container">
-            <jsp:include page="/WEB-INF/views/header.jsp">
-                <jsp:param name="nav" value="learn" />
-            </jsp:include>
+   <div class="container">
+      <!-- 1. 헤더 (로고, 네비게이션, 사용자 정보) -->
+      <jsp:include page="/WEB-INF/views/header.jsp">
+         <jsp:param name="nav" value="learn" />
+      </jsp:include>
 
-            <div class="rk-wrapper">
-                <div class="rk-title">랭킹</div>
+      <!-- 2. 메인 컨텐츠 (사이드바 + 학습 영역) -->
+      <main class="main-content">
+         <!-- 2-1. 사이드바 (수어 단어 목록) -->
+         <aside class="sidebar">
+            <h2 class="sidebar-title">자음</h2>
+            <ul class="word-list">
+               <c:forEach var="consonant" items="${consonantList}">
+                  <li><a href="#" class="word-item"
+                     data-sl-id="${consonant.slId}"
+                     data-src="${ctx}/assets/video/${consonant.videoPath}"
+                     data-meaning="${consonant.meaning}"> ${consonant.meaning} </a></li>
+               </c:forEach>
+            </ul>
 
-                <div class="rk-board">
-                    <div class="rk-header-row">
-                        <div>순위</div>
-                        <div>닉네임</div>
-                        <div>누적점수</div>
-                    </div>
+            <input type="hidden" id="slId" name="slId" />
 
-                    <c:choose>
-                        <c:when test="${not empty rankList}">
-                            <c:forEach var="r" items="${rankList}">
-                                <c:choose>
-                                    <c:when test="${r.rankNo == 1}">
-                                        <div class="rk-row rk-top1">
-                                            <div class="rk-rank-num">1</div>
-                                            <div class="rk-nick-wrap">
-                                                <div class="rk-medal rk-gold">🥇</div>
-                                                <div class="rk-nickname">${r.memberId}</div>
-                                            </div>
-                                            <div class="rk-score">${r.totalScore}</div>
-                                        </div>
-                                    </c:when>
-                                    <c:when test="${r.rankNo == 2}">
-                                        <div class="rk-row rk-top2">
-                                            <div class="rk-rank-num">2</div>
-                                            <div class="rk-nick-wrap">
-                                                <div class="rk-medal rk-silver">🥈</div>
-                                                <div class="rk-nickname">${r.memberId}</div>
-                                            </div>
-                                            <div class="rk-score">${r.totalScore}</div>
-                                        </div>
-                                    </c:when>
-                                    <c:when test="${r.rankNo == 3}">
-                                        <div class="rk-row rk-top3">
-                                            <div class="rk-rank-num">3</div>
-                                            <div class="rk-nick-wrap">
-                                                <div class="rk-medal rk-bronze">🥉</div>
-                                                <div class="rk-nickname">${r.memberId}</div>
-                                            </div>
-                                            <div class="rk-score">${r.totalScore}</div>
-                                        </div>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <div class="rk-row">
-                                            <div class="rk-rank-num">${r.rankNo}</div>
-                                            <div class="rk-nickname">${r.memberId}</div>
-                                            <div class="rk-score">${r.totalScore}</div>
-                                        </div>
-                                    </c:otherwise>
-                                </c:choose>
-                            </c:forEach>
-                        </c:when>
-                        <c:otherwise>
-                            <div class="rk-row">
-                                <div class="rk-rank-num">-</div>
-                                <div class="rk-nickname">랭킹 데이터가 없습니다.</div>
-                                <div class="rk-score">0</div>
-                            </div>
-                        </c:otherwise>
-                    </c:choose>
+            <div id="vacant"></div>
 
-                    <div class="rk-dots">
-                        <div class="rk-dot"></div>
-                        <div class="rk-dot"></div>
-                        <div class="rk-dot"></div>
-                    </div>
+            <h2 class="sidebar-title">모음</h2>
+            <ul class="word-list">
+               <c:forEach var="vowel" items="${vowelList}">
+                  <li><a href="#" class="word-item" data-sl-id="${vowel.slId}"
+                     data-src="${ctx}/assets/video/${vowel.videoPath}"
+                     data-meaning="${vowel.meaning}"> ${vowel.meaning} </a></li>
+               </c:forEach>
+            </ul>
+         </aside>
 
-                    <div class="rk-my">
-                        <div class="rk-my-left">${loginVO.nickname}님의순위</div>
-                        <div class="rk-my-right">${myRank}위/${myScore}점</div>
-                    </div>
-                </div>
+         <!-- 2-2. 학습 섹션 (비디오 + 정확도) -->
+         <section class="learning-section">
+            <div class="section-header">
+               <h1 class="section-title">수어 학습하기</h1>
+               <p class="section-subtitle">학습 글자 : ???</p>
             </div>
-        </div>
-    </div>
 
-    <script>
-        window.APP_CTX = '${ctx}';
-    </script>
-    <script src="${ctx}/assets/js/header.js"></script>
+            <div class="video-containers">
+               <div class="video-box">
+                  <p class="video-title">학습 영상</p>
+                  <video id="learning_video" class="video-placeholder" controls
+                     playsinline>
+                     <span>영상 플레이스홀더</span>
+                  </video>
+               </div>
+
+               <div class="video-box">
+                  <p class="video-title">실시간 카메라</p>
+                  <video id="webcam" class="video-placeholder camera-feed" autoplay
+                     playsinline>
+                     <span>카메라 영역</span>
+                  </video>
+               </div>
+            </div>
+
+            <div class="accuracy-section">
+               <span class="accuracy-label">정확도</span>
+               <div class="progress-container">
+                  <div class="progress-bar" style="width: 0%"></div>
+               </div>
+               <span class="accuracy-percent">0%</span>
+            </div>
+         </section>
+      </main>
+   </div>
+   <!-- /container -->
+
+   <script>
+      window.APP_CTX = '${ctx}';
+      window.__disableWS__ = true;   // ← 웹소켓 코드 비활성화 (외부 JS 로드 전에!)
+   </script>
+   <!-- [호환성] 이클립스 경로로 수정 -->
+   <script src="${ctx}/assets/js/header.js"></script>
+   <script src="${ctx}/assets/js/Sl-learn.js"></script>
+
+
+
+
+
+
+
+
+
+
 </body>
 </html>
