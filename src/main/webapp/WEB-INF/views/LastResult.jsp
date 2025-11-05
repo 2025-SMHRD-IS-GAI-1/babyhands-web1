@@ -1,13 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
 <meta charset="UTF-8">
-<title>지난 학습결과</title>
+<title>지난 테스트결과</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" />
@@ -31,12 +31,12 @@
 			</jsp:include>
 
 			<!-- 페이지 타이틀 -->
-			<h1 class="lr-title">지난 학습결과</h1>
+			<h1 class="lr-title">지난 테스트결과</h1>
 
 			<!-- 요약 박스 -->
 			<div class="lr-top">
 				<div class="lr-chip">
-					총 학습일 수 : <strong>${totalLearnDay}</strong>일
+					총 테스트일 수 : <strong>${totalLearnDay}</strong>일
 				</div>
 				<div class="lr-chip">
 					평균 : <strong>${avgScore}</strong>점
@@ -48,56 +48,51 @@
 				<!-- 왼쪽 리스트 -->
 				<div class="lr-left card">
 					<c:choose>
-					  <c:when test="${not empty lastTestList}">
-					    <c:forEach items="${lastTestList}" var="lastTest">
-					      <div class="lr-row">
-					        <div class="lr-row-text">
-					        	<fmt:formatDate value="${lastTest.slTestDate}" pattern="yyyy/MM/dd HH:mm:ss" />
-					          	 : ${lastTest.correct}/5
-					        </div>
-					        <button type="button" class="lr-btn" value="${lastTest.slTestGroup}">이동</button>
-					      </div>
-					    </c:forEach>
-					  </c:when>
-					  <c:otherwise>
-					    <div class="lr-empty">최근 데이터가 없습니다.</div>
-					  </c:otherwise>
+						<c:when test="${not empty lastTestList}">
+							<c:forEach items="${lastTestList}" var="lastTest">
+								<div class="lr-row">
+									<div class="lr-meta">
+										<time class="lr-date">
+											<fmt:formatDate value="${lastTest.slTestDate}"
+												pattern="yyyy/MM/dd HH:mm:ss" />
+										</time>
+
+										<!-- 점수 알약 + 미니바 -->
+										<div class="lr-score-wrap">
+											<span class="lr-score-pill
+										        <c:choose>
+										          <c:when test="${lastTest.correct >= 4}">is-good</c:when>
+										          <c:when test="${lastTest.correct >= 2}">is-mid</c:when>
+										          <c:otherwise>is-bad</c:otherwise>
+										        </c:choose>">
+												${lastTest.correct}/5 
+											</span>
+										</div>
+									</div>
+
+									<form>
+										<input type="submit" class="lr-btn lr-btn--primary" value="결과">
+									</form>
+								</div>
+							</c:forEach>
+						</c:when>
+						<c:otherwise>
+							<div class="lr-empty">최근 데이터가 없습니다.</div>
+						</c:otherwise>
 					</c:choose>
 				</div>
 
 				<!-- 오른쪽 차트 -->
 				<!-- 오른쪽 -->
 				<div class="lr-right card">
-					<div class="lr-panel-title">주간 학습량</div>
-					<div class="lr-chart">
-						<div class="bar-col">
-							<div class="bar mon"></div>
-							<div class="day">월</div>
-						</div>
-						<div class="bar-col">
-							<div class="bar tue"></div>
-							<div class="day">화</div>
-						</div>
-						<div class="bar-col">
-							<div class="bar wed"></div>
-							<div class="day">수</div>
-						</div>
-						<div class="bar-col">
-							<div class="bar thu"></div>
-							<div class="day">목</div>
-						</div>
-						<div class="bar-col">
-							<div class="bar fri"></div>
-							<div class="day">금</div>
-						</div>
-						<div class="bar-col">
-							<div class="bar sat"></div>
-							<div class="day">토</div>
-						</div>
-						<div class="bar-col">
-							<div class="bar sun"></div>
-							<div class="day">일</div>
-						</div>
+					<div class="lr-panel-title">주간 테스트량</div>
+					<div class="lr-chart" data-goal="20">
+						<c:forEach items="${dailyTestList}" var="daily">
+							<div class="bar-col">
+								<div class="bar" data-value="${daily.testCount}"></div>
+								<div class="day">${daily.day}</div>
+							</div>
+						</c:forEach>
 					</div>
 				</div>
 			</div>
@@ -109,5 +104,6 @@
 		window.APP_CTX = '${ctx}';
 	</script>
 	<script src="${ctx}/assets/js/header.js"></script>
+	<script src="${ctx}/assets/js/lastResult.js"></script>
 </body>
 </html>
