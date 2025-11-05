@@ -13,4 +13,5 @@ public class MemberScoreRank {
 	private String memberId;
 	private Integer totalScore;
 	private Integer rankNo;
+	private String nickname;
 }
