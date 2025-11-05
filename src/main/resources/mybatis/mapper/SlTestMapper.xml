@@ -6,21 +6,22 @@
 <mapper namespace="com.babyhands.dao.SlTestDAO">
 
 	<!-- 마이페이지 : 누적 점수, 랭킹 가져오기 -->
-	<select id="getScoreRank" parameterType="string"
-		resultType="com.babyhands.dto.MemberScoreRank">
-		SELECT nickname, totalScore, rankNo
-		FROM (
-            SELECT
-                m.nickname,
-                NVL(COUNT(s.SL_ID),0) * 10 AS totalScore,
-                DENSE_RANK() OVER (ORDER BY NVL(COUNT(s.SL_ID),0) * 10 DESC) AS rankNo
-            FROM MEMBER m
-            LEFT JOIN SL_TEST t ON m.MEMBER_ID = t.MEMBER_ID
-            LEFT JOIN SIGN_LANGUAGE s ON t.SL_ID = s.SL_ID AND t.CHOOSE_ANSWER = s.MEANING
-            GROUP BY m.nickname
-		)
-		where nickname = #{nickname}
-		ORDER BY rankNo, totalScore desc, nickname
+<select id="getScoreRank" parameterType="string"
+        resultType="com.babyhands.dto.MemberScoreRank">
+  	SELECT memberId, nickname, totalScore, rankNo
+  	FROM (
+    	SELECT
+      		m.MEMBER_ID AS memberId,
+      		m.NICKNAME  AS nickname,
+      		COUNT(s.SL_ID) * 10 AS totalScore,
+      		DENSE_RANK() OVER (ORDER BY COUNT(s.SL_ID) * 10 DESC) AS rankNo
+    	FROM MEMBER m
+    		LEFT JOIN SL_TEST t ON m.MEMBER_ID = t.MEMBER_ID
+    		LEFT JOIN SIGN_LANGUAGE s ON t.SL_ID = s.SL_ID 
+    		AND t.CHOOSE_ANSWER = s.MEANING
+    		GROUP BY m.MEMBER_ID, m.NICKNAME
+  	)
+  	WHERE memberId = #{value}            <!--  단일 파라미터면 #{value} 또는 #{_parameter} -->
 	</select>
 
 	<!-- 내 점수/순위 (이메일) : 아직 문제 안 푼 회원도 0점 나오게 하려면 LEFT OUTER JOIN 버전 권장 -->
@@ -66,27 +67,28 @@
 	</insert>
 
 	<!-- TOP N -->
-	<select id="selectRankingTopN" parameterType="int"
-		resultType="com.babyhands.dto.MemberScoreRank">
-		SELECT memberId, totalScore, rankNo
-		FROM (
-		SELECT
-		m.MEMBER_ID
-		AS memberId,
-		NVL(COUNT(s.SL_ID),0) * 10 AS totalScore,
-		DENSE_RANK() OVER
-		(ORDER BY NVL(COUNT(s.SL_ID),0) * 10 DESC) AS rankNo
-		FROM MEMBER m
-		LEFT
-		JOIN SL_TEST t ON m.MEMBER_ID = t.MEMBER_ID
-		LEFT JOIN SIGN_LANGUAGE s
-		ON t.SL_ID = s.SL_ID AND t.CHOOSE_ANSWER = s.MEANING
-		GROUP BY
-		m.MEMBER_ID
-		)
-		ORDER BY rankNo, totalScore
-		DESC, memberId
-	</select>
+<select id="selectRankingTopN" parameterType="int"
+        resultType="com.babyhands.dto.MemberScoreRank">
+  	SELECT 
+    	memberId,
+    	nickname,
+    	totalScore,
+    	rankNo
+  	FROM (
+    	SELECT
+      		m.MEMBER_ID AS memberId,
+      		m.NICKNAME  AS nickname,
+      		COUNT(s.SL_ID) * 10 AS totalScore,
+      		DENSE_RANK() OVER (ORDER BY COUNT(s.SL_ID) * 10 DESC) AS rankNo
+    		FROM MEMBER m
+    		LEFT JOIN SL_TEST t ON m.MEMBER_ID = t.MEMBER_ID
+    		LEFT JOIN SIGN_LANGUAGE s
+      		ON t.SL_ID = s.SL_ID
+    	 	AND t.CHOOSE_ANSWER = s.MEANING
+   	 		GROUP BY m.MEMBER_ID, m.NICKNAME
+  		)
+  		ORDER BY rankNo, totalScore DESC, memberId
+</select>
 
 	 <!-- 1) 해당 회원의 '최신 응시 그룹' 번호 (없으면 0) -->
   <select id="selectLatestGroup" parameterType="string" resultType="int">
