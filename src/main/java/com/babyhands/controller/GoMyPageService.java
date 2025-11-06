@@ -23,7 +23,6 @@ public class GoMyPageService implements Command {
 		
 		MemberVO loginVO = (MemberVO) session.getAttribute("loginVO");
 		String memberId = loginVO.getMemberId();
-		String nickname = loginVO.getNickname();
 		
 		MemberDAO dao = new MemberDAO();
 		SlTestDAO slTestdao = new SlTestDAO();
