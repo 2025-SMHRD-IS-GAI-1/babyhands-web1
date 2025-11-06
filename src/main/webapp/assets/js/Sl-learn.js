@@ -21,7 +21,8 @@ let aiSocket = null;
 let captureInterval = null;
 let canvas = null;
 let ctx = null;
-let todaySuccessList = null;
+let successSet = null;
+let todaySet = null;
 
 function startApp() {
 	// 1. 사이드바 HTML 요소 가져오기
@@ -126,7 +127,7 @@ function connectWebSocket(accuracyPercent, progressBar) {
 
 			if (aiResponse.accuracy !== undefined) {
 				// 서버는 정수 0~100 내려주지만 혹시 모를 타입 혼동을 방지
-				
+
 				const prediction = (aiResponse.prediction || '').trim();
 
 				// 예측 결과와 현재 학습 글자 비교 (유니코드 정규화 포함)
@@ -135,9 +136,9 @@ function connectWebSocket(accuracyPercent, progressBar) {
 				const isCorrect = pred && target && pred === target;
 
 				if (pred == target) {
-					
+
 					const accuracyScore = Math.max(0, Math.min(100, parseInt(aiResponse.accuracy, 10)));
-					
+
 					if (accuracyScore >= 60 && isCorrect) {
 						progressBar.style.backgroundColor = '#4caf50';
 					} else if (accuracyScore >= 40) {
@@ -145,18 +146,57 @@ function connectWebSocket(accuracyPercent, progressBar) {
 					} else {
 						progressBar.style.backgroundColor = '#f44336';
 					}
-					
+
 					// 정확도 UI
 					accuracyPercent.textContent = `${accuracyScore}%`;
 					progressBar.style.width = `${accuracyScore}%`;
-					
-					
-					
+
+					// 60% 이상이고 오늘 수어 학습 리스트에 없으면 수어 학습 테이블에 넣음
+					if (accuracyScore >= 60 && !todaySet.has(currentSlId)) {
+						todaySet.add(currentSlId);
+						
+						if(!successSet.has(currentSlId)) {
+							successSet.add(currentSlId);
+						}
+						
+						document.querySelectorAll('.word-item').forEach(a => {
+							const id = String(a.dataset.slId);
+							if (successSet.has(id)) a.closest('li').classList.add('learned');
+							else a.closest('li').classList.remove('learned');
+						});
+
+
+						const body = new URLSearchParams({ slId: currentSlId });
+
+						fetch(`${APP_CTX}/SlLearnSuccess.do`, {
+							method: "POST",
+							headers: { "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8" },
+							body,
+							credentials: "same-origin",
+						})
+							.then(function(res) {
+								return res.json();
+							})
+							.then((data) => {
+								if (data && data.ok) {
+									alert("학습 성공");
+								} else {
+									alert(data.message);
+								}
+							})
+							.catch(function(err) {
+								console.error(err);
+								alert("네트워크 오류가 발생했습니다.");
+							})
+					}
+
 				} else {
 					accuracyPercent.textContent = `0%`;
 					progressBar.style.backgroundColor = '#f44336';
 					progressBar.style.width = `0%`;
 				}
+
+				console.log(target + " " + pred);
 
 			}
 
@@ -253,15 +293,16 @@ function learnMark() {
 		})
 		.then((data) => {
 			if (data && data.ok) {
-				const set = new Set(data.successlist);
+
+				successSet = new Set(data.successlist);
 
 				document.querySelectorAll('.word-item').forEach(a => {
 					const id = String(a.dataset.slId);
-					if (set.has(id)) a.closest('li').classList.add('learned');
+					if (successSet.has(id)) a.closest('li').classList.add('learned');
 					else a.closest('li').classList.remove('learned');
 				});
-				
-				todaySuccessList
+
+				todaySet = new Set(data.todaySuccessList);
 			} else {
 				alert(data.message);
 			}
@@ -274,6 +315,7 @@ function learnMark() {
 
 learnMark();
 
+
 // 사이드바 클릭 이벤트(이벤트 위임)
 (function() {
 	if (!sidebar) return;
@@ -284,7 +326,7 @@ learnMark();
 		e.preventDefault();
 
 		// 1) slId 세팅
-		currentSlId = Number(a.dataset.slId);
+		currentSlId = a.dataset.slId;
 		currentMeaning = a.dataset.meaning || a.textContent.trim();
 
 		if (hiddenSlId) hiddenSlId.value = currentSlId;
@@ -324,5 +366,7 @@ learnMark();
 		// (선택) active 클래스 토글
 		document.querySelectorAll('.word-item.active').forEach(el => el.classList.remove('active'));
 		a.classList.add('active');
+
+
 	});
 })();
