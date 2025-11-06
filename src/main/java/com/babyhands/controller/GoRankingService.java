@@ -47,9 +47,8 @@ public class GoRankingService implements Command {
         List<MemberScoreRank> rankList = dao.selectRankingTopN(100);
         // 전체 랭킹 목록을 최대 100명까지 조회.
         request.setAttribute("rankList", rankList);
-        request.setAttribute("myRank", myRank);
-        request.setAttribute("myScore", myScore);
         request.setAttribute("loginVO", loginVO);
+        request.setAttribute("mine", mine);
 
         return "Ranking.jsp";
     }
