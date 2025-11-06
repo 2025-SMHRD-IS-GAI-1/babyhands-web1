@@ -21,6 +21,7 @@ let aiSocket = null;
 let captureInterval = null;
 let canvas = null;
 let ctx = null;
+let todaySuccessList = null;
 
 function startApp() {
 	// 1. 사이드바 HTML 요소 가져오기
@@ -123,37 +124,38 @@ function connectWebSocket(accuracyPercent, progressBar) {
 		try {
 			const aiResponse = JSON.parse(event.data);
 
-			// 디버그: 원본 로그 찍기
-			console.log('[AI msg]', aiResponse);
-
 			if (aiResponse.accuracy !== undefined) {
 				// 서버는 정수 0~100 내려주지만 혹시 모를 타입 혼동을 방지
-				const accuracyScore = Math.max(0, Math.min(100, parseInt(aiResponse.accuracy, 10)));
+				
 				const prediction = (aiResponse.prediction || '').trim();
-
-				// 정확도 UI
-				accuracyPercent.textContent = `${accuracyScore}%`;
-				progressBar.style.width = `${accuracyScore}%`;
-
-				// 화면에 현재 예측 표시
-				if (currentPredEl && typeof aiResponse.prediction === 'string') {
-					currentPredEl.textContent = aiResponse.prediction; // 예: 'ㄱ'
-				}
 
 				// 예측 결과와 현재 학습 글자 비교 (유니코드 정규화 포함)
 				const target = (currentMeaning || '').trim().normalize('NFC');
 				const pred = prediction.normalize('NFC');
 				const isCorrect = pred && target && pred === target;
 
-				if (pred === target) {
-					if (accuracyScore >= 80 && isCorrect) {
+				if (pred == target) {
+					
+					const accuracyScore = Math.max(0, Math.min(100, parseInt(aiResponse.accuracy, 10)));
+					
+					if (accuracyScore >= 60 && isCorrect) {
 						progressBar.style.backgroundColor = '#4caf50';
-					} else if (accuracyScore >= 50) {
+					} else if (accuracyScore >= 40) {
 						progressBar.style.backgroundColor = '#ff9800';
 					} else {
 						progressBar.style.backgroundColor = '#f44336';
 					}
-					console.log(`예측: ${pred}, 학습: ${target}, 정확도: ${accuracyScore}%`);
+					
+					// 정확도 UI
+					accuracyPercent.textContent = `${accuracyScore}%`;
+					progressBar.style.width = `${accuracyScore}%`;
+					
+					
+					
+				} else {
+					accuracyPercent.textContent = `0%`;
+					progressBar.style.backgroundColor = '#f44336';
+					progressBar.style.width = `0%`;
 				}
 
 			}
@@ -258,6 +260,8 @@ function learnMark() {
 					if (set.has(id)) a.closest('li').classList.add('learned');
 					else a.closest('li').classList.remove('learned');
 				});
+				
+				todaySuccessList
 			} else {
 				alert(data.message);
 			}
@@ -282,8 +286,6 @@ learnMark();
 		// 1) slId 세팅
 		currentSlId = Number(a.dataset.slId);
 		currentMeaning = a.dataset.meaning || a.textContent.trim();
-
-		console.log('선택된 글자:', currentMeaning, 'slId:', currentSlId);
 
 		if (hiddenSlId) hiddenSlId.value = currentSlId;
 

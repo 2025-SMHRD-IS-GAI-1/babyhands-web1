@@ -102,7 +102,7 @@
 
 					<div class="rk-my">
 						<div class="rk-my-left">${loginVO.nickname} 님의 순위</div>
-						<div class="rk-my-right">${myRank}위 / ${myScore}점</div>
+						<div class="rk-my-right">${mine.rankNo}위 / ${mine.totalScore}점</div>
 					</div>
 				</div>
 			</div>
