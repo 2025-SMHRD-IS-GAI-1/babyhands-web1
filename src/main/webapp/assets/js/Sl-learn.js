@@ -8,10 +8,21 @@ const subtitleEl = document.querySelector('.section-subtitle');
 const progressBar = document.querySelector('.progress-bar');
 const percentEl = document.querySelector('.accuracy-percent');
 const hiddenSlId = document.getElementById('slId');
+const currentPredEl = document.querySelector('.current-prediction');
 
+// FastAPI 서버 주소 (설정 가능)
+const AI_SERVER_URL = 'http://127.0.0.1:8000';
+const AI_WS_URL = 'ws://127.0.0.1:8000/ws';
+
+// 전역 변수
+let currentSlId = null;
+let currentMeaning = '';  // 현재 학습 중인 글자
+let aiSocket = null;
+let captureInterval = null;
+let canvas = null;
+let ctx = null;
 
 function startApp() {
-
 	// 1. 사이드바 HTML 요소 가져오기
 	const actJamoBtn = document.querySelector('.word-item.active');
 	const webcam = document.getElementById('webcam');
@@ -19,8 +30,9 @@ function startApp() {
 	// -----------------------------------------------------------------------
 	// 2. 초기 글자 설정
 	if (actJamoBtn) {
-		CharDisplay.textContent = `학습 글자 : ${actJamoBtn.textContent}`;
+		subtitleEl.textContent = `학습 글자 : ${actJamoBtn.textContent.trim()}`;
 		currentSlId = Number(actJamoBtn.dataset.slId);
+		currentMeaning = actJamoBtn.dataset.meaning || actJamoBtn.textContent.trim();
 		if (hiddenSlId) hiddenSlId.value = currentSlId;
 		if (actJamoBtn.dataset.src) {
 			videoEl.src = actJamoBtn.dataset.src;
@@ -31,7 +43,7 @@ function startApp() {
 	}
 
 	//-------------------------------------------------------
-	// 5. 웹캠 연결 함수 호출
+	// 3. 웹캠 연결 함수 호출
 	if (webcam && percentEl && progressBar) {
 		startWebcam(webcam, percentEl, progressBar);
 	}
@@ -40,9 +52,7 @@ function startApp() {
 document.addEventListener('DOMContentLoaded', startApp);
 
 // -----------------------------------------------------
-// 5. 웹캠 연결 함수 (함수 정의)
-// (화면 순서 3: 웹캠)
-
+// 웹캠 연결 함수
 /**
  * 시스템 아키텍쳐(WebSocket)를 반영한 웹캠 연결 함수
  * 비동기 함수
@@ -52,66 +62,182 @@ function startWebcam(videoElement, accuracyPercent, progressBar) {
 	if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
 		navigator.mediaDevices
 			.getUserMedia({
-				video: true,
+				video: {
+					width: { ideal: 640 },
+					height: { ideal: 480 },
+					facingMode: 'user'
+				}
 			})
 			.then((stream) => {
 				// 1. 웹캠 영상을 video 요소의 srcObject로 연결.
 				videoElement.srcObject = stream;
 				videoElement.play();
 
-				// AI 서버(FastAPI) 주소
-				const aiSocket = new WebSocket('ws://127.0.0.1:8000/ws');
+				// 2. Canvas 생성 (비디오 프레임 캡처용)
+				if (!canvas) {
+					canvas = document.createElement('canvas');
+					canvas.width = 640;
+					canvas.height = 480;
+					ctx = canvas.getContext('2d');
+				}
 
-				aiSocket.onopen = () => {
-					console.log('AI 서버와 연결되었습니다.');
-				};
+				// 3. WebSocket 연결
+				connectWebSocket(accuracyPercent, progressBar);
 
-				// AI 서버로부터 예측 결과를 메시지(이벤트)로 수신
-				aiSocket.onmessage = (event) => {
-					// AI 서버가 {"prediction": "ㄱ", "accuracy": 70} 형태의 JSON을 보냈다고 가정
-					try {
-						const aiResponse = JSON.parse(event.data);
-
-						if (aiResponse.accuracy !== undefined) {
-							const accuracyScore = parseInt(aiResponse.accuracy, 10);
-
-							// 정확도 UI 업데이트
-							accuracyPercent.textContent = `${accuracyScore}%`;
-							progressBar.style.width = `${accuracyScore}%`;
-
-
-						}
-					} catch (e) {
-						console.error('AI 서버에서 보낸 메시지를 읽을 수 없습니다.', event.data);
-					}
-				};
-
-				aiSocket.onerror = (error) => {
-					console.error('AI 서버 연결 중 오류가 발생했습니다.', error);
-				};
-
-				aiSocket.onclose = () => {
-					console.log('AI 서버와 연결이 끊어졌습니다.');
-				};
 			})
 			.catch((error) => {
 				console.error(
 					'웹캠을 켜지 못했습니다. 카메라 권한을 확인해주세요.',
 					error
 				);
+				alert('웹캠을 켜지 못했습니다. 카메라 권한을 확인해주세요.');
 			});
 	} else {
 		// 브라우저가 웹캠을 아예 지원 안 할 경우
 		console.error('이 브라우저는 웹캠 기능을 지원하지 않습니다.');
+		alert('이 브라우저는 웹캠 기능을 지원하지 않습니다.');
 	}
 }
 
-// -------------------------------------------------------
-// 메인 이벤트 리스너 (HTML 로드 후 실행)
-document.addEventListener('DOMContentLoaded', startApp);
+/**
+ * WebSocket 연결 및 이미지 전송 함수
+ */
+function connectWebSocket(accuracyPercent, progressBar) {
+	// AI 서버(FastAPI) 주소
+	aiSocket = new WebSocket(AI_WS_URL);
+
+	aiSocket.onopen = () => {
+		console.log('✅ AI 서버와 연결되었습니다.');
+
+		// 연결 성공 시 주기적으로 프레임 캡처 및 전송 시작 (약 10fps)
+		const webcam = document.getElementById('webcam');
+		captureInterval = setInterval(() => {
+			if (webcam && webcam.readyState === webcam.HAVE_ENOUGH_DATA) {
+				captureAndSendFrame(webcam);
+			}
+		}, 100); // 100ms = 10fps
+	};
+
+	// AI 서버로부터 예측 결과를 메시지(이벤트)로 수신
+	aiSocket.onmessage = (event) => {
+		try {
+			const aiResponse = JSON.parse(event.data);
+
+			// 디버그: 원본 로그 찍기
+			console.log('[AI msg]', aiResponse);
+
+			if (aiResponse.accuracy !== undefined) {
+				// 서버는 정수 0~100 내려주지만 혹시 모를 타입 혼동을 방지
+				const accuracyScore = Math.max(0, Math.min(100, parseInt(aiResponse.accuracy, 10)));
+				const prediction = (aiResponse.prediction || '').trim();
+
+				// 정확도 UI
+				accuracyPercent.textContent = `${accuracyScore}%`;
+				progressBar.style.width = `${accuracyScore}%`;
+
+				// 화면에 현재 예측 표시
+				if (currentPredEl && typeof aiResponse.prediction === 'string') {
+					currentPredEl.textContent = aiResponse.prediction; // 예: 'ㄱ'
+				}
+
+				// 예측 결과와 현재 학습 글자 비교 (유니코드 정규화 포함)
+				const target = (currentMeaning || '').trim().normalize('NFC');
+				const pred = prediction.normalize('NFC');
+				const isCorrect = pred && target && pred === target;
+
+				if (pred === target) {
+					if (accuracyScore >= 80 && isCorrect) {
+						progressBar.style.backgroundColor = '#4caf50';
+					} else if (accuracyScore >= 50) {
+						progressBar.style.backgroundColor = '#ff9800';
+					} else {
+						progressBar.style.backgroundColor = '#f44336';
+					}
+					console.log(`예측: ${pred}, 학습: ${target}, 정확도: ${accuracyScore}%`);
+				}
+
+			}
+
+			if (aiResponse.error) {
+				console.error('AI 서버 오류:', aiResponse.error);
+			}
+		} catch (e) {
+			console.error('AI 서버 메시지 파싱 실패:', event.data, e);
+		}
+	};
+
+	aiSocket.onerror = (error) => {
+		console.error('AI 서버 연결 중 오류가 발생했습니다.', error);
+		// 연결 실패 시 재연결 시도 (선택사항)
+		setTimeout(() => {
+			if (aiSocket.readyState === WebSocket.CLOSED) {
+				console.log('재연결 시도 중...');
+				connectWebSocket(accuracyPercent, progressBar);
+			}
+		}, 3000);
+	};
+
+	aiSocket.onclose = () => {
+		console.log('AI 서버와 연결이 끊어졌습니다.');
+		// 캡처 중지
+		if (captureInterval) {
+			clearInterval(captureInterval);
+			captureInterval = null;
+		}
+	};
+}
+
+/**
+ * 비디오 프레임을 캡처하여 WebSocket으로 전송
+ */
+function captureAndSendFrame(videoElement) {
+	if (!aiSocket || aiSocket.readyState !== WebSocket.OPEN) {
+		return;
+	}
+
+	if (!canvas || !ctx) {
+		return;
+	}
+
+	try {
+		// Canvas에 현재 비디오 프레임 그리기
+		ctx.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+
+		// Canvas를 Base64 JPEG로 변환
+		const imageData = canvas.toDataURL('image/jpeg', 0.8);
+
+		// WebSocket으로 전송
+		const message = {
+			type: 'image',
+			data: imageData
+		};
+
+		aiSocket.send(JSON.stringify(message));
+	} catch (error) {
+		console.error('프레임 캡처 오류:', error);
+	}
+}
+
+/**
+ * WebSocket 연결 종료
+ */
+function disconnectWebSocket() {
+	if (aiSocket) {
+		aiSocket.close();
+		aiSocket = null;
+	}
+	if (captureInterval) {
+		clearInterval(captureInterval);
+		captureInterval = null;
+	}
+}
+
+// 페이지를 떠날 때 연결 종료
+window.addEventListener('beforeunload', () => {
+	disconnectWebSocket();
+});
 
 function learnMark() {
-
 	const body = new URLSearchParams({});
 
 	fetch(`${APP_CTX}/LearnSuccessList.do`, {
@@ -155,15 +281,18 @@ learnMark();
 
 		// 1) slId 세팅
 		currentSlId = Number(a.dataset.slId);
+		currentMeaning = a.dataset.meaning || a.textContent.trim();
 
-		console.log(currentSlId);
+		console.log('선택된 글자:', currentMeaning, 'slId:', currentSlId);
 
 		if (hiddenSlId) hiddenSlId.value = currentSlId;
 
 		// 2) 자막/정확도 초기화
-		const meaning = a.dataset.meaning || a.textContent.trim();
-		if (subtitleEl) subtitleEl.textContent = '학습 글자 : ' + meaning;
-		if (progressBar) progressBar.style.width = '0%';
+		if (subtitleEl) subtitleEl.textContent = '학습 글자 : ' + currentMeaning;
+		if (progressBar) {
+			progressBar.style.width = '0%';
+			progressBar.style.backgroundColor = '#4caf50'; // 기본 색상
+		}
 		if (percentEl) percentEl.textContent = '0%';
 
 		// 3) 비디오 교체
@@ -193,28 +322,5 @@ learnMark();
 		// (선택) active 클래스 토글
 		document.querySelectorAll('.word-item.active').forEach(el => el.classList.remove('active'));
 		a.classList.add('active');
-
-		//const body = new URLSearchParams({ slId: hiddenSlId.value });
-
-		//fetch(`${APP_CTX}/SlLearnSuccess.do`, {
-		//	method: "POST",
-		//	headers: { "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8" },
-		//	body,
-		//	credentials: "same-origin",
-		//})
-		//	.then(function(res) {
-		//		return res.json();
-		//	})
-		//	.then((data) => {
-		//		if (data && data.ok) {
-		//			alert("수어 학습 성공");
-		//		} else {
-		//			alert(data.message);
-		//		}
-		//	})
-		//	.catch(function(err) {
-		//		console.error(err);
-		//		alert("네트워크 오류가 발생했습니다.");
-		//	})
 	});
 })();
