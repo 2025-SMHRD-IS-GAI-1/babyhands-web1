@@ -11,8 +11,8 @@ const hiddenSlId = document.getElementById('slId');
 const currentPredEl = document.querySelector('.current-prediction');
 
 // FastAPI 서버 주소 (설정 가능)
-const AI_SERVER_URL = 'http://127.0.0.1:8000';
-const AI_WS_URL = 'ws://127.0.0.1:8000/ws';
+const AI_SERVER_URL = 'http://127.0.0.1:8010';
+const AI_WS_URL = 'ws://127.0.0.1:8010/ws';
 
 // 전역 변수
 let currentSlId = null;
