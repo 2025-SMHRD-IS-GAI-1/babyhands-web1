@@ -59,7 +59,7 @@
 
 	<!-- 수어 학습 테스트 : 입력 전 group 가져오기 -->
 	<select id="getGroup" resultType="int">
-		SELECT NVL(MAX(SL_TEST_GROUP) + 1, 0)
+		SELECT NVL(MAX(SL_TEST_GROUP) + 1, 1)
 		FROM SL_TEST
 	</select>
 
