@@ -170,5 +170,29 @@ public class MemberDAO {
 		return member;
 	}
 	
+	// 비밀번호 찾기 : 이메일 있는지 확인
+	public MemberVO emailExist(MemberVO mvo) {
+		SqlSession sqlSession = factory.openSession();
+		
+		MemberVO member = sqlSession.selectOne("emailExist", mvo);
+		
+		sqlSession.close();
+		
+		return member;
+	}
+	
+	// 비밀번호 재설정
+	public int updatePW(MemberVO mvo) {
+		SqlSession sqlSession = factory.openSession();
+		
+		int row = sqlSession.update("updatePW", mvo);
+		
+		sqlSession.commit(); // 커밋 필수
+		
+		sqlSession.close();
+		
+		return row;
+	}
+	
 
 }

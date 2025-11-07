@@ -24,8 +24,8 @@ const backdrop = document.getElementById("deleteBackdrop");
 const confirmDelete = document.getElementById("confirmDelete");
 const cancelDelete = document.getElementById("cancelDelete");
 
-let pwValid = true;
-let pw2Valid = true;
+let pwValid = false;
+let pw2Valid = false;
 let nickValid = true;
 let emailValid = true;
 
