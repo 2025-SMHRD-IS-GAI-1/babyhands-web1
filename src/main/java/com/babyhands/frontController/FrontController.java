@@ -32,6 +32,7 @@ import com.babyhands.controller.LoginService;
 import com.babyhands.controller.LogoutService;
 import com.babyhands.controller.NickNameCheckService;
 import com.babyhands.controller.RankingDataService;
+import com.babyhands.controller.PwUpdateService;
 import com.babyhands.controller.SlLearnSuccessService;
 import com.babyhands.controller.SubmitTestService;
 import com.babyhands.controller.UpdateEmailCheckService;
@@ -62,6 +63,7 @@ public class FrontController extends HttpServlet {
 		map.put("UpdateNickCheck.do", new UpdateNickCheckService());
 		map.put("UpdateEmailCheck.do", new UpdateEmailCheckService());
 		map.put("UpdateMember.do", new UpdateMemberService());
+		map.put("PwUpdate.do", new PwUpdateService());
 		map.put("DeleteMember.do", new DeleteMemberService());
 		map.put("FindId.do", new FindIdService());
 		map.put("FindPw.do", new FindPwService());

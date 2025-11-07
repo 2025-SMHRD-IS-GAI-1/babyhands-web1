@@ -54,14 +54,14 @@ request.setCharacterEncoding("UTF-8");
 				<!-- 비밀번호 -->
 				<label for="pw">비밀번호</label> <input id="pw" name="pw"
 					type="password" placeholder="소문자, 대문자, 숫자, 특수문자 중 3종 포함 8~20자"
-					maxlength="20" autocomplete="new-password" value="${member.pw}" />
-				<div id="pwMsg" class="msg ok">사용 가능한 비밀번호입니다</div>
+					maxlength="20" autocomplete="new-password"/>
+				<div id="pwMsg" class="msg"></div>
 
 				<!-- 비밀번호 확인 -->
 				<label for="pw2">비밀번호 확인</label> <input id="pw2" name="pw2"
 					type="password" placeholder="비밀번호 재입력" maxlength="20"
-					autocomplete="new-password" value="${member.pw}" />
-				<div id="pw2Msg" class="msg ok">비밀번호가 일치합니다</div>
+					autocomplete="new-password"/>
+				<div id="pw2Msg" class="msg"></div>
 
 				<!-- 닉네임 -->
 				<label for="nickname" class="label-with-icon">닉네임 

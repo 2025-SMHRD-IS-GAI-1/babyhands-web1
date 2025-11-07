@@ -78,8 +78,8 @@ function validate() {
 	}
 
 	// 길이
-	if (pwEl.value.length < 10 || pwEl.value.length > 20) {
-		pwMsg.innerText = "비밀번호는 10~20자여야 합니다.";
+	if (pwEl.value.length < 8 || pwEl.value.length > 20) {
+		pwMsg.innerText = "비밀번호는 8~20자여야 합니다.";
 		pwEl.focus();
 		return false;
 	}
