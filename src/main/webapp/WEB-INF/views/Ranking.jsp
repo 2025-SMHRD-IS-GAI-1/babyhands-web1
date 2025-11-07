@@ -31,9 +31,9 @@
 
 				<div class="rk-board">
 					<div class="rk-header-row">
-						<div>순위</div>
-						<div>닉네임</div>
-						<div>누적점수</div>
+						<div >순위</div>
+						<div >닉네임</div>						
+						<div><div style="text-align: right;">누적점수</div></div>
 					</div>
 
 					<c:choose>
@@ -101,7 +101,7 @@
 
 					<div class="rk-my">
 						<div class="rk-my-left">${loginVO.nickname} 님의 순위</div>
-						<div class="rk-my-right">${myRank}위 / ${myScore}점</div>
+						<div class="rk-my-right">${mine.rankNo}위 / ${mine.totalScore}점</div>
 					</div>
 				</div>
 			</div>

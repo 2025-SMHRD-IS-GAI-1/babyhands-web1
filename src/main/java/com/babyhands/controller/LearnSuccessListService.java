@@ -34,11 +34,13 @@ public class LearnSuccessListService implements Command {
 
 		SlLearnDAO slLearndao = new SlLearnDAO();
 		List<String> successlist = slLearndao.getSuccessList(memberId);
+		List<String> todaySuccessList = slLearndao.todaySuccessList(memberId);
 		Map<String, Object> payload = new HashMap<>();
 
 		if (successlist != null) {
 			payload.put("ok", true);
 			payload.put("successlist", successlist);
+			payload.put("todaySuccessList", todaySuccessList);
 		} else {
 			payload.put("ok", false);
 			payload.put("message", "수어 학습 성공한 목록 불러오기 실패");

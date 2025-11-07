@@ -59,4 +59,15 @@ public class SlLearnDAO {
 		return result;
 	}
 	
+	// 수어 학습 : 오늘 학습 성공한 리스트 불러오기
+	public List<String> todaySuccessList(String memberId) {
+		SqlSession sqlSession = factory.openSession();
+
+		List<String> result = sqlSession.selectList("todaySuccessList", memberId);
+
+		sqlSession.close();
+
+		return result;
+	}
+	
 }
