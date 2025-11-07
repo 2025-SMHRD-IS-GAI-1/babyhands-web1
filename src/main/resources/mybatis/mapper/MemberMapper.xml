@@ -18,10 +18,9 @@
 	<!-- 로그인 -->
 	<select id="login" parameterType="com.babyhands.vo.MemberVO"
 		resultType="com.babyhands.vo.MemberVO">
-		SELECT MEMBER_ID, NICKNAME
+		SELECT MEMBER_ID, PW, NICKNAME
 		FROM MEMBER
-		WHERE MEMBER_ID =
-		#{memberId} AND PW = #{pw}
+		WHERE MEMBER_ID = #{memberId}
 	</select>
 	
 	<!-- 회원 가입 : 아이디 중복 체크 -->
@@ -47,7 +46,7 @@
 	
 	<!-- 회원 수정 전 회원 정보 불러오기 -->
 	<select id="selectById" parameterType="string" resultType="com.babyhands.vo.MemberVO">
-		SELECT MEMBER_ID, PW, NICKNAME, EMAIL
+		SELECT MEMBER_ID, NICKNAME, EMAIL
 		FROM MEMBER
 		WHERE MEMBER_ID = #{memberId}
 	</select>
@@ -76,10 +75,10 @@
 	</update>
 	
 	<!-- 회원 탈퇴 -->
-	<update id="delete">
+	<delete id="delete">
 		DELETE FROM MEMBER
 		WHERE MEMBER_ID = #{memberId}
-	</update>
+	</delete>
 	
 	<!-- 아이디 찾기 : 이메일로 회원 아이디 찾기 -->
 	<select id="findIdByEmail" parameterType="string" resultType="string">
@@ -101,5 +100,19 @@
 		FROM MEMBER
 		WHERE MEMBER_ID = #{memberId}
 	</select>
+	
+	<!-- 비밀번호 찾기 : 이메일 발송전 이메일 찾기 -->
+	<select id="emailExist" parameterType="com.babyhands.vo.MemberVO" resultType="com.babyhands.vo.MemberVO">
+		SELECT MEMBER_ID, NICKNAME, EMAIL
+		FROM MEMBER
+		WHERE MEMBER_ID = #{memberId} AND EMAIL = #{email}
+	</select>
+	
+	<!-- 비밀번호 재설정 -->
+	<update id="updatePW" parameterType="com.babyhands.vo.MemberVO">
+		UPDATE MEMBER
+		SET PW = #{pw}
+		WHERE MEMBER_ID = #{memberId}
+	</update>
 	
 </mapper>

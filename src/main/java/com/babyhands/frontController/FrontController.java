@@ -19,6 +19,7 @@ import com.babyhands.controller.FindPwService;
 import com.babyhands.controller.GetAttendanceDayService;
 import com.babyhands.controller.GoMainService;
 import com.babyhands.controller.GoMyPageService;
+import com.babyhands.controller.GoPwUpdateService;
 import com.babyhands.controller.GoRankingService;
 import com.babyhands.controller.GoSignTestResultService;
 import com.babyhands.controller.GoSlLearnService;
@@ -31,6 +32,7 @@ import com.babyhands.controller.LearnSuccessListService;
 import com.babyhands.controller.LoginService;
 import com.babyhands.controller.LogoutService;
 import com.babyhands.controller.NickNameCheckService;
+import com.babyhands.controller.PwUpdateService;
 import com.babyhands.controller.SlLearnSuccessService;
 import com.babyhands.controller.SubmitTestService;
 import com.babyhands.controller.UpdateEmailCheckService;
@@ -61,6 +63,7 @@ public class FrontController extends HttpServlet {
 		map.put("UpdateNickCheck.do", new UpdateNickCheckService());
 		map.put("UpdateEmailCheck.do", new UpdateEmailCheckService());
 		map.put("UpdateMember.do", new UpdateMemberService());
+		map.put("PwUpdate.do", new PwUpdateService());
 		map.put("DeleteMember.do", new DeleteMemberService());
 		map.put("FindId.do", new FindIdService());
 		map.put("FindPw.do", new FindPwService());
@@ -73,6 +76,7 @@ public class FrontController extends HttpServlet {
 		map.put("GoRanking.do", new GoRankingService());
 		map.put("GoSignTestResult.do", new GoSignTestResultService());
 		map.put("GoLastResult.do", new GoLastResultService());
+		map.put("GoPwUpdate.do", new GoPwUpdateService());
 	}
 
 	protected void service(HttpServletRequest request, HttpServletResponse response)
@@ -103,7 +107,7 @@ public class FrontController extends HttpServlet {
 			if (finalUri.equals("GomemberUpdate.do") || finalUri.equals("Gomypage.do") ||
 					finalUri.equals("Gomain.do") || finalUri.equals("GoSl-learn.do") || 
 					finalUri.equals("GoRanking.do") || finalUri.equals("GoSignTestResult.do") ||
-          finalUri.equals("GoLastResult.do")) {
+          finalUri.equals("GoLastResult.do") || finalUri.equals("GoPwUpdate.do")) {
 
 				com = map.get(finalUri);
 				moveUrl = com.execute(request, response);

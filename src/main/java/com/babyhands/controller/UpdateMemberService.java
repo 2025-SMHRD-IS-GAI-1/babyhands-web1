@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 import com.babyhands.dao.MemberDAO;
 import com.babyhands.frontController.Command;
 import com.babyhands.vo.MemberVO;
@@ -21,7 +23,8 @@ public class UpdateMemberService implements Command {
 
 		// 2. 요청 객체로 부터 데이터 꺼내오기
 		String memberId = request.getParameter("id");
-		String pw = request.getParameter("pw");
+		String plainPw = request.getParameter("pw");
+		String pw = BCrypt.hashpw(plainPw, BCrypt.gensalt(10));
 		String nickname = request.getParameter("nickname");
 		String email = request.getParameter("email");
 
