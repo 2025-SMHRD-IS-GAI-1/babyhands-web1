@@ -45,6 +45,7 @@ public class SlTestDAO {
 		SqlSession sqlSession = factory.openSession();
 
 		int result = sqlSession.selectOne("getGroup");
+		
 
 		sqlSession.close();
 

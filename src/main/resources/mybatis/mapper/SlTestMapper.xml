@@ -59,8 +59,8 @@
 
 	<!-- 수어 학습 테스트 : 입력 전 group 가져오기 -->
 	<select id="getGroup" resultType="int">
-		SELECT MAX(SL_TEST_GROUP) + 1
-		from SL_TEST
+		SELECT NVL(MAX(SL_TEST_GROUP) + 1, 0)
+		FROM SL_TEST
 	</select>
 
 	<insert id="insert" parameterType="com.babyhands.vo.SlTestVO">
