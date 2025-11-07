@@ -9,7 +9,6 @@
 <select id="getScoreRank" parameterType="string"
         resultType="com.babyhands.dto.MemberScoreRank">
 
-
   	SELECT memberId, nickname, totalScore, rankNo
   	FROM (
     	SELECT
