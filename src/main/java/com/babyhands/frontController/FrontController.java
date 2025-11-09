@@ -26,6 +26,7 @@ import com.babyhands.controller.GoSignTestResultService;
 import com.babyhands.controller.GoSlLearnService;
 import com.babyhands.controller.GomemberUpdateService;
 import com.babyhands.controller.GoogleLoginService;
+import com.babyhands.controller.NaverOAuthCallbackService;
 import com.babyhands.controller.IdCheckService;
 import com.babyhands.controller.JoinService;
 import com.babyhands.controller.LearnSuccessListService;
@@ -55,6 +56,7 @@ public class FrontController extends HttpServlet {
 		map = new HashMap<String, Command>();
 		map.put("Login.do", new LoginService());
 		map.put("GoogleLogin.do", new GoogleLoginService());
+		map.put("NaverOAuthCallback.do", new NaverOAuthCallbackService());
 		map.put("Logout.do", new LogoutService());
 		map.put("IdCheck.do", new IdCheckService());
 		map.put("NickNameCheck.do", new NickNameCheckService());

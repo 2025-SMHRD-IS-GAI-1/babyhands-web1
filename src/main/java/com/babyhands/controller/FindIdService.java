@@ -33,9 +33,9 @@ public class FindIdService implements Command {
 		if (memberId != null) {
 			
 			// 소셜로그인 아이디찾기 막음
-			if(memberId.startsWith("google_")) {
+			if(memberId.startsWith("google_") || memberId.startsWith("naver_")) {
 				payload.put("ok", false);
-				payload.put("message", "구글 로그인은 아이디 찾기 기능을 이용할수 없습니다.");
+				payload.put("message", "소셜 로그인은 아이디 찾기 기능을 이용할수 없습니다.");
 			} else {
 				String to = email;
 				String subject = "[꼬마손] 아이디 안내";

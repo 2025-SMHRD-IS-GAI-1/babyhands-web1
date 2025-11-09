@@ -28,7 +28,8 @@ public class GomemberUpdateService implements Command {
 		
 		request.setAttribute("member", member);
 		
-		if(memberId.startsWith("google_")) {
+		// 소셜 로그인 분기
+		if(memberId.startsWith("google_") || memberId.startsWith("naver_")) {
 			moveUrl = "socialMemberUpdate.jsp";
 		} else {
 			moveUrl = "memberUpdate.jsp";
