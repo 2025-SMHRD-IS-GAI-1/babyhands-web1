@@ -59,8 +59,8 @@
 
 	<!-- 수어 학습 테스트 : 입력 전 group 가져오기 -->
 	<select id="getGroup" resultType="int">
-		SELECT MAX(SL_TEST_GROUP) + 1
-		from SL_TEST
+		SELECT NVL(MAX(SL_TEST_GROUP) + 1, 1)
+		FROM SL_TEST
 	</select>
 
 	<insert id="insert" parameterType="com.babyhands.vo.SlTestVO">
@@ -69,29 +69,65 @@
 		VALUES(#{slTestDate}, #{slTestGroup}, #{chooseAnswer}, #{memberId}, #{slId})
 	</insert>
 
+
+
+
 	<!-- TOP N -->
-<select id="selectRankingTopN" parameterType="int"
-        resultType="com.babyhands.dto.MemberScoreRank">
-  	SELECT 
-    	memberId,
-    	nickname,
-    	totalScore,
-    	rankNo
-  	FROM (
-    	SELECT
-      		m.MEMBER_ID AS memberId,
-      		m.NICKNAME  AS nickname,
-      		COUNT(s.SL_ID) * 10 AS totalScore,
-      		DENSE_RANK() OVER (ORDER BY COUNT(s.SL_ID) * 10 DESC) AS rankNo
-    		FROM MEMBER m
-    		LEFT JOIN SL_TEST t ON m.MEMBER_ID = t.MEMBER_ID
-    		LEFT JOIN SIGN_LANGUAGE s
-      		ON t.SL_ID = s.SL_ID
-    	 	AND t.CHOOSE_ANSWER = s.MEANING
-   	 		GROUP BY m.MEMBER_ID, m.NICKNAME
-  		)
-  		ORDER BY rankNo, totalScore DESC, memberId
+<!-- /////////////////////////////////////////////////////////////// -->
+
+<!-- 랭킹에 포함될 전체 인원 -->
+<select id="countAllRanking" resultType="int">
+  SELECT COUNT(*)
+    FROM (
+      SELECT m.MEMBER_ID
+        FROM MEMBER m
+        LEFT JOIN SL_TEST t ON m.MEMBER_ID = t.MEMBER_ID
+        LEFT JOIN SIGN_LANGUAGE s
+               ON t.SL_ID = s.SL_ID
+              AND t.CHOOSE_ANSWER = s.MEANING
+       GROUP BY m.MEMBER_ID
+    )
 </select>
+
+<!-- 무한스크롤?? -->
+<select id="selectRankingSlice" parameterType="map"
+        resultType="com.babyhands.dto.MemberScoreRank">
+  SELECT *
+  FROM (
+    SELECT t.*, ROWNUM rn
+    FROM (
+      SELECT
+        memberId,
+        nickname,
+        totalScore,
+        rankNo
+      FROM (
+        SELECT
+          m.MEMBER_ID AS memberId,
+          m.NICKNAME  AS nickname,
+          COUNT(s.SL_ID) * 10 AS totalScore,
+          DENSE_RANK() OVER (ORDER BY COUNT(s.SL_ID) * 10 DESC) AS rankNo
+        FROM MEMBER m
+        LEFT JOIN SL_TEST t
+               ON m.MEMBER_ID = t.MEMBER_ID
+        LEFT JOIN SIGN_LANGUAGE s
+               ON t.SL_ID = s.SL_ID
+              AND t.CHOOSE_ANSWER = s.MEANING
+        GROUP BY m.MEMBER_ID, m.NICKNAME
+      )
+      ORDER BY rankNo, totalScore DESC, memberId
+    ) t
+    WHERE ROWNUM &lt;= #{offset} + #{limit}
+  )
+  WHERE rn &gt; #{offset}
+</select>
+
+
+
+<!-- /////////////////////////////////////////////////////////////// -->
+
+
+
 
 	 <!-- 1) 해당 회원의 '최신 응시 그룹' 번호 (없으면 0) -->
   <select id="selectLatestGroup" parameterType="string" resultType="int">

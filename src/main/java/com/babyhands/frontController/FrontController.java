@@ -32,6 +32,7 @@ import com.babyhands.controller.LearnSuccessListService;
 import com.babyhands.controller.LoginService;
 import com.babyhands.controller.LogoutService;
 import com.babyhands.controller.NickNameCheckService;
+import com.babyhands.controller.RankingDataService;
 import com.babyhands.controller.PwUpdateService;
 import com.babyhands.controller.SlLearnSuccessService;
 import com.babyhands.controller.SubmitTestService;
@@ -79,6 +80,7 @@ public class FrontController extends HttpServlet {
 		map.put("GoSignTestResult.do", new GoSignTestResultService());
 		map.put("GoLastResult.do", new GoLastResultService());
 		map.put("UpdateSocialMember.do", new UpdateSocialMemberSerivce());
+		map.put("RankingData.do", new RankingDataService());
 	}
 
 	protected void service(HttpServletRequest request, HttpServletResponse response)
