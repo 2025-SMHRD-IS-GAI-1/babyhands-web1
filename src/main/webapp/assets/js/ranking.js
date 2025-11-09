@@ -1,38 +1,29 @@
-// ranking.js (스크롤 계산 안정판) — IO 사용 안 함
+// ranking.js — 스크롤 계산 안정판 (초기 자동 로드 X)
 document.addEventListener("DOMContentLoaded", () => {
   const listEl = document.getElementById("ranking-list");
   const loaderEl = document.getElementById("loader");
-  const endEl = document.getElementById("end");
-  const sentinel = document.getElementById("sentinel");
+  const endEl    = document.getElementById("end");
   const totalCountInput = document.getElementById("totalCount");
 
-  if (!listEl || !loaderEl || !endEl || !sentinel) {
+  if (!listEl || !loaderEl || !endEl) {
     console.error("[ranking.js] 필수 요소 누락");
-    return;
-  }
-
-  // 스크롤 컨테이너(.rk-board)를 루트로 고정
-  const root = document.querySelector(".rk-board");
-  if (!root) {
-    console.error("[ranking.js] .rk-board 를 못 찾음");
     return;
   }
 
   let offset = listEl.children.length; // 초기 5
   const limit = 20;
   let loading = false;
-  let ended = false;
+  let ended   = false;
 
   const totalCount = totalCountInput ? Number(totalCountInput.value) : 0;
 
-  // 초기 5개에서 memberId 수집 (각 행 data-id 필수)
   const seen = new Set(Array.from(listEl.children).map(el => String(el.dataset.id || "")));
 
   function createRow(it) {
     const row = document.createElement("div");
-    row.className = "rk-row";
-    row.dataset.id = String(it.memberId);
-    row.dataset.rank = String(it.rankNo);
+    row.className   = "rk-row";
+    row.dataset.id  = String(it.memberId);
+    row.dataset.rank= String(it.rankNo);
 
     const cRank = document.createElement("div");
     cRank.className = "rk-rank-num";
@@ -42,16 +33,13 @@ document.addEventListener("DOMContentLoaded", () => {
     if (it.rankNo <= 3) {
       const wrap = document.createElement("div");
       wrap.className = "rk-nick-wrap";
-
       const medal = document.createElement("div");
       const medalClass = it.rankNo === 1 ? "rk-gold" : (it.rankNo === 2 ? "rk-silver" : "rk-bronze");
       medal.className = "rk-medal " + medalClass;
       medal.textContent = it.rankNo === 1 ? "🥇" : (it.rankNo === 2 ? "🥈" : "🥉");
-
       const nick = document.createElement("div");
       nick.className = "rk-nickname";
       nick.textContent = it.nickname;
-
       wrap.appendChild(medal);
       wrap.appendChild(nick);
       row.appendChild(wrap);
@@ -105,22 +93,53 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // 바닥 근접 감지(루트는 .rk-board 고정)
+  // ---------- 무한 스크롤 트리거 (초기 강제 로드 없음) ----------
+  function isScrollable(el){
+    if (!el) return false;
+    const cs = getComputedStyle(el);
+    const hasScroll = el.scrollHeight > el.clientHeight;
+    return hasScroll && cs.overflowY !== "visible" && cs.overflowY !== "hidden";
+  }
+
+  let activated = false;                               // 유저가 실제로 스크롤 시도했는지
+  let box = document.querySelector(".rk-board");       // 내부 스크롤 컨테이너
+  let useWindow = !box || !isScrollable(box);          // 스크롤 상자가 아니면 window 사용
+  const target = useWindow ? window : box;             // 이벤트 대상
+
+  function getScrollState() {
+    if (useWindow) {
+      const st = window.pageYOffset || document.documentElement.scrollTop;
+      const ch = window.innerHeight;
+      const sh = document.documentElement.scrollHeight;
+      return { st, ch, sh };
+    } else {
+      const st = box.scrollTop;
+      const ch = box.clientHeight;
+      const sh = box.scrollHeight;
+      return { st, ch, sh };
+    }
+  }
+
   function onScroll() {
     if (ended || loading) return;
-    const st = root.scrollTop;
-    const ch = root.clientHeight;
-    const sh = root.scrollHeight;
+    if (!activated) return;                            // 스크롤 시도 전이면 동작 X
+    const { st, ch, sh } = getScrollState();
     if (st + ch >= sh - 300) fetchMore();
   }
 
-  // 이벤트 + 초기 1회 강제 호출
-  root.addEventListener("scroll", onScroll);
-  // 레이아웃 계산 이후 한 번 호출
-  setTimeout(() => {
-    // 첫 화면에서 이미 바닥 근처면 즉시 로드
-    onScroll();
-    // 혹시 부족하면 한 번 더
-    if (!loading && !ended) fetchMore();
-  }, 0);
+  function firstKick() {
+    if (activated) return;
+    activated = true;
+    // 컨테이너가 아직 스크롤 불가면 1번 로드해서 키워주기
+    if (!useWindow && !isScrollable(box)) fetchMore();
+    else onScroll();
+  }
+
+  target.addEventListener("scroll", onScroll, { passive: true });
+  target.addEventListener("wheel", firstKick, { passive: true });
+  target.addEventListener("touchstart", firstKick, { passive: true });
+  target.addEventListener("keydown", (e) => {
+    const keys = ["PageDown", " ", "ArrowDown", "End"];
+    if (keys.includes(e.key)) firstKick();
+  });
 });
