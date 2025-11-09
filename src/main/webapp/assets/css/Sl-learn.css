@@ -161,6 +161,27 @@ button {
 	text-decoration: none !important;
 }
 
+
+
+/* 학습 완료된 단어 표시용 */
+.word-item.learned {
+	position: relative;
+	background-color: #d6e5ff; /* 연보라 (완료 표시 느낌) */
+	color: var(--text-dark);
+	font-weight: 500;
+}
+
+/* 예쁘게 점 붙이기 */
+.word-item.learned::after {
+	content: "✔";
+	position: absolute;
+	top: 4px;
+	right: 6px;
+	font-size: 0.8em;
+	color: var(--primary-color);
+}
+
+
 /* --- Learning Section --- */
 .learning-section {
 	flex: 1;

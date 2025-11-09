@@ -1,6 +1,7 @@
 package com.babyhands.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -44,9 +45,23 @@ public class GoRankingService implements Command {
         // mine이 없을 수도 있으니 NPE 방지.
         // DTO 필드가 Integer(객체형)라면 null일 수 있으므로 다시 한 번 기본값 처리.
 
-        List<MemberScoreRank> rankList = dao.selectRankingTopN(100);
-        // 전체 랭킹 목록을 최대 100명까지 조회.
-        request.setAttribute("rankList", rankList);
+        
+        ////////////////////////////////////////////////////////
+        // ✅ 첫 화면은 Top 5만!
+        Map<String, Integer> p = new java.util.HashMap<>();
+        p.put("offset", 0);
+        p.put("limit", 5);
+
+        List<MemberScoreRank> top5 = dao.selectRankingSlice(p);
+
+        // 총 레코드 수 (끝 감지용)
+        int totalCount = dao.countAllRanking();
+
+        request.setAttribute("top5", top5);
+        request.setAttribute("totalCount", totalCount);
+        ////////////////////////////////////////////////////////////
+        
+        
         request.setAttribute("loginVO", loginVO);
         request.setAttribute("mine", mine);
 

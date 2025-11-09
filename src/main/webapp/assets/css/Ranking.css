@@ -237,3 +237,7 @@ body {
         max-height: 400px;
     }
 }
+
+
+/* Ranking.css */
+.rk-board { max-height: calc(100vh - 220px); overflow-y: auto; }

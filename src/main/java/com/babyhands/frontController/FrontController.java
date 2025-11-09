@@ -17,13 +17,13 @@ import com.babyhands.controller.EmailCheckService;
 import com.babyhands.controller.FindIdService;
 import com.babyhands.controller.FindPwService;
 import com.babyhands.controller.GetAttendanceDayService;
+import com.babyhands.controller.GetQuestionListService;
+import com.babyhands.controller.GoLastResultService;
 import com.babyhands.controller.GoMainService;
 import com.babyhands.controller.GoMyPageService;
 import com.babyhands.controller.GoRankingService;
 import com.babyhands.controller.GoSignTestResultService;
 import com.babyhands.controller.GoSlLearnService;
-import com.babyhands.controller.GetQuestionListService;
-import com.babyhands.controller.GoLastResultService;
 import com.babyhands.controller.GomemberUpdateService;
 import com.babyhands.controller.IdCheckService;
 import com.babyhands.controller.JoinService;
@@ -31,6 +31,7 @@ import com.babyhands.controller.LearnSuccessListService;
 import com.babyhands.controller.LoginService;
 import com.babyhands.controller.LogoutService;
 import com.babyhands.controller.NickNameCheckService;
+import com.babyhands.controller.RankingDataService;
 import com.babyhands.controller.PwUpdateService;
 import com.babyhands.controller.SlLearnSuccessService;
 import com.babyhands.controller.SubmitTestService;
@@ -75,6 +76,7 @@ public class FrontController extends HttpServlet {
 		map.put("GoRanking.do", new GoRankingService());
 		map.put("GoSignTestResult.do", new GoSignTestResultService());
 		map.put("GoLastResult.do", new GoLastResultService());
+		map.put("RankingData.do", new RankingDataService());
 	}
 
 	protected void service(HttpServletRequest request, HttpServletResponse response)
