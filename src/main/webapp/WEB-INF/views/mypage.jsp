@@ -42,8 +42,8 @@
 								<div class="meta__row">
 									<c:choose>
 										<c:when
-											test="${not empty member.email
-                 							and fn:endsWith(fn:toLowerCase(fn:trim(member.email)), '@kakao.com')}">
+											test="${not empty member.memberId
+                 							and fn:startsWith(fn:toLowerCase(fn:trim(member.memberId)), 'kakao_')}">
 											<dt>이메일</dt>
 											<dd>카카오 이메일은 준비중입니다.</dd>
 										</c:when>
