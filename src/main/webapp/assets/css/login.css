@@ -172,6 +172,23 @@ body{
   background:#029e47;
 }
 
+.btn-kakao{
+  background:#FEE500;
+  color:#3C1E1E;
+  border:none;
+  margin-top:12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.btn-kakao:hover{ 
+  background:#FDD835;
+  box-shadow:0 1px 3px rgba(0,0,0,.1);
+}
+.btn-kakao:active{ 
+  background:#FBC02D;
+}
+
 .divider{
   height:1px; background:var(--border);
   margin:18px 0;
