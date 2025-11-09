@@ -21,6 +21,16 @@ try {
 	// JNDI 조회 실패 시 기본값 또는 에러 처리
 	naverClientId = "YOUR_NAVER_CLIENT_ID_HERE";
 }
+
+// context.xml에서 카카오 클라이언트 ID 가져오기
+String KAKAO_REST_API_KEY = null;
+try {
+	javax.naming.Context env = (javax.naming.Context) new javax.naming.InitialContext().lookup("java:comp/env");
+	KAKAO_REST_API_KEY = (String) env.lookup("oauth.kakao.rest_api_key");
+} catch (Exception e) {
+	// JNDI 조회 실패 시 기본값 또는 에러 처리
+	KAKAO_REST_API_KEY = "YOUR_KAKAO_CLIENT_ID_HERE";
+}
 %>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
 
@@ -76,6 +86,12 @@ try {
 						</svg>
 						네이버로 로그인
 					</button>
+					<button type="button" class="btn btn-kakao" id="kakaoLoginButton">
+						<svg width="18" height="18" viewBox="0 0 18 18" style="margin-right: 8px;">
+							<path fill="#9E9E9E" d="M9 2C5.14 2 2 4.42 2 7.4c0 2.1 1.5 3.94 3.75 5.1L5 16l3.75-2.1c.25.03.5.05.75.05 3.86 0 7-2.42 7-5.4C16 4.42 12.86 2 9 2z"/>
+						</svg>
+						카카오로 로그인
+					</button>
 				</form>
 
 				<div class="divider"></div>
@@ -92,6 +108,7 @@ try {
 	<script>window.APP_CTX = '${ctx}';</script>
 	<script>window.GOOGLE_CLIENT_ID = '<%= googleClientId != null ? googleClientId : "YOUR_GOOGLE_CLIENT_ID_HERE" %>';</script>
 	<script>window.NAVER_CLIENT_ID = '<%= naverClientId != null ? naverClientId : "YOUR_NAVER_CLIENT_ID_HERE" %>';</script>
+	<script>window.KAKAO_REST_API_KEY = '<%= KAKAO_REST_API_KEY != null ? KAKAO_REST_API_KEY : "YOUR_KAKAO_CLIENT_ID_HERE" %>';</script>
 	<script src="https://accounts.google.com/gsi/client" async defer></script>
 	<script src="${ctx}/assets/js/login.js"></script>
 </body>

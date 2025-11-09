@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
 
 <!DOCTYPE html>
@@ -39,8 +40,19 @@
 									<dd>${member.nickname}</dd>
 								</div>
 								<div class="meta__row">
-									<dt>이메일</dt>
-									<dd>${member.email}</dd>
+									<c:choose>
+										<c:when
+											test="${not empty member.email
+                 							and fn:endsWith(fn:toLowerCase(fn:trim(member.email)), '@kakao.com')}">
+											<dt>이메일</dt>
+											<dd>카카오 이메일은 준비중입니다.</dd>
+										</c:when>
+										<c:otherwise>
+											<dt>이메일</dt>
+											<dd>${member.email}</dd>
+										</c:otherwise>
+									</c:choose>
+
 								</div>
 							</dl>
 						</div>

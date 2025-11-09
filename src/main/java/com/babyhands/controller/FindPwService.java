@@ -35,7 +35,7 @@ public class FindPwService implements Command {
 		if (memberVO != null) {
 
 			// 소셜로그인 비밀번호 찾기 막음
-			if (memberId.startsWith("google_") || memberId.startsWith("naver_")) {
+			if (memberId.startsWith("google_") || memberId.startsWith("naver_") || memberId.startsWith("kakao_")) {
 				payload.put("ok", false);
 				payload.put("message", "소셜 로그인은 비밀번호 찾기 기능을 이용할수 없습니다.");
 			} else {

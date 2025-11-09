@@ -29,7 +29,7 @@ public class GomemberUpdateService implements Command {
 		request.setAttribute("member", member);
 		
 		// 소셜 로그인 분기
-		if(memberId.startsWith("google_") || memberId.startsWith("naver_")) {
+		if(memberId.startsWith("google_") || memberId.startsWith("naver_") || memberId.startsWith("kakao_")) {
 			moveUrl = "socialMemberUpdate.jsp";
 		} else {
 			moveUrl = "memberUpdate.jsp";
