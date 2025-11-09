@@ -123,7 +123,7 @@ body{
 .btn-primary{
   background:var(--primary);
   color:#fff;
-  margin-top:16px;
+  margin-top:12px;
 }
 .btn-primary:hover{ filter:brightness(.98); }
 .btn-primary:active{ background:var(--primary-pressed); }
@@ -153,6 +153,23 @@ body{
 }
 .btn-google:active{ 
   background:#f1f3f4;
+}
+
+.btn-naver{
+  background:#03C75A;
+  color:#ffffff;
+  border:none;
+  margin-top:12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.btn-naver:hover{ 
+  background:#02b350;
+  box-shadow:0 1px 3px rgba(0,0,0,.1);
+}
+.btn-naver:active{ 
+  background:#029e47;
 }
 
 .divider{
