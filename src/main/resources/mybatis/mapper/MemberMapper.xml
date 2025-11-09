@@ -114,5 +114,19 @@
 		SET PW = #{pw}
 		WHERE MEMBER_ID = #{memberId}
 	</update>
+
+	<!-- 구글 로그인: 이메일로 회원 찾기 -->
+	<select id="findByEmail" parameterType="com.babyhands.vo.MemberVO" resultType="com.babyhands.vo.MemberVO">
+		SELECT MEMBER_ID, PW, NICKNAME, EMAIL
+		FROM MEMBER
+		WHERE EMAIL = #{email}
+	</select>
+	
+	<!-- 소셜 로그인 : 회원 수정 -->
+	<update id="socialUpdate" parameterType="com.babyhands.vo.MemberVO">
+		UPDATE MEMBER
+		SET NICKNAME = #{nickname}
+		WHERE MEMBER_ID = #{memberId}
+	</update>
 	
 </mapper>

@@ -85,7 +85,7 @@ findIdForm.addEventListener("submit", function(e) {
 			if (data && data.ok) {
 				alert("아이디 찾기 성공\n입력한 이메일에서 아이디를 확인하세요.");
 			} else {
-				alert(data.message || "아이디 찾기 실패\n입력한 이메일을 사용하는 회원이 없습니다.");
+				alert(data.message);
 			}
 		})
 		.catch(function(err) {

@@ -42,27 +42,8 @@ request.setCharacterEncoding("UTF-8");
 			</div>
 
 			<form id="updateForm">
-				<!-- 아이디 -->
-				<label for="id" class="label-with-icon"> 아이디 </label>
-
-				<div class="row">
-					<input id="id" name="id" type="text" placeholder="아이디 입력 (4~20자)"
-						maxlength="20" autocomplete="username" disabled
-						value="${member.memberId}" />
-				</div>
-
-				<!-- 비밀번호 -->
-				<label for="pw">비밀번호</label> <input id="pw" name="pw"
-					type="password" placeholder="소문자, 대문자, 숫자, 특수문자 중 3종 포함 8~20자"
-					maxlength="20" autocomplete="new-password"/>
-				<div id="pwMsg" class="msg"></div>
-
-				<!-- 비밀번호 확인 -->
-				<label for="pw2">비밀번호 확인</label> <input id="pw2" name="pw2"
-					type="password" placeholder="비밀번호 재입력" maxlength="20"
-					autocomplete="new-password"/>
-				<div id="pw2Msg" class="msg"></div>
-
+				<input type="hidden" id="id" value="${loginVO.memberId}">
+				
 				<!-- 닉네임 -->
 				<label for="nickname" class="label-with-icon">닉네임 
 					<span id="nicknameStatus" class="status-icon show" aria-hidden="true" title="중복 확인 완료">
@@ -78,21 +59,6 @@ request.setCharacterEncoding("UTF-8");
 						class="btn btn-primary btn-sm">중복 확인</button>
 				</div>
 				<div id="nickMsg" class="msg ok">중복 확인 완료</div>
-				<!-- 이메일 -->
-				<label for="email">이메일
-					<span id="emailStatus" class="status-icon show" aria-hidden="true" title="중복 확인 완료"> 
-						<svg viewBox="0 0 24 24" width="18" height="18">
-      						<path fill="currentColor" d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z" />
-    					</svg>
-					</span>
-				</label>
-				<div class="row">
-					<input id="email" name="email" type="email" placeholder="email@example.com" maxlength="100"
-						value="${member.email}" />
-					<button type="button" id="emailCheckBtn"
-						class="btn btn-primary btn-sm">중복 확인</button>
-				</div>
-				<div id="emailMsg" class="msg ok">중복 확인 완료</div>
 
 				<!-- 버튼 -->
 				<div class="actions">
@@ -104,7 +70,7 @@ request.setCharacterEncoding("UTF-8");
 
 				<!-- 힌트 -->
 				<p class="hint">
-					비밀번호는 소문자, 대문자, 숫자, 특수문자 중 3종 포함 8~20자<br> 닉네임은 (한글,숫자,_) 2~20자<br>
+					닉네임은 (한글,숫자,_) 2~20자<br>
 				</p>
 			</form>
 		</div>
@@ -112,6 +78,6 @@ request.setCharacterEncoding("UTF-8");
 	<script>
 		window.APP_CTX = '${ctx}';
 	</script>
-	<script src="${ctx}/assets/js/memberUpdate.js"></script>
+	<script src="${ctx}/assets/js/socialMemberUpdate.js"></script>
 </body>
 </html>

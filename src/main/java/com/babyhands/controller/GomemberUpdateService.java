@@ -1,8 +1,5 @@
 package com.babyhands.controller;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -12,7 +9,7 @@ import com.babyhands.frontController.Command;
 import com.babyhands.vo.MemberVO;
 
 public class GomemberUpdateService implements Command {
-
+	
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) {
 		
@@ -21,6 +18,7 @@ public class GomemberUpdateService implements Command {
 		if (session == null || session.getAttribute("loginVO") == null) {
             return "redirect:/Gologin.do";
         }
+		String moveUrl = "";
 		
 		MemberVO loginVO = (MemberVO) session.getAttribute("loginVO");
 		String memberId = loginVO.getMemberId();
@@ -30,7 +28,13 @@ public class GomemberUpdateService implements Command {
 		
 		request.setAttribute("member", member);
 		
-		return "memberUpdate.jsp";
+		if(memberId.startsWith("google_")) {
+			moveUrl = "socialMemberUpdate.jsp";
+		} else {
+			moveUrl = "memberUpdate.jsp";
+		}
+		
+		return moveUrl;
 	}
 
 }

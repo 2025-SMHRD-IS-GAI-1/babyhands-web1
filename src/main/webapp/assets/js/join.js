@@ -252,9 +252,10 @@ function nickValidate() {
 		return false;
 	}
 
-	// 한글만
-	if (!/^[\uAC00-\uD7A3]{2,20}$/.test(nickEl.value)) {
-		nickMsg.innerText = "한글만 입력하세요 (2~20자)";
+	// 한글(가~힣) + 숫자 + _ 만 허용, 길이 2~20
+	const ok = /^[\uAC00-\uD7A30-9_]{2,20}$/.test(nickEl.value);
+	if (!ok) {
+		nickMsg.innerText = "한글, 숫자, _ 만 입력하세요 (2~20자)";
 		return false;
 	}
 	return true;

@@ -193,6 +193,30 @@ public class MemberDAO {
 		
 		return row;
 	}
+
+	// 구글 로그인: 이메일로 회원 찾기
+	public MemberVO findByEmail(MemberVO mvo) {
+		SqlSession sqlSession = factory.openSession();
+		
+		MemberVO member = sqlSession.selectOne("findByEmail", mvo);
+		
+		sqlSession.close();
+		
+		return member;
+	}
+	
+	// 소셜 로그인 : 회원정보 수정
+	public int socialUpdate(MemberVO mvo) {
+		SqlSession sqlSession = factory.openSession();
+		
+		int row = sqlSession.update("socialUpdate", mvo);
+		
+		sqlSession.commit(); // 커밋 필수
+		
+		sqlSession.close();
+		
+		return row;
+	}
 	
 
 }

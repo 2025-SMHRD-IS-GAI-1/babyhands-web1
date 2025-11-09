@@ -136,6 +136,25 @@ body{
 .btn-accent:hover{ filter:brightness(.98); }
 .btn-accent:active{ background:var(--accent-pressed); }
 
+.btn-accent:active{ background:var(--accent-pressed); }
+
+.btn-google{
+  background:#ffffff;
+  color:#3c4043;
+  border:1px solid #dadce0;
+  margin-top:12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.btn-google:hover{ 
+  background:#f8f9fa;
+  box-shadow:0 1px 3px rgba(0,0,0,.1);
+}
+.btn-google:active{ 
+  background:#f1f3f4;
+}
+
 .divider{
   height:1px; background:var(--border);
   margin:18px 0;

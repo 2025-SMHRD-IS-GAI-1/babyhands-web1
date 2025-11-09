@@ -68,6 +68,14 @@
 			<version>0.4</version>
 		</dependency>
 
+		<!-- ★ Servlet API (IDE 컴파일용) -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>4.0.1</version>
+			<scope>provided</scope>
+		</dependency>
+
 	</dependencies>
 
 	<build>
