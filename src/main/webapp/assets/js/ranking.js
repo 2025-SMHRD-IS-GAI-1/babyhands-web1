@@ -4,6 +4,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const loaderEl = document.getElementById("loader");
   const endEl    = document.getElementById("end");
   const totalCountInput = document.getElementById("totalCount");
+  const dotsEl = document.querySelector(".rk-dots");
+  
 
   if (!listEl || !loaderEl || !endEl) {
     console.error("[ranking.js] 필수 요소 누락");
@@ -78,19 +80,25 @@ document.addEventListener("DOMContentLoaded", () => {
         listEl.appendChild(createRow(it));
       }
 
-      offset += items.length;
+	    offset += items.length;  // ✅ 여기까지 기존 코드
 
-      const total = typeof data.total === "number" ? data.total : totalCount;
-      if (offset >= total || items.length < limit) {
-        ended = true;
-        loaderEl.style.display = "none";
-        endEl.style.display = "block";
-      }
-    } catch (e) {
-      console.error("[ranking.js] 로드 실패:", e);
-    } finally {
-      loading = false;
-    }
+	    // ✅ 이 아래에 새로 추가!
+	    const total = typeof data.total === "number" ? data.total : totalCount;
+
+	    if (offset >= total || items.length < limit) {
+	      ended = true;
+	      loaderEl.style.display = "none";
+	      endEl.style.display = "block";
+	      if (dotsEl) dotsEl.style.display = "none"; // 🔥 마지막이면 점 숨기기
+	    } else {
+	      if (dotsEl) dotsEl.style.display = "flex"; // 👀 아직 더 있을 땐 다시 보이게
+	    }
+
+	  } catch (e) {
+	    console.error("[ranking.js] 로드 실패:", e);
+	  } finally {
+	    loading = false;
+	  }
   }
 
   // ---------- 무한 스크롤 트리거 (초기 강제 로드 없음) ----------
@@ -102,7 +110,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   let activated = false;                               // 유저가 실제로 스크롤 시도했는지
-  let box = document.querySelector(".rk-board");       // 내부 스크롤 컨테이너
+  let box = document.querySelector(".rk-scroll");       // 내부 스크롤 컨테이너
   let useWindow = !box || !isScrollable(box);          // 스크롤 상자가 아니면 window 사용
   const target = useWindow ? window : box;             // 이벤트 대상
 
