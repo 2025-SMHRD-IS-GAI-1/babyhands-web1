@@ -25,6 +25,7 @@ import com.babyhands.controller.GoRankingService;
 import com.babyhands.controller.GoSignTestResultService;
 import com.babyhands.controller.GoSlLearnService;
 import com.babyhands.controller.GomemberUpdateService;
+import com.babyhands.controller.GoogleLoginService;
 import com.babyhands.controller.IdCheckService;
 import com.babyhands.controller.JoinService;
 import com.babyhands.controller.LearnSuccessListService;
@@ -38,6 +39,7 @@ import com.babyhands.controller.SubmitTestService;
 import com.babyhands.controller.UpdateEmailCheckService;
 import com.babyhands.controller.UpdateMemberService;
 import com.babyhands.controller.UpdateNickCheckService;
+import com.babyhands.controller.UpdateSocialMemberSerivce;
 
 @WebServlet("*.do")
 public class FrontController extends HttpServlet {
@@ -52,6 +54,7 @@ public class FrontController extends HttpServlet {
 	public void init(ServletConfig config) throws ServletException {
 		map = new HashMap<String, Command>();
 		map.put("Login.do", new LoginService());
+		map.put("GoogleLogin.do", new GoogleLoginService());
 		map.put("Logout.do", new LogoutService());
 		map.put("IdCheck.do", new IdCheckService());
 		map.put("NickNameCheck.do", new NickNameCheckService());
@@ -76,6 +79,7 @@ public class FrontController extends HttpServlet {
 		map.put("GoRanking.do", new GoRankingService());
 		map.put("GoSignTestResult.do", new GoSignTestResultService());
 		map.put("GoLastResult.do", new GoLastResultService());
+		map.put("UpdateSocialMember.do", new UpdateSocialMemberSerivce());
 		map.put("RankingData.do", new RankingDataService());
 	}
 
@@ -107,7 +111,7 @@ public class FrontController extends HttpServlet {
 			if (finalUri.equals("GomemberUpdate.do") || finalUri.equals("Gomypage.do") ||
 					finalUri.equals("Gomain.do") || finalUri.equals("GoSl-learn.do") || 
 					finalUri.equals("GoRanking.do") || finalUri.equals("GoSignTestResult.do") ||
-          finalUri.equals("GoLastResult.do")) {
+          finalUri.equals("GoLastResult.do") || finalUri.equals("GoogleLogin.do")) {
 
 				com = map.get(finalUri);
 				moveUrl = com.execute(request, response);
