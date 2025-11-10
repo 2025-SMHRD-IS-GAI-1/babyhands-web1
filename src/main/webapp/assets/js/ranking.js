@@ -8,7 +8,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const scroll = document.querySelector(".rk-scroll");
   const myRank = document.querySelector(".my-rank");
   
-
   if (!listEl || !loaderEl || !endEl) {
     console.error("[ranking.js] 필수 요소 누락");
     return;
