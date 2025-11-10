@@ -27,7 +27,7 @@ public class NaverOAuthCallbackService implements Command {
 		
 		// 네이버에서 전달받은 인증 코드와 state
 		String code = request.getParameter("code");
-		// String state = request.getParameter("state"); // CSRF 방지용 (필요시 검증)
+		String state = request.getParameter("state");
 		String error = request.getParameter("error");
 		
 		HttpSession session = request.getSession();
@@ -45,6 +45,18 @@ public class NaverOAuthCallbackService implements Command {
 			return "naverCallback.jsp";
 		}
 		
+		// State 검증 (CSRF 방지)
+		String sessionState = (String) session.getAttribute("naver_oauth_state");
+		if (sessionState == null || !sessionState.equals(state)) {
+			request.setAttribute("loginSuccess", false);
+			request.setAttribute("error", "인증 요청이 유효하지 않습니다. 다시 시도해주세요.");
+			session.removeAttribute("naver_oauth_state"); // 검증 후 세션에서 제거
+			return "naverCallback.jsp";
+		}
+		
+		// 검증 성공 후 세션에서 state 제거 (일회용)
+		session.removeAttribute("naver_oauth_state");
+		
 		try {
 			// JNDI에서 네이버 클라이언트 정보 가져오기
 			Context env = (Context) new InitialContext().lookup("java:comp/env");
@@ -53,7 +65,7 @@ public class NaverOAuthCallbackService implements Command {
 			String redirectUri = request.getRequestURL().toString();
 			
 			// 인증 코드를 액세스 토큰으로 교환
-			String accessToken = getNaverAccessToken(code, clientId, clientSecret, redirectUri);
+			String accessToken = getNaverAccessToken(code, clientId, clientSecret, redirectUri, state);
 			
 			if (accessToken == null) {
 				request.setAttribute("loginSuccess", false);
@@ -153,7 +165,7 @@ public class NaverOAuthCallbackService implements Command {
 	}
 	
 	// 네이버 인증 코드를 액세스 토큰으로 교환
-	private String getNaverAccessToken(String code, String clientId, String clientSecret, String redirectUri) {
+	private String getNaverAccessToken(String code, String clientId, String clientSecret, String redirectUri, String state) {
 		try {
 			URL url = new URL("https://nid.naver.com/oauth2.0/token");
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -166,7 +178,7 @@ public class NaverOAuthCallbackService implements Command {
 					"&client_id=" + clientId +
 					"&client_secret=" + clientSecret +
 					"&code=" + code +
-					"&state=STATE_STRING";
+					"&state=" + state;
 			
 			OutputStreamWriter writer = new OutputStreamWriter(conn.getOutputStream(), StandardCharsets.UTF_8);
 			writer.write(postData);

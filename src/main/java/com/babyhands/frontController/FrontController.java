@@ -26,7 +26,9 @@ import com.babyhands.controller.GoSignTestResultService;
 import com.babyhands.controller.GoSlLearnService;
 import com.babyhands.controller.GomemberUpdateService;
 import com.babyhands.controller.GoogleLoginService;
+import com.babyhands.controller.NaverOAuthStartService;
 import com.babyhands.controller.NaverOAuthCallbackService;
+import com.babyhands.controller.KakaoOAuthStartService;
 import com.babyhands.controller.KakaoOAuthCallbackService;
 import com.babyhands.controller.IdCheckService;
 import com.babyhands.controller.JoinService;
@@ -57,7 +59,9 @@ public class FrontController extends HttpServlet {
 		map = new HashMap<String, Command>();
 		map.put("Login.do", new LoginService());
 		map.put("GoogleLogin.do", new GoogleLoginService());
+		map.put("NaverOAuthStart.do", new NaverOAuthStartService());
 		map.put("NaverOAuthCallback.do", new NaverOAuthCallbackService());
+		map.put("KakaoOAuthStart.do", new KakaoOAuthStartService());
 		map.put("KakaoOAuthCallback.do", new KakaoOAuthCallbackService());
 		map.put("Logout.do", new LogoutService());
 		map.put("IdCheck.do", new IdCheckService());
@@ -101,7 +105,7 @@ public class FrontController extends HttpServlet {
 		String moveUrl = "";
 
 		Command com = null;
-
+		
 		// 1. 요청 객체에 대한 인코딩 작업!
 		request.setCharacterEncoding("UTF-8");
 
@@ -142,12 +146,20 @@ public class FrontController extends HttpServlet {
 			return;
 		}
 
-		// 리다이렉트: 컨텍스트 경로 + "/Gomain.do" 형태로
-		if (moveUrl.startsWith("redirect:/")) {
-			String ctx = request.getContextPath(); // 예: /ExMessageSystem
-			// "redirect:/"는 9글자 → substring(9) 결과는 "/Gomain.do"
-			response.sendRedirect(ctx + moveUrl.substring(9));
-			return;
+		// 리다이렉트 처리(절대/상대 모두)
+		if (moveUrl.startsWith("redirect:")) {
+		    String target = moveUrl.substring("redirect:".length()); // 콜론 뒤부터
+
+		    if (target.startsWith("http://") || target.startsWith("https://")) {
+		        // 절대 URL → 그대로 외부 리다이렉트
+		        response.sendRedirect(target);
+		    } else {
+		        // 상대 경로 → 컨텍스트 붙여서
+		        String ctx = request.getContextPath();
+		        if (!target.startsWith("/")) target = "/" + target;
+		        response.sendRedirect(ctx + target);
+		    }
+		    return;
 		}
 
 		// 그 외엔 JSP forward (WEB-INF 아래로 안전하게)
