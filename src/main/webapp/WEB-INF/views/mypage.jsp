@@ -25,7 +25,7 @@
 		<main class="container mypage-container">
 			<!-- NAV -->
 			<jsp:include page="/WEB-INF/views/header.jsp">
-				<jsp:param name="nav" value="learn" />
+				<jsp:param name="nav" value="mypage" />
 			</jsp:include>
 			<h1 class="page-title">마이페이지</h1>
 

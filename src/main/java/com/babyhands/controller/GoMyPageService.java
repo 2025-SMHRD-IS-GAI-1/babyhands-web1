@@ -31,6 +31,7 @@ public class GoMyPageService implements Command {
 		
 		request.setAttribute("member", member);
 		request.setAttribute("memberScoreRank", memberScoreRank);
+
 		
 		return "mypage.jsp";
 	}
