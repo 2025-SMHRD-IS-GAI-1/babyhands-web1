@@ -127,7 +127,7 @@ function updateNavButtons() {
 	if (btnPrev) btnPrev.disabled = (currentIndex === 0);
 	if (btnNext) btnNext.textContent = isLast() ? '제출하기' : '다음';
 	var checked = $('input[name="answer"]:checked');
-	if (btnNext) btnNext.disabled = !(checked && checked.length > 0);
+	if (btnNext) btnNext.disabled = !(!!checked);
 }
 
 function submitResult() {
