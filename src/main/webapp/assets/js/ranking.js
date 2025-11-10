@@ -5,6 +5,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const endEl    = document.getElementById("end");
   const totalCountInput = document.getElementById("totalCount");
   const dotsEl = document.querySelector(".rk-dots");
+  const scroll = document.querySelector(".rk-scroll");
+  const myRank = document.querySelector(".my-rank");
   
 
   if (!listEl || !loaderEl || !endEl) {
@@ -150,4 +152,21 @@ document.addEventListener("DOMContentLoaded", () => {
     const keys = ["PageDown", " ", "ArrowDown", "End"];
     if (keys.includes(e.key)) firstKick();
   });
+  
+  
+  if (scroll && myRank) {
+    const applyHeight = () => {
+      const h = Math.ceil(myRank.getBoundingClientRect().height);
+      scroll.style.setProperty("--my-rank-h", (h) + "px");
+      /* ⬇️ 내 순위를 더 위로 올리고 싶으면 여기 숫자만 바꿔줘 */
+      scroll.style.setProperty("--my-rank-offset", "32px"); // 16px ↑ 띄우기 (원하는 값)
+    };
+
+    applyHeight();
+
+    const ro = new ResizeObserver(applyHeight);
+    ro.observe(myRank);
+
+    document.addEventListener("rank:list:updated", applyHeight);
+  }
 });

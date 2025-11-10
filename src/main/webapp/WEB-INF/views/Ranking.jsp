@@ -37,7 +37,7 @@
 							<div style="text-align: right;">누적점수</div>
 						</div>
 					</div>
-					<div class="rk-scroll">
+					<div class="rk-scroll" id="rankScroll">
 						<!-- ✅ 여기부터가 '목록 컨테이너' : JS가 여기 뒤에 계속 row를 append 할 거야 -->
 						<div id="ranking-list">
 
@@ -124,7 +124,7 @@
 
 
 					</div>
-					<div class="rk-my">
+					<div class="rk-my" id="myRank" style="position: sticky; bottom: 40px;">
 						<div class="rk-my-left">${loginVO.nickname}님의순위</div>
 						<div class="rk-my-right">${mine.rankNo}위/${mine.totalScore}점</div>
 					</div>
