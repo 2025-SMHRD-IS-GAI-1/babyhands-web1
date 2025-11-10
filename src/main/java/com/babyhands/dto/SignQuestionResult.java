@@ -7,6 +7,7 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class SignQuestionResult {
+	private Long slTestId;
     private int slId;
     private String jamo;        // 내가 고른 답 (CHOOSE_ANSWER)
     private String correctJamo; // 정답 (SIGN_LANGUAGE.MEANING)
