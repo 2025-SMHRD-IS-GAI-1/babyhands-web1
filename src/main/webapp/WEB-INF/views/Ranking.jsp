@@ -31,87 +31,129 @@
 
 				<div class="rk-board">
 					<div class="rk-header-row">
-						<div >순위</div>
-						<div >닉네임</div>						
-						<div><div style="text-align: right;">누적점수</div></div>
+						<div>순위</div>
+						<div>닉네임</div>
+						<div>
+							<div style="text-align: right;">누적점수</div>
+						</div>
 					</div>
+					<div class="rk-scroll" id="rankScroll">
+						<!-- ✅ 여기부터가 '목록 컨테이너' : JS가 여기 뒤에 계속 row를 append 할 거야 -->
+						<div id="ranking-list">
 
-					<c:choose>
-						<c:when test="${not empty rankList}">
-							<c:forEach var="r" items="${rankList}">
-								<c:choose>
-									<c:when test="${r.rankNo == 1}">
-										<div class="rk-row rk-top1">
-											<div class="rk-rank-num">1</div>
-											<div class="rk-nick-wrap">
-												<div class="rk-medal rk-gold">🥇</div>
-												<div class="rk-nickname">${r.nickname}</div>
-											</div>
-											<div class="rk-score">${r.totalScore}</div>
-										</div>
-									</c:when>
 
-									<c:when test="${r.rankNo == 2}">
-										<div class="rk-row rk-top2">
-											<div class="rk-rank-num">2</div>
-											<div class="rk-nick-wrap">
-												<div class="rk-medal rk-silver">🥈</div>
-												<div class="rk-nickname">${r.nickname}</div>
-											</div>
-											<div class="rk-score">${r.totalScore}</div>
-										</div>
-									</c:when>
+							<c:choose>
+								<c:when test="${not empty top5}">
+									<c:forEach var="r" items="${top5}">
+										<c:choose>
+											<c:when test="${r.rankNo == 1}">
+												<div class="rk-row rk-top1" data-rank="${r.rankNo}"
+													data-id="${r.memberId}">
+													<div class="rk-rank-num">1</div>
+													<div class="rk-nick-wrap">
+														<div class="rk-medal rk-gold">🥇</div>
+														<div class="rk-nickname">${r.nickname}</div>
+													</div>
+													<div class="rk-score">${r.totalScore}</div>
+												</div>
+											</c:when>
 
-									<c:when test="${r.rankNo == 3}">
-										<div class="rk-row rk-top3">
-											<div class="rk-rank-num">3</div>
-											<div class="rk-nick-wrap">
-												<div class="rk-medal rk-bronze">🥉</div>
-												<div class="rk-nickname">${r.nickname}</div>
-											</div>
-											<div class="rk-score">${r.totalScore}</div>
-										</div>
-									</c:when>
+											<c:when test="${r.rankNo == 2}">
+												<div class="rk-row rk-top2" data-rank="${r.rankNo}"
+													data-id="${r.memberId}">
+													<div class="rk-rank-num">2</div>
+													<div class="rk-nick-wrap">
+														<div class="rk-medal rk-silver">🥈</div>
+														<div class="rk-nickname">${r.nickname}</div>
+													</div>
+													<div class="rk-score">${r.totalScore}</div>
+												</div>
+											</c:when>
 
-									<c:otherwise>
-										<div class="rk-row">
-											<div class="rk-rank-num">${r.rankNo}</div>
-											<div class="rk-nickname">${r.nickname}</div>
+											<c:when test="${r.rankNo == 3}">
+												<div class="rk-row rk-top3" data-rank="${r.rankNo}"
+													data-id="${r.memberId}">
+													<div class="rk-rank-num">3</div>
+													<div class="rk-nick-wrap">
+														<div class="rk-medal rk-bronze">🥉</div>
+														<div class="rk-nickname">${r.nickname}</div>
+													</div>
+													<div class="rk-score">${r.totalScore}</div>
+												</div>
+											</c:when>
 
-											<div class="rk-score">${r.totalScore}</div>
-										</div>
-									</c:otherwise>
-								</c:choose>
-							</c:forEach>
-						</c:when>
-						<c:otherwise>
-							<div class="rk-row">
-								<div class="rk-rank-num">-</div>
-								<div class="rk-nickname">랭킹 데이터가 없습니다.</div>
-								<div class="rk-score">0</div>
-							</div>
-						</c:otherwise>
-					</c:choose>
+											<c:otherwise>
+												<div class="rk-row" data-rank="${r.rankNo}"
+													data-id="${r.memberId}">
+													<div class="rk-rank-num">${r.rankNo}</div>
+													<div class="rk-nickname">${r.nickname}</div>
+													<div class="rk-score">${r.totalScore}</div>
+												</div>
+											</c:otherwise>
+										</c:choose>
+									</c:forEach>
+								</c:when>
+								<c:otherwise>
+									<div class="rk-row">
+										<div class="rk-rank-num">-</div>
+										<div class="rk-nickname">랭킹 데이터가 없습니다.</div>
+										<div class="rk-score">0</div>
+									</div>
+								</c:otherwise>
+							</c:choose>
+						</div>
 
-					<div class="rk-dots">
-						<div class="rk-dot"></div>
-						<div class="rk-dot"></div>
-						<div class="rk-dot"></div>
+
+						<!-- ✅ JS에서 찾는 요소들은 ranking-list "바깥쪽"에 -->
+						<div id="loader"
+							style="display: none; text-align: center; padding: 10px;">불러오는
+							중...</div>
+						<div id="end"
+							style="display: none; text-align: center; padding: 10px;">마지막
+							랭킹입니다 🎉</div>
+
+
+
+
+						<div class="rk-dots">
+							<div class="rk-dot"></div>
+							<div class="rk-dot"></div>
+							<div class="rk-dot"></div>
+						</div>
+						<div id="sentinel" style="height: 1px;"></div>
+
+
 					</div>
-
-					<div class="rk-my">
-						<div class="rk-my-left">${loginVO.nickname} 님의 순위</div>
-						<div class="rk-my-right">${mine.rankNo}위 / ${mine.totalScore}점</div>
+					<div class="rk-my" id="myRank" style="position: sticky; bottom: 40px;">
+						<div class="rk-my-left">${loginVO.nickname}님의순위</div>
+						<div class="rk-my-right">${mine.rankNo}위/${mine.totalScore}점</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 
-	<script>
-		window.APP_CTX = '${ctx}';
-	</script>
-	<script src="${ctx}/assets/js/header.js"></script>
+		<!-- ✅ 총 개수 내려주기(선택이지만 추천: 종료 판단 정확) -->
+		<input type="hidden" id="totalCount" value="${totalCount}" />
+
+
+		<!-- ✅ JS에서 쓸 컨텍스트 경로/엔드포인트 전달 -->
+		<script>
+			const contextPath = '${ctx}';
+			const rankingApi = window.location.origin + contextPath
+					+ '/RankingData.do';
+		</script>
+
+
+
+		<script>
+			window.APP_CTX = '${ctx}';
+		</script>
+		<script src="${ctx}/assets/js/header.js"></script>
+
+		<!-- ✅ 무한 스크롤 스크립트 -->
+		<script src="${ctx}/assets/js/ranking.js?v=1"></script>
+		<div id="sentinel" style="height: 1px;"></div>
 </body>
 </html>
 

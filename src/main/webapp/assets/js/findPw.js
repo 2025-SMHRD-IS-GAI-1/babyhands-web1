@@ -120,7 +120,7 @@ findPwForm.addEventListener("submit", function(e) {
 			if (data && data.ok) {
 				alert("비밀번호 찾기 성공\n입력한 이메일에서 비밀번호를 확인하세요");
 			} else {
-				alert(data.message || "비밀번호 찾기 실패\n입력한 아이디와 이메일을 확인해주세요");
+				alert(data.message);
 			}
 		})
 		.catch(function(err) {

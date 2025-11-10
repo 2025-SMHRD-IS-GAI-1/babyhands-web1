@@ -14,12 +14,13 @@ import com.babyhands.frontController.Command;
 import com.babyhands.vo.MemberVO;
 import com.google.gson.Gson;
 
-public class UpdateMemberService implements Command {
+public class UpdateSocialMemberSerivce implements Command {
 
 	private final Gson gson = new Gson();
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) {
+		
 		HttpSession session = request.getSession();
 		
 		if (session == null || session.getAttribute("loginVO") == null) {
@@ -28,17 +29,14 @@ public class UpdateMemberService implements Command {
 		
 		// 2. 요청 객체로 부터 데이터 꺼내오기
 		String memberId = request.getParameter("id");
-		String plainPw = request.getParameter("pw");
-		String pw = BCrypt.hashpw(plainPw, BCrypt.gensalt(10));
 		String nickname = request.getParameter("nickname");
-		String email = request.getParameter("email");
 
 		// 3. DB에 해당하는 내용이 전달되도록 작업! => DAO 클래스
 
-		MemberVO mvo = MemberVO.builder().memberId(memberId).pw(pw).nickname(nickname).email(email).build();
+		MemberVO mvo = MemberVO.builder().memberId(memberId).nickname(nickname).build();
 
 		MemberDAO dao = new MemberDAO();
-		int row = dao.update(mvo);
+		int row = dao.socialUpdate(mvo);
 		Map<String, Object> payload = new HashMap<>();
 
 		// 회원수정에 성공 할시
