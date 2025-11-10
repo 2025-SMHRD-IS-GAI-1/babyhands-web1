@@ -220,7 +220,7 @@ body {
     
        /* 💡 추가된 두 줄 */
     position: sticky;   /* 스크롤 중에도 부모 영역 하단에 고정 */
-    bottom: 0;          /* 컨테이너 기준으로 하단 위치 고정 */
+	bottom: var(--my-rank-offset, 0px); /* ⬅️ 여기 값이 클수록 더 위로 떠 */
     
         /* (선택) 다른 요소 위로 띄워주기 */
     z-index: 10;
@@ -262,7 +262,11 @@ body {
 /* 스크롤이 일어나는 내부 박스 */
 .rk-scroll{
   max-height: 460px;     /* ← 네가 원하는 네모 박스 높이로 조절 */
-  overflow-y: auto;
+  overflow: auto;
   padding-right: 6px;    /* 스크롤바 겹침 방지(선택) */
   scroll-behavior: smooth;
+    /* sticky 하단 박스만큼 여유 공간을 줘서 절대 가리지 않게 */
+  padding-bottom: calc(var(--my-rank-h, 96px) + var(--my-rank-offset, 0px));
+  /* scrollIntoView 쓸 때도 딱 맞게 보이도록 */
+  scroll-padding-bottom: calc(var(--my-rank-h, 96px) + var(--my-rank-offset, 0px));
 }
