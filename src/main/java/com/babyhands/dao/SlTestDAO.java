@@ -64,6 +64,34 @@ public class SlTestDAO {
 
 		return result;
 	}
+	
+	
+	
+	///////////////////////////////////////////////////
+	// offset/limit 기반 랭킹 슬라이스
+	public List<MemberScoreRank> selectRankingSlice(Map<String, Integer> params) {
+	    SqlSession s = factory.openSession();
+	    List<MemberScoreRank> out = s.selectList("selectRankingSlice", params);
+	    s.close();
+	    return out;
+	}
+
+	// 총 개수
+	public int countAllRanking() {
+	    SqlSession s = factory.openSession();
+	    int count = s.selectOne("countAllRanking");
+	    s.close();
+	    return count;
+	}
+	///////////////////////////////////////////////////
+	
+	
+	
+	
+	
+	
+	
+	
 	// ───────── 결과 화면용(최신 그룹 기준) ─────────
 
 	// 1) 해당 회원의 최신 응시 그룹 번호
@@ -158,4 +186,6 @@ public class SlTestDAO {
 		s.close();
 		return out;
 	}
+
+
 }

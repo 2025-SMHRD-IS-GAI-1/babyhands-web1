@@ -75,13 +75,18 @@ body {
 /* ===== 랭킹 보드 ===== */
 .rk-board {
     background: #fff;
-    border-radius: 16px;
+    border-radius: 16px;	
     padding: 1.5rem 2rem;
     box-shadow: 0 4px 15px rgba(0, 0, 0, .05);
 
     /* ✅ 스크롤 추가: 화면 밖으로 안 빠지게 */
     max-height: 480px;
     overflow-y: auto;
+    
+      /* sticky 바가 내용을 가리지 않게 여유 공간 */
+  padding-bottom: 80px; /* rk-my 높이(+여유)만큼 */
+  position: relative;   /* sticky 기준 컨테이너 */
+  
 }
 
 /* ===== 랭킹 헤더 및 행 ===== */
@@ -208,8 +213,17 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 1.5rem;
+	margin-top: 1.5rem;   /* ⭕ 위쪽 여백만 */
+	margin-bottom: 0;     /* ❌ 아래쪽 여백은 제거 */
     border: 1px solid #c5dbf6;
+    
+    
+       /* 💡 추가된 두 줄 */
+    position: sticky;   /* 스크롤 중에도 부모 영역 하단에 고정 */
+    bottom: 0;          /* 컨테이너 기준으로 하단 위치 고정 */
+    
+        /* (선택) 다른 요소 위로 띄워주기 */
+    z-index: 10;
 }
 
 .rk-my-left {
@@ -236,4 +250,19 @@ body {
     .rk-board {
         max-height: 400px;
     }
+}
+
+
+/* Ranking.css */
+.rk-board { max-height: calc(100vh - 220px); overflow-y: auto; }
+
+
+
+
+/* 스크롤이 일어나는 내부 박스 */
+.rk-scroll{
+  max-height: 460px;     /* ← 네가 원하는 네모 박스 높이로 조절 */
+  overflow-y: auto;
+  padding-right: 6px;    /* 스크롤바 겹침 방지(선택) */
+  scroll-behavior: smooth;
 }
