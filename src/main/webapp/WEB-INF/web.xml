@@ -20,5 +20,9 @@
 		<welcome-file>default.jsp</welcome-file>
 		<welcome-file>default.htm</welcome-file>
 	</welcome-file-list>
-	
+
+	<session-config>
+		<tracking-mode>COOKIE</tracking-mode>
+	</session-config>
+
 </web-app>

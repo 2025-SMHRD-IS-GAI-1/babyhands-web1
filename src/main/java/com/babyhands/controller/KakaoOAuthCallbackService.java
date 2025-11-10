@@ -25,8 +25,9 @@ public class KakaoOAuthCallbackService implements Command {
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) {
 		
-		// 카카오에서 전달받은 인증 코드
+		// 카카오에서 전달받은 인증 코드와 state
 		String code = request.getParameter("code");
+		String state = request.getParameter("state");
 		String error = request.getParameter("error");
 		
 		HttpSession session = request.getSession();
@@ -44,6 +45,18 @@ public class KakaoOAuthCallbackService implements Command {
 			return "kakaoCallback.jsp";
 		}
 		
+		// State 검증 (CSRF 방지)
+		String sessionState = (String) session.getAttribute("kakao_oauth_state");
+		if (sessionState == null || !sessionState.equals(state)) {
+			request.setAttribute("loginSuccess", false);
+			request.setAttribute("error", "인증 요청이 유효하지 않습니다. 다시 시도해주세요.");
+			session.removeAttribute("kakao_oauth_state"); // 검증 후 세션에서 제거
+			return "kakaoCallback.jsp";
+		}
+		
+		// 검증 성공 후 세션에서 state 제거 (일회용)
+		session.removeAttribute("kakao_oauth_state");
+		
 		try {
 			// JNDI에서 카카오 클라이언트 정보 가져오기
 			Context env = (Context) new InitialContext().lookup("java:comp/env");
@@ -51,7 +64,7 @@ public class KakaoOAuthCallbackService implements Command {
 			String redirectUri = request.getRequestURL().toString();
 			
 			// 인증 코드를 액세스 토큰으로 교환
-			String accessToken = getKakaoAccessToken(code, clientId,  redirectUri);
+			String accessToken = getKakaoAccessToken(code, clientId, redirectUri, state);
 			
 			if (accessToken == null) {
 				request.setAttribute("loginSuccess", false);
@@ -167,7 +180,7 @@ public class KakaoOAuthCallbackService implements Command {
 	}
 	
 	// 카카오 인증 코드를 액세스 토큰으로 교환
-	private String getKakaoAccessToken(String code, String clientId, String redirectUri) {
+	private String getKakaoAccessToken(String code, String clientId, String redirectUri, String state) {
 		try {
 			URL url = new URL("https://kauth.kakao.com/oauth/token");
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -179,7 +192,8 @@ public class KakaoOAuthCallbackService implements Command {
 			String postData = "grant_type=authorization_code" +
 					"&client_id=" + clientId +
 					"&redirect_uri=" + redirectUri +
-					"&code=" + code;
+					"&code=" + code +
+					"&state=" + state;
 			
 			OutputStreamWriter writer = new OutputStreamWriter(conn.getOutputStream(), StandardCharsets.UTF_8);
 			writer.write(postData);
