@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   let offset = listEl.children.length; // 초기 5
-  const limit = 20;
+  const limit = 5;
   let loading = false;
   let ended   = false;
 
@@ -133,7 +133,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (ended || loading) return;
     if (!activated) return;                            // 스크롤 시도 전이면 동작 X
     const { st, ch, sh } = getScrollState();
-    if (st + ch >= sh - 300) fetchMore();
+    if (st + ch >= sh - 1) fetchMore();
   }
 
   function firstKick() {
