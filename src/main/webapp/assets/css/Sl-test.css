@@ -1,466 +1,227 @@
 @charset "UTF-8";
-/* --- Global Reset & Font --- */
-* {
-	box-sizing: border-box;
+
+/* ==============================
+   테스트 페이지 전용 스타일
+   ============================== */
+
+/* --- Page Title Header (네비바 아래 바로 오는 페이지 제목 영역) --- */
+.container > .page-title-header { /* [수정] .container의 직계 자식으로 변경 */
+    text-align: center;
+    padding: 1.2rem 0; 
+    margin-bottom: 1.5rem; 
+    flex-shrink: 0; 
+}
+.container > .page-title-header .page-title { 
+    font-size: 2.2rem;
+    font-weight: 600;
+    color: var(--text-dark);
 }
 
-body {
-	font-family: 'Noto Sans KR', sans-serif;
-	background-color: #f4f7f6;
-	color: #333;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	min-height: 100vh;
-	padding: 1rem; /* 전체 컨테이너 여백 */
+/* --- Main Content Grid (실제 문제 및 답안 패널 영역) --- */
+.container > .main-content-test { /* [수정] .container의 직계 자식으로 변경 */
+    display: grid;
+    grid-template-columns: 1.2fr 1fr; 
+    gap: 2rem; 
+    align-items: stretch; 
+    flex-grow: 1; /* 부모(.container) 내에서 남은 수직 공간을 모두 차지 */
+    min-height: 0; 
 }
 
-a {
-	text-decoration: none;
-	color: inherit;
-	font-weight: 700;
+/* --- 좌측 영상 패널 --- */
+.main-content-test .test-panel { /* [수정] 선택자 정리 */
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--border-color);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    background: #fdfdfd; 
+    height: auto;
+    min-height: 0; 
 }
 
-ul {
-	list-style: none;
+/* --- 문제 번호 / 제목 --- */
+.main-content-test .test-panel .section-header .section-subtitle { /* [수정] 선택자 정리 */
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--text-light);
+    margin-bottom: 1rem;
 }
 
-button, input[type="submit"], input[type="button"] {
-	cursor: pointer;
-	border: none;
-	font-family: 'Noto Sans KR', sans-serif;
+/* --- 비디오 박스 --- */
+.main-content-test .test-panel .video-placeholder-test.video-box .video-placeholder { /* [수정] 선택자 정리 */
+    flex-grow: 1; 
+    border-radius: 0.75rem;
+    background: #f0f0f0;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#question_video { 
+    width: 100%;
+    height: 100%;
+    object-fit: contain; 
+    border-radius: 0.75rem;
+    background: #000;
 }
 
-/* --- Color Variables --- */
-:root {
-	--primary-color: #6d5bff; /* 활성 메뉴, 하이라이트 */
-	--secondary-color: #007bff; /* 일반 버튼 */
-	--green-color: #28a745;
-	--light-gray-bg: #f8f9fa;
-	--container-bg: #ffffff;
-	--border-color: #dee2e6;
-	--text-dark: #212529;
-	--text-light: #6c757d;
-	--hover-color: #aab0ffc2;
-	--selected-option-bg: #f4f2ff; /* 선택된 옵션 배경색 */
-	
+/* --- 우측 정답 패널 --- */
+.main-content-test .answer-panel { /* [수정] 선택자 정리 */
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--border-color);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    background: #fdfdfd;
+    height: auto; 
+    min-height: 0; 
+}
+/* --- "정답 선택" 제목 --- */
+.main-content-test .answer-panel .section-header .section-subtitle { /* [수정] 선택자 정리 */
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--text-dark);
+    margin-bottom: 1.5rem;
+}
+.main-content-test .answer-panel .answer-form { /* [수정] 선택자 정리 */
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    height: 100%; /* [개선] 스크롤되는 answer-list의 부모에게 높이 컨텍스트 제공 */
 }
 
-/* --- Main Layout --- */
-.container {
-	min-height: 750px;
-	max-width: 1400px;
-	border: 1px solid var(--border-color, #dee2e6);
-	width: 100%;
-	height: 750px;
-	background-color: #ffffff;
-	border-radius: 1.5rem;
-	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
-	overflow-x: hidden;
-	min-width: 320px;
-	box-sizing: border-box;
-	margin-top: auto;
-	margin-bottom: auto;
-	overflow: hidden;
-	
+/* --- 정답 리스트 --- */
+.main-content-test .answer-panel .answer-form .answer-list { /* [수정] 선택자 정리 */
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+    margin-bottom: 1.5rem;
+    overflow-y: auto; 
+}
+.main-content-test .answer-panel .answer-form .answer-list input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    width: 1px;
+    height: 1px;
+}
+.main-content-test .answer-panel .answer-form .answer-list label {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 0.75rem;
+    height: 46px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.main-content-test .answer-panel .answer-form .answer-list label:hover {
+    filter: brightness(1.02);
+}
+.main-content-test .answer-panel .answer-form .answer-list label::before {
+    content: '';
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 2px solid var(--border-color);
+    margin-right: 1rem;
+    flex-shrink: 0;
+}
+.main-content-test .answer-panel .answer-form .answer-list input[type="radio"]:checked + label {
+    border-color: var(--primary-color);
+    background-color: var(--check-bg);
+    font-weight: 700;
+}
+.main-content-test .answer-panel .answer-form .answer-list input[type="radio"]:checked + label::before {
+    border-color: var(--primary-color);
+    background-color: var(--primary-color);
+    border-width: 4px; 
 }
 
-/* --- 1. Header (header.css가 담당) --- */
-/* (sl-test.css에서는 헤더를 건드리지 않습니다) */
-
-/* --- 2. Page Title --- */
-.page-title-header {
-	text-align: center;
-	padding: 1.2rem 0 .9rem; /* 헤더 아래, 박스 위 간격 */
+/* --- 제출 버튼 / 액션 --- */
+.main-content-test .answer-panel .answer-form .answer-actions { /* [수정] 선택자 정리 */
+    margin-top: auto; 
+    display: flex;
+    gap: 12px;
+    flex-shrink: 0; 
+}
+.main-content-test .answer-panel .answer-form .answer-actions .btn {
+    flex: 1;
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: background-color 0.2s;
+    border: none;
+}
+.main-content-test .answer-panel .answer-form .answer-actions .btn-outline-secondary {
+    background-color: var(--text-light);
+    color: white;
+    border-color: var(--text-light);
+}
+.main-content-test .answer-panel .answer-form .answer-actions .btn-outline-secondary:hover {
+    background-color: #5a6268;
+    border-color: #5a6268;
+}
+.main-content-test .answer-panel .answer-form .answer-actions .btn-primary {
+    background-color: var(--secondary-color);
+    color: white;
+    border-color: var(--secondary-color);
+}
+.main-content-test .answer-panel .answer-form .answer-actions .btn-primary:hover {
+    background-color: #0056d2;
+    border-color: #0056d2;
 }
 
-.page-title {
-	font-size: 2.2rem;
-	font-weight: 600;
-	color: var(--text-dark);
+/* =======================================================
+   Responsive
+   ======================================================= */
+@media (max-width: 992px) {
+    .container > .page-title-header { /* [수정] 선택자 수정 */
+        margin-bottom: 1rem;
+    }
+    .container > .main-content-test { /* [수정] 선택자 수정 */
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        height: auto; 
+    }
+    .container { /* [수정] 높이 유연화 */
+        min-height: auto; 
+    }
+    .main-content-test .test-panel,
+    .main-content-test .answer-panel {
+        height: auto;
+    }
+    .main-content-test .test-panel .video-placeholder-test.video-box .video-placeholder {
+        height: clamp(220px, 40vw, 300px);
+        aspect-ratio: unset; 
+    }
 }
 
-/* --- 4. Main Content (Grid) --- */
-.main-content-test {
-	display: grid;
-	grid-template-columns: 1.2fr 1fr;
-	gap: 2rem;
-	padding: 0 0 2rem;
-	align-items: stretch;
-}
-
-/* --- 4-1. Test Panel (Left Box) --- */
-.test-panel {
-	display: flex;
-	flex-direction: column;
-	min-width: 0;
-	/* Box Styles */
-	border: 1px solid var(--border-color);
-	border-radius: 1rem;
-	padding: 1.5rem;
-	background: #fdfdfd;
-}
-
-/* 박스 내부 제목 (가운데 정렬) */
-.section-header {
-	margin-bottom: 1rem;
-	text-align: center;
-}
-
-.section-subtitle {
-	font-size: 1.1rem;
-	color: var(--text-light);
-	font-weight: 500;
-}
-
-.video-placeholder-test.video-box {
-	width: 100%;
-	flex: 1;
-	display: flex;
-	flex-direction: column;
-	overflow: hidden;
-}
-
-.video-title {
-	font-size: 1.1rem;
-	font-weight: 500;
-	margin-bottom: 0.75rem;
-	/* .section-header의 text-align:center를 상속받습니다. */
-	/* 만약 왼쪽 정렬을 원하면 여기에 'text-align: left;'를 추가하세요. */
-}
-
-.video-placeholder {
-	width: 100%;
-	flex-grow: 1;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	aspect-ratio: 4/3;
-	background-color: #f0f0f0;
-	border-radius: 0.75rem;
-	color: #aaa;
-	font-size: 1.1rem;
-	overflow: hidden;
-}
-
-/* [수정] 인라인 스타일을 여기로 이동 */
-#question_video {
-	width: 100%;
-	height: 100%;
-	border-radius: 0.75rem;
-	background-color: #000;
-	object-fit: contain; /* 비디오 비율 유지 */
-}
-
-/* --- 4-2. Answer Panel (Right Box) --- */
-.answer-panel {
-	display: flex;
-	flex-direction: column;
-	border: 1px solid var(--border-color);
-	border-radius: 1rem;
-	padding: 1.5rem;
-	background: #fdfdfd;
-}
-
-.answer-form {
-	display: flex;
-	flex-direction: column;
-	flex: 1;
-}
-
-.answer-list {
-	display: flex;
-	flex-direction: column;
-	gap: 1rem;
-}
-
-.answer-list li {
-	display: block;
-}
-
-/* 라디오 버튼 숨김 처리 */
-.answer-list input[type="radio"] {
-	position: absolute;
-	opacity: 0;
-	width: 1px;
-	height: 1px;
-	margin: -1px;
-	padding: 0;
-	overflow: hidden;
-	clip: rect(0, 0, 0, 0);
-	border: 0;
-}
-
-.answer-list label {
-	display: flex;
-	align-items: center;
-	justify-content: flex-start;
-	padding: 1rem;
-	border: 1px solid var(--border-color);
-	border-radius: 0.75rem;
-	height: auto;
-	font-size: 1.1rem;
-	font-weight: 500;
-	cursor: pointer;
-	transition: all 0.2s ease;
-	width: 100%;
-}
-
-.answer-list label:hover {
-	background-color: var(--light-gray-bg);
-	border-color: #adb5bd;
-}
-
-.answer-list label::before {
-	content: '';
-	width: 20px;
-	height: 20px;
-	border: 2px solid var(--border-color);
-	border-radius: 50%;
-	transition: all 0.2s ease;
-	flex-shrink: 0;
-	margin-right: 1rem;
-}
-
-/* 라디오 버튼 선택 시 */
-.answer-list input[type="radio"]:checked+label {
-	border-color: var(--primary-color);
-	background-color: var(--selected-option-bg);
-	font-weight: 700;
-}
-
-.answer-list input[type="radio"]:checked+label::before {
-	border-color: var(--primary-color);
-	background-color: var(--primary-color);
-	border-width: 4px;
-}
-
-.submit-btn {
-	width: 100%;
-	background-color: var(--secondary-color);
-	color: white;
-	padding: 1rem;
-	font-size: 1.15rem;
-	font-weight: 700;
-	border-radius: 0.75rem;
-	margin-top: auto;
-	padding-top: 1rem;
-}
-
-.submit-btn:hover {
-	background-color: #0069d9;
-}
-
-/* --- Media Queries for Responsiveness --- */
-@media ( max-width : 992px) {
-	.container {
-		padding: 1rem 1.5rem;
-		border-radius: 1rem;
-	}
-	.page-title-header {
-		padding: 1.5rem 0 1rem;
-		text-align: center;
-	}
-	.page-title {
-		font-size: 1.8rem;
-	}
-	.main-content-test {
-		grid-template-columns: 1fr;
-		gap: 1.5rem;
-		padding-bottom: 1.5rem;
-	}
-	.test-panel, .answer-panel {
-		min-width: unset;
-		padding: 1rem;
-		min-height: 420px;
-  		max-height: 560px;
-  		outline: 1px dashed blue;
-	}
-	.video-placeholder-test.video-box {
-		min-height: unset;
-		padding: 0;
-		border: none;
-		background: none;
-	}
-	.answer-list label {
-		padding: 0.75rem 1rem;
-	}
-	.submit-btn {
-		margin-top: 1.5rem;
-		padding-top: 1rem;
-	}
-}
-
-@media ( max-width : 576px) {
-	body {
-		padding: 0.5rem;
-	}
-	.container {
-		padding: 1rem;
-		border-radius: 0.75rem;
-	}
-	.page-title {
-		font-size: 1.6rem;
-	}
-	.video-placeholder {
-		aspect-ratio: 16/10;
-	}
-}
-
-/* ????? */
-
-/* ============================
-   [테스트 화면 보정 PATCH]
-   - 학습하기 규격(1400, 여백, 카드톤)로 통일
-   - 좌/우 패널 높이·비디오 영역 비율 맞춤
-   - 버튼/라디오 스킨 일치
-============================ */
-
-/* 0) 컨테이너 규격(학습하기와 동일) */
-.container {
-	max-width: 1400px;
-	padding: 1.2rem 2rem;
-	border: 1px solid var(--border-color);
-	border-radius: 1.5rem;
-	box-shadow: 0 10px 30px rgba(0, 0, 0, .07);
-}
-
-/* 1) 메인 그리드 간격/비율 통일 */
-.main-content-test {
-	grid-template-columns: 1.2fr 1fr;
-	gap: 2rem;
-	align-items: stretch;
-}
-
-/* 2) 좌/우 카드 스킨 통일 + 동일 높이 확보 */
-.test-panel, .answer-panel {
-	background: #fff;
-	border: 1px solid var(--border-color);
-	border-radius: 1rem;
-	box-shadow: 0 10px 30px rgba(0, 0, 0, .07);
-	min-height: clamp(420px, 36vw, 560px); /* 두 박스 높이 균형 */
-	display: flex;
-	flex-direction: column;
-}
-
-/* 3) 비디오 영역: 학습하기와 같은 비율/크기 느낌 */
-.video-placeholder {
-	/* 데스크톱에선 고정비율 대신 '규격 높이'로 안정감 */
-	aspect-ratio: auto;
-	height: clamp(320px, 28vw, 420px);
-	border-radius: 0.75rem;
-	background: #f0f0f0;
-	overflow: hidden;
-}
-
-#question_video {
-	width: 100%;
-	height: 100%;
-	object-fit: contain;
-	border-radius: 0.75rem;
-	background: #000;
-}
-
-/* 4) 라디오 옵션: 학습하기 톤으로 강화 */
-.answer-list {
-	gap: 0.9rem;
-}
-
-.answer-list label {
-	height: 46px;
-	border-radius: 12px;
-	font-weight: 600;
-	transition: filter .15s ease, transform .05s ease, border-color .15s
-		ease;
-}
-
-.answer-list label:hover {
-	filter: brightness(1.02);
-}
-
-.answer-list label::before {
-	width: 18px;
-	height: 18px;
-	border-radius: 50%;
-	border: 2px solid var(--border-color);
-}
-
-.answer-list input[type="radio"]:checked+label {
-	border-color: var(--primary-color);
-	background: var(--selected-option-bg);
-	font-weight: 700;
-}
-
-.answer-list input[type="radio"]:checked+label::before {
-	border-color: var(--primary-color);
-	background: var(--primary-color);
-	border-width: 4px;
-}
-
-/* 우측 패널 안에서 폼이 세로로 꽉 차도록 */
-.answer-panel {
-	display: flex;
-}
-
-.answer-form {
-	display: flex;
-	flex-direction: column;
-	flex: 1;
-}
-
-/* 버튼 영역을 맨 아래로 밀기 */
-.answer-actions {
-	margin-top: auto; /* 핵심: 아래로 고정 */
-	display: flex;
-	gap: 12px;
-}
-
-/* 두 버튼 반반 */
-.answer-actions .btn {
-	flex: 1;
-}
-
-/* 6) 반응형 — 학습하기 기준과 동일 브레이크포인트 */
-@media ( max-width : 992px) {
-	.container {
-		padding: 1rem 1.5rem;
-		border-radius: 1rem;
-	}
-	.page-title-header {
-		padding: 1.5rem 0 1rem;
-	}
-	.page-title {
-		font-size: 1.8rem;
-	}
-	.main-content-test {
-		grid-template-columns: 1fr;
-		gap: 1.5rem;
-	}
-	.test-panel, .answer-panel {
-		min-height: unset;
-	}
-	.video-placeholder {
-		height: clamp(220px, 40vw, 300px);
-	}
-	.submit-btn {
-		width: 100%;
-		margin-top: 1rem;
-	}
-}
-
-@media ( max-width : 576px) {
-	.container {
-		padding: 1rem;
-		border-radius: .75rem;
-		box-shadow: none;
-	}
-	.page-title {
-		font-size: 1.6rem;
-	}
-	.video-placeholder {
-		height: 200px;
-	}
-	.answer-actions {
-		flex-direction: column;
-	}
+@media (max-width: 576px) {
+    .container > .page-title-header .page-title {
+        font-size: 1.6rem;
+    }
+    .container > .page-title-header {
+        padding: 1rem 0 0.5rem;
+    }
+    .main-content-test .test-panel .video-placeholder-test.video-box .video-placeholder {
+        height: 200px;
+    }
+    .main-content-test .answer-panel .answer-form .answer-actions {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+    .main-content-test .answer-panel .answer-form .answer-list label {
+        font-size: 1rem;
+        height: 42px;
+    }
+    .main-content-test .answer-panel .answer-form .answer-list input[type="radio"]:checked + label::before {
+        border-width: 3px;
+    }
+    .main-content-test .answer-panel .answer-form .answer-list label::before {
+        width: 16px;
+        height: 16px;
+    }
 }

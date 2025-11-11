@@ -13,7 +13,8 @@ body {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	min-height: 100vh;	
+	min-height: 100vh;
+	padding: 1rem;
 }
 
 a {
@@ -47,21 +48,13 @@ button {
 
 /* --- Main Layout --- */
 .container {
-	min-height: 750px;
-	max-width: 1400px;
-	border: 1px solid var(--border-color, #dee2e6);
 	width: 100%;
-	height: 750px;
-	background-color: #ffffff;
+	max-width: 1400px;
+	background-color: var(--container-bg);
 	border-radius: 1.5rem;
 	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
-	overflow-x: hidden;
-	min-width: 320px;
-	box-sizing: border-box;
-	margin-top: auto;
-	margin-bottom: auto;
 	overflow: hidden;
-	
+	padding: 1.5rem 2.5rem;
 }
 
 .logout-btn {
@@ -94,7 +87,7 @@ button {
 .main-content {
 	display: flex;
 	gap: 2rem;
-	padding-top: 0; /* 패딩 0 유지 */
+	padding-top: 2rem;
 	flex-wrap: wrap;
 }
 
@@ -160,27 +153,6 @@ button {
 	font-weight: 700;
 	text-decoration: none !important;
 }
-
-
-
-/* 학습 완료된 단어 표시용 */
-.word-item.learned {
-	position: relative;
-	background-color: #d6e5ff; /* 연보라 (완료 표시 느낌) */
-	color: var(--text-dark);
-	font-weight: 500;
-}
-
-/* 예쁘게 점 붙이기 */
-.word-item.learned::after {
-	content: "✔";
-	position: absolute;
-	top: 4px;
-	right: 6px;
-	font-size: 0.8em;
-	color: var(--primary-color);
-}
-
 
 /* --- Learning Section --- */
 .learning-section {
@@ -308,6 +280,7 @@ button {
 	text-align: left;
 }
 
+
 /* 기본(점 숨김) — 가상요소로 점 표시 */
 .word-item::after {
 	content: "";
@@ -328,10 +301,11 @@ button {
 	opacity: 1;
 }
 
+
 /* --- Media Queries --- */
 @media ( max-width : 992px) {
 	.container {
-		padding: 0; /* ⬅️ 1rem 1.5rem 에서 0으로 수정 */
+		padding: 1rem 1.5rem;
 		border-radius: 1rem;
 	}
 	.header-left {
@@ -393,7 +367,7 @@ button {
 		padding: 0.5rem;
 	}
 	.container {
-		padding: 0; /* ⬅️ 1rem 에서 0으로 수정 */
+		padding: 1rem;
 		border-radius: 0.75rem;
 	}
 	.header {
