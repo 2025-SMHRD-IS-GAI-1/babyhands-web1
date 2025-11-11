@@ -29,7 +29,7 @@
 
 			<!-- 왼쪽 요약 카드 -->
 			<div class="st-left">
-				<div class="st-title">수어 학습 테스트 결과</div>
+				<div class="st-title">수어 테스트 결과</div>
 
 				<div class="st-summary-card">
 					<div class="st-summary-label">요약</div>

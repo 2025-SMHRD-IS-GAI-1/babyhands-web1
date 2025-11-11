@@ -2,259 +2,220 @@
 /* ==============================================
    마이페이지 스타일 (학습하기 페이지 구조 통일)
    ============================================== */
-
-
-
 body {
-  font-family: 'Noto Sans KR', sans-serif;
-  background-color: #f4f7f6;
-  color: #333;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  padding: 1rem;
+	font-family: 'Noto Sans KR', sans-serif;
+	background-color: #f4f7f6;
+	color: #333;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	min-height: 100vh;
+	padding: 1rem;
 }
-
-
-
-
-
-
 
 /* --- Color Variables --- */
 :root {
-  --primary-color: #6d5bff;
-  --secondary-color: #007bff;
-  --green-color: #28a745;
-  --light-gray-bg: #f8f9fa;
-  --container-bg: #ffffff;
-  --border-color: #dee2e6;
-  --text-dark: #212529;
-  --text-light: #6c757d;
-  --hover-color: #aab0ffc2;
+	--primary-color: #6d5bff;
+	--secondary-color: #007bff;
+	--green-color: #28a745;
+	--light-gray-bg: #f8f9fa;
+	--container-bg: #ffffff;
+	--border-color: #dee2e6;
+	--text-dark: #212529;
+	--text-light: #6c757d;
+	--hover-color: #aab0ffc2;
 }
-
-
-
-
-
-/* --- 전체 컨테이너 (학습하기와 동일하게 중앙 배치) --- */
-.mypage-container.container {
-  width: 100%;
-  max-width: 1400px;
-  background-color: var(--container-bg);
-  border-radius: 1.5rem;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
-  overflow: visible; 
-  padding: 1.5rem 3rem;;
-  min-height: 780px;
-}
-
-
-
-
-
-
 
 /* --- 페이지 제목 --- */
 .page-title {
-  font-size: 1.3rem;            /* 글자 크기 */
-  font-weight: 800;             /* 두께 강조 */
-  color: #212529;               /* 진한 글자색 */
-  margin-bottom: 2rem;          /* 아래 여백 */
+	font-size: 1.3rem; /* 글자 크기 */
+	font-weight: 800; /* 두께 강조 */
+	color: #212529; /* 진한 글자색 */
+	margin-bottom: 2rem; /* 아래 여백 */
 }
 
 /* --- 그리드 구조 (왼쪽 프로필 / 오른쪽 바로가기) --- */
 .grid {
-  display: grid;                /* 그리드 배치 */
-  grid-template-columns: 1fr 1fr; /* 두 개의 균등 칼럼 */
-  gap: 1rem;                    /* 카드 간 간격 */
+	display: grid; /* 그리드 배치 */
+	grid-template-columns: 1fr 1fr; /* 두 개의 균등 칼럼 */
+	gap: 1rem; /* 카드 간 간격 */
+}
+
+/* ===== 페이지 제목 ===== */
+.title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    text-align: center;
+    color: #1a2c3a;
+    margin: 0.5rem 0 1rem;
 }
 
 /* --- 카드 공통 디자인 --- */
 .card {
-  background: #fff;             /* 카드 배경 흰색 */
-  border: 1px solid #dee2e6;    /* 연한 회색 테두리 */
-  border-radius: 1rem;          /* 둥근 모서리 */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); /* 은은한 그림자 */
-  padding: 1.5rem;              /* 카드 안쪽 여백 */
+	background: #fff; /* 카드 배경 흰색 */
+	border: 1px solid #dee2e6; /* 연한 회색 테두리 */
+	border-radius: 1rem; /* 둥근 모서리 */
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); /* 은은한 그림자 */
+	padding: 1.5rem; /* 카드 안쪽 여백 */
 }
 
 /* --- 프로필 카드 왼쪽 --- */
 .profile-card {
-  display: flex;                /* 세로 레이아웃 */
-  flex-direction: column;       /* 위→아래 정렬 */
-  gap: 5rem;                  /* 내부 요소 간격 */
-  min-height: 450px;
-  width: 600px;
+	display: flex; /* 세로 레이아웃 */
+	flex-direction: column; /* 위→아래 정렬 */
+	gap: 5rem; /* 내부 요소 간격 */
+	min-height: 450px;
+	width: 600px;
 }
 
 /* 프로필 소제목 */
 .profile-card::before {
-  content: "프로필";            /* 제목 표시 */
-  font-weight: 700;             /* 굵게 */
-  font-size: 1.1rem;            /* 크기 */
-  color: #212529;               /* 진한 글자색 */
+	content: "프로필"; /* 제목 표시 */
+	font-weight: 700; /* 굵게 */
+	font-size: 1.1rem; /* 크기 */
+	color: #212529; /* 진한 글자색 */
 }
 
 /* 프로필 정보 섹션 */
 .profile-meta {
-  display: flex;                /* 가로 배치 */
-  align-items: center;          /* 수직 중앙정렬 */
-  gap: 1.5rem;                  /* 아바타와 텍스트 간 간격 */
+	display: flex; /* 가로 배치 */
+	align-items: center; /* 수직 중앙정렬 */
+	gap: 1.5rem; /* 아바타와 텍스트 간 간격 */
 }
-
-
 
 /* 닉네임 / 이메일 정보 리스트 */
 .meta {
-  display: grid;                /* 세로 정렬 */
-  gap: 3rem;                  /* 항목 간격 */
+	display: grid; /* 세로 정렬 */
+	gap: 3rem; /* 항목 간격 */
 }
 
 .meta__row {
-  display: flex;                /* 가로 정렬 */
-  gap: 0.75rem;                 /* 라벨/값 간격 */
-  align-items: center;          /* 수직 정렬 */
+	display: flex; /* 가로 정렬 */
+	gap: 0.75rem; /* 라벨/값 간격 */
+	align-items: center; /* 수직 정렬 */
 }
 
 .meta__row dt {
-  font-weight: 600;             /* 라벨 굵게 */
-  color: #6c757d;               /* 회색 글자 */
+	font-weight: 600; /* 라벨 굵게 */
+	color: #6c757d; /* 회색 글자 */
 }
 
 .meta__row dd {
-  font-weight: 700;             /* 값 굵게 */
-  color: #212529;               /* 진한 글자 */
+	font-weight: 700; /* 값 굵게 */
+	color: #212529; /* 진한 글자 */
 }
 
 /* --- 통계 박스 (누적점수/랭킹) --- */
 .stat {
-  display: flex;                /* 가로 정렬 */
-  justify-content: space-evenly;/* 균등 분배 */
-  align-items: center;          /* 수직 중앙정렬 */
-  background: #f8f9fa;          /* 밝은 회색 배경 */
-  border: 1px solid #dee2e6;    /* 연한 경계선 */
-  border-radius: 0.8rem;        /* 둥근 모서리 */
-  padding: 1rem;                /* 안쪽 여백 */
+	display: flex; /* 가로 정렬 */
+	justify-content: space-evenly; /* 균등 분배 */
+	align-items: center; /* 수직 중앙정렬 */
+	background: #f8f9fa; /* 밝은 회색 배경 */
+	border: 1px solid #dee2e6; /* 연한 경계선 */
+	border-radius: 0.8rem; /* 둥근 모서리 */
+	padding: 1rem; /* 안쪽 여백 */
 }
 
 .stat__item {
-  text-align: center;           /* 텍스트 중앙 정렬 */
+	text-align: center; /* 텍스트 중앙 정렬 */
 }
 
 .stat__label {
-  font-size: 0.95rem;           /* 라벨 크기 */
-  color: #6c757d;               /* 회색 글자 */
+	font-size: 0.95rem; /* 라벨 크기 */
+	color: #6c757d; /* 회색 글자 */
 }
 
 .stat__value {
-  font-size: 1.2rem;            /* 점수/순위 크기 */
-  font-weight: 800;             /* 굵게 */
-  color: #212529;               /* 진한 글자색 */
+	font-size: 1.2rem; /* 점수/순위 크기 */
+	font-weight: 800; /* 굵게 */
+	color: #212529; /* 진한 글자색 */
 }
 
 /* --- 오른쪽 카드 (바로가기) --- */
 .mypage-card::before {
-  content: "바로가기";          /* 카드 제목 */
-  display: block;
-  font-weight: 700;             /* 굵게 */
-  font-size: 1.1rem;            /* 크기 */
-  color: #212529;               /* 색상 */
-  margin-bottom: 8rem;          /* 아래 여백 */
-  width: 600px;
+	content: "바로가기"; /* 카드 제목 */
+	display: block;
+	font-weight: 700; /* 굵게 */
+	font-size: 1.1rem; /* 크기 */
+	color: #212529; /* 색상 */
+	margin-bottom: 8rem; /* 아래 여백 */
+	width: 600px;
 }
 
 .quick-list {
-  display: flex;                /* 세로로 버튼 배치 */
-  flex-direction: column;       
-  gap: 5rem;                    /* 버튼 간 간격 */
-  align-items: center;          /* 중앙 정렬 */
-  margin-top: 2rem;             /* 위 여백 */
+	display: flex; /* 세로로 버튼 배치 */
+	flex-direction: column;
+	gap: 5rem; /* 버튼 간 간격 */
+	align-items: center; /* 중앙 정렬 */
+	margin-top: 2rem; /* 위 여백 */
 }
 
 /* --- 버튼 공통 스타일 --- */
 .btn {
-  display: inline-flex;         /* 가로 정렬 + 정렬 제어 */
-  justify-content: center;      /* 수평 중앙정렬 */
-  align-items: center;          /* 수직 중앙정렬 */
-  width: 80%;                   /* 버튼 폭 */
-  height: 56px;                 /* 버튼 높이 */
-  border-radius: 999px;         /* 알약 모양 */
-  font-weight: 700;             /* 굵은 글씨 */
-  font-size: 1rem;              /* 폰트 크기 */
-  border: none;                 /* 테두리 제거 */
-  color: #fff;                  /* 글자색 흰색 */
-  cursor: pointer;              /* 포인터 모양 */
-  transition: all 0.2s ease;    /* 호버 시 부드럽게 */
+	display: inline-flex; /* 가로 정렬 + 정렬 제어 */
+	justify-content: center; /* 수평 중앙정렬 */
+	align-items: center; /* 수직 중앙정렬 */
+	width: 80%; /* 버튼 폭 */
+	height: 56px; /* 버튼 높이 */
+	border-radius: 999px; /* 알약 모양 */
+	font-weight: 700; /* 굵은 글씨 */
+	font-size: 1rem; /* 폰트 크기 */
+	border: none; /* 테두리 제거 */
+	color: #fff; /* 글자색 흰색 */
+	cursor: pointer; /* 포인터 모양 */
+	transition: all 0.2s ease; /* 호버 시 부드럽게 */
 }
 
 .btn--primary {
-  background: #3d7bf3;          /* 파란색 배경 */
+	background: #3d7bf3; /* 파란색 배경 */
 }
 
 .btn--primary:hover {
-  background: #3369d6;          /* 어두운 파랑 호버 */
+	background: #3369d6; /* 어두운 파랑 호버 */
 }
 
 .btn--success {
-  background: #16a34a;          /* 초록색 배경 */
+	background: #16a34a; /* 초록색 배경 */
 }
 
 .btn--success:hover {
-  background: #12833b;          /* 어두운 초록 호버 */
+	background: #12833b; /* 어두운 초록 호버 */
 }
-
-
-
-
-
-
-
 
 /* --- 반응형 --- */
-@media (max-width: 992px) {
-  body {
-    align-items: flex-start;     /* ✅ 화면이 작을 땐 위쪽부터 정렬 (세로 중앙 고정 해제) */
-    min-height: auto;            /* ✅ 높이 자동 조정 */
-    padding: 1rem 0.5rem;        /* ✅ 모바일 여백 축소 */
-  }
-
-  .mypage-container.container {
-    max-width: 95%;              /* ✅ 작은 화면에서 컨테이너 폭 줄이기 */
-    padding: 1.2rem;             /* ✅ 내부 여백 줄이기 */
-    min-height: auto;            /* ✅ 높이 자동으로 맞추기 */
-  }
-
-  .grid {
-    grid-template-columns: 1fr;  /* ✅ 카드들을 세로로 나열 */
-    gap: 1.5rem;
-  }
-
-  .profile-card,
-  .mypage-card {
-    width: 100%;                 /* ✅ 각 카드가 화면 폭 100% 사용 */
-    min-height: auto;            /* ✅ 내용에 맞게 자동 확장 */
-  }
-
-  .btn {
-    width: 100%;                 /* 작은 화면에서는 버튼 전체 폭 */
-  }
+@media ( max-width : 992px) {
+	body {
+		align-items: flex-start; /* ✅ 화면이 작을 땐 위쪽부터 정렬 (세로 중앙 고정 해제) */
+		min-height: auto; /* ✅ 높이 자동 조정 */
+		padding: 1rem 0.5rem; /* ✅ 모바일 여백 축소 */
+	}
+	.mypage-container.container {
+		max-width: 95%; /* ✅ 작은 화면에서 컨테이너 폭 줄이기 */
+		padding: 1.2rem; /* ✅ 내부 여백 줄이기 */
+		min-height: auto; /* ✅ 높이 자동으로 맞추기 */
+	}
+	.grid {
+		grid-template-columns: 1fr; /* ✅ 카드들을 세로로 나열 */
+		gap: 1.5rem;
+	}
+	.profile-card, .mypage-card {
+		width: 100%; /* ✅ 각 카드가 화면 폭 100% 사용 */
+		min-height: auto; /* ✅ 내용에 맞게 자동 확장 */
+	}
+	.btn {
+		width: 100%; /* 작은 화면에서는 버튼 전체 폭 */
+	}
 }
 
-@media (max-width: 576px) {
-  .mypage-container.container {
-    padding: 1rem;               /* ✅ 아주 작은 화면에서 여백 최소화 */
-  }
-
-  .profile-card,
-  .mypage-card {
-    gap: 2rem;                   /* ✅ 내부 요소 간격 살짝 줄이기 */
-  }
-
-  .btn {
-    height: 50px;                /* ✅ 버튼 높이 약간 축소 */
-    font-size: 0.9rem;
-  }
+@media ( max-width : 576px) {
+	.mypage-container.container {
+		padding: 1rem; /* ✅ 아주 작은 화면에서 여백 최소화 */
+	}
+	.profile-card, .mypage-card {
+		gap: 2rem; /* ✅ 내부 요소 간격 살짝 줄이기 */
+	}
+	.btn {
+		height: 50px; /* ✅ 버튼 높이 약간 축소 */
+		font-size: 0.9rem;
+	}
 }
