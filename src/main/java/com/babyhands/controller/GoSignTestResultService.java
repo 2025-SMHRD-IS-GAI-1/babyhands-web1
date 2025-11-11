@@ -45,10 +45,6 @@ public class GoSignTestResultService implements Command {
             resultList = dao.selectQuestionResultsByGroup(memberId, groupNo);
             summary   = dao.selectSummaryByGroup(memberId, groupNo);
         }
-        /* 👇 [로그 #2] 조회 결과 확인 */
-        System.out.printf("[Result] listSize=%d, correct=%d, total=%d, score=%d%n",
-                (resultList == null ? -1 : resultList.size()),
-                summary.getCorrectCount(), summary.getTotalCount(), summary.getTotalScore());
         
         // --- JSP 바인딩 ---
         request.setAttribute("resultList", resultList);
