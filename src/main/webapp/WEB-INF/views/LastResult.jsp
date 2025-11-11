@@ -20,15 +20,15 @@
 <link rel="stylesheet" href="${ctx}/assets/css/LastResult.css" />
 </head>
 <body>
-	<!-- 화면 가운데 정렬/배경 -->
-	<div class="lr-viewport">
-		<!-- 카드 컨테이너 (헤더 포함, 폭 통일) -->
-		<div class="lr-container">
 
-			<!-- 상단바 (헤더는 컨테이너 안, 최상단) -->
-			<jsp:include page="/WEB-INF/views/header.jsp">
-				<jsp:param name="nav" value="learn" />
-			</jsp:include>
+	<div class="container">
+
+		<!-- 상단바 (헤더는 컨테이너 안, 최상단) -->
+		<jsp:include page="/WEB-INF/views/header.jsp">
+			<jsp:param name="nav" value="learn" />
+		</jsp:include>
+
+		<div class="main-content-grid">
 
 			<!-- 페이지 타이틀 -->
 			<h1 class="lr-title">지난 테스트결과</h1>
@@ -59,19 +59,20 @@
 
 										<!-- 점수 알약 + 미니바 -->
 										<div class="lr-score-wrap">
-											<span class="lr-score-pill
-										        <c:choose>
-										          <c:when test="${lastTest.correct >= 4}">is-good</c:when>
-										          <c:when test="${lastTest.correct >= 2}">is-mid</c:when>
-										          <c:otherwise>is-bad</c:otherwise>
-										        </c:choose>">
-												${lastTest.correct}/5 
-											</span>
+											<span
+												class="lr-score-pill
+												        <c:choose>
+												          <c:when test="${lastTest.correct >= 4}">is-good</c:when>
+												          <c:when test="${lastTest.correct >= 2}">is-mid</c:when>
+												          <c:otherwise>is-bad</c:otherwise>
+												        </c:choose>">
+												${lastTest.correct}/5 </span>
 										</div>
 									</div>
 
 									<form action="${ctx}/GoSignTestResult.do" method="get">
-										<input type="hidden" name="groupNo" value="${lastTest.slTestGroup}">
+										<input type="hidden" name="groupNo"
+											value="${lastTest.slTestGroup}">
 										<button type="submit" class="lr-btn lr-btn--primary">결과</button>
 									</form>
 								</div>
