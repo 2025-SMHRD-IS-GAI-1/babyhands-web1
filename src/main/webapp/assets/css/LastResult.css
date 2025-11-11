@@ -1,431 +1,113 @@
-@charset "UTF-8";
-
-/* ===== 토큰 & 타입스케일 ===== */
-:root {
-  --SHELL: 1180px;
-  --bg: #f4f7f6;
-  --card: #fff;
-  --border: #e7eaf0;
-  --text: #333;
-  --muted: #6c757d;
-  --accent: #6d5bff;
-  /* 차트 색 토큰 */
-  --bar-fill: rgba(47, 125, 255, 0.25);
-  --bar-max: #2f7dff; /* 최대값 강조 색 */
-  --bar-zero: #d6dbe6; /* 0값 바 색(회색) */
-  --bar-outline: #bfc9df; /* 0값 테두리 */
-  /* 라벨 색 */
-  --label: #1a2c3a;
-  --label-muted: #758195;
-  /* 유동 타이포/간격 */
-  --title: clamp(1.4rem, 1.2vw + 1rem, 1.9rem);
-  --text-sm: clamp(0.85rem, 0.2vw + 0.78rem, 0.95rem);
-  --text: clamp(0.95rem, 0.25vw + 0.9rem, 1.05rem);
-  --chip-pad-y: clamp(0.55rem, 0.6vw, 0.75rem);
-  --shell-pad-x: clamp(1rem, 2.5vw, 2.5rem);
-  --shell-pad-y: clamp(1rem, 1.5vw, 1.5rem);
-  --container-bg: #ffffff;
+/* 헤더 전체: flex, 좌우 정렬, 중앙은 flex-grow로 밀기 */
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: var(--header-height);
+    padding: 0 2rem;
+    border-bottom: 1px solid var(--border-color);
+    background-color: var(--container-bg);
+    position: relative;
+    z-index: 100;
 }
 
-/* ===== 기본 ===== */
-* {
-  box-sizing: border-box;
-  font-family: "Noto Sans KR", system-ui, -apple-system, Segoe UI, Roboto,
-    sans-serif;
-}
-
-body {
-  margin: 0;
-  background: var(--bg);
-  color: var(--text);
-}
-
-/* ===== 가운데 정렬 뷰포트 ===== */
-.lr-viewport {
-  /* main.jsp처럼 body가 중앙 정렬하므로 제거 */
-  width: 100%;
-}
-
-/* ===== 카드 컨테이너 (헤더 포함) ===== */
-.lr-container {
-  /* main.jsp의 .container 스타일과 동일하게 */
-  width: 100%;
-  min-height: 750px;
-  box-sizing: border-box;
-  overflow: hidden;
-}
-
-/* [수정] Grid Container 역할을 할 새로운 래퍼 */
-.main-content-grid {
-  display: grid;
-  /* grid-template-columns 정의: 왼쪽 리스트 (7fr) | 오른쪽 차트 (3fr) */
-  grid-template-columns: 3fr 7fr;
-  gap: 1.5rem; /* gap 증가 */
-  flex-grow: 1; /* 부모(.container)의 남은 공간을 모두 차지 */
-}
-
-/* ===== 타이틀 / 상단 요약칩 ===== */
-.lr-title {
-  font-size: var(--title);
-  font-weight: 700;
-  margin: 1rem 0 1rem;
-  color: #1a2c3a;
-  grid-column: 1/-1; /* main-content-grid 전체 폭 사용 */
-}
-
-.lr-top {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: clamp(0.6rem, 1.4vw, 1rem);
-  margin-bottom: clamp(0.8rem, 1.6vw, 1.25rem);
-  grid-column: 1/-1; /* main-content-grid 전체 폭 사용 */
-}
-
-.lr-chip {
-  background: #e7f4df;
-  border: 1px solid #d7ebc9;
-  color: #2d5a26;
-  padding: var(--chip-pad-y) 1rem;
-  border-radius: 0.75rem;
-  font-weight: 500;
-  font-size: var(--text);
-}
-
-.lr-chip strong {
-  font-weight: 700;
-}
-
-/* ===== 본문 그리드 ===== */
-.lr-grid {
-  display: contents;
-  /* 그리드 컨테이너를 투명하게 만들어 자식이 .main-content-grid에 직접 배치되도록 */
-  /* main-content-grid가 이미 3fr 7fr로 나누므로 .lr-left와 .lr-right가 직접 배치됨 */
-}
-
-/* 공통 카드 */
-.card {
-  background: #fff;
-  border: 1px solid var(--border);
-  border-radius: 1rem;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
-  padding: clamp(0.8rem, 2vw, 1rem);
-}
-
-/* 왼쪽 리스트 */
-.lr-left {
-  overflow: auto;
-  /* main-content-grid의 첫 번째 열 (3fr)에 배치됨 */
-}
-
-.lr-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.75rem;
-  padding: 0.6rem 0.6rem;
-  border: 1px solid #f0f2f6;
-  border-radius: 0.6rem;
-  background: #fff;
-  margin-bottom: 0.6rem;
-}
-
-.lr-row:hover {
-  background: #f8f9ff;
-}
-
-.lr-row-text {
-  color: #444;
-  font-size: var(--text-sm);
-  display: flex;
-  align-items: flex-start; /* 날짜 기준 위 정렬 */
-  gap: 0.5rem; /* 날짜와 1/5 사이 간격 */
-  margin-right: 0.9rem; /* 버튼과 간격 */
-}
-
-/* ===== 차트 공통 ===== */
-.lr-panel-title,
-.panel-title {
-  font-weight: 700;
-  margin: 0.25rem 0 1rem;
-  color: #333;
-  font-size: var(--text);
-}
-
-/* ▼▼▼ 중요: 오버플로우 차단 + 내부 기준 클리핑 ▼▼▼ */
-.lr-right .lr-chart,
-.lr-chart,
-.chart {
-  position: relative; /* 라벨/요소 기준 */
-  overflow: hidden; /* 점선 영역 밖으로 못 나가게 */
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: clamp(8px, 1.5vw, 14px);
-  height: clamp(180px, 28vw, 450px);
-  padding: clamp(10px, 1.5vw, 16px);
-  border-radius: 12px;
-  background: #fafbff;
-  border: 1px dashed #e6e9f3;
-}
-
-.lr-right .bar-col,
-.bar-col {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  flex: 1 1 0;
-}
-
-/* ===== 막대 + 라벨 ===== */
-.lr-right .bar,
-.bar {
-  position: relative; /* 라벨 위치 기준 */
-  width: 100%;
-  max-width: 42px;
-  border-radius: 10px 10px 6px 6px;
-  background: var(--bar-fill);
-  /* 높이는 JS에서 설정 */
-  transition: height 0.3s ease, background 0.2s ease, box-shadow 0.2s ease,
-    transform 0.08s ease;
-}
-
-.bar {
-  margin-bottom: 10px;
-}
-
-/* 퍼센트 라벨: 항상 '막대 내부 상단'에 고정 */
-.bar::before {
-  content: attr(data-percent) "%";
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  top: 6px; /* 내부 고정 */
-  font-size: 0.74rem;
-  font-weight: 700;
-  line-height: 1;
-  color: var(--label);
-  pointer-events: none;
-  opacity: 0.9;
-}
-
-/* 0값 라벨은 연하게 */
-.bar.is-zero::before {
-  color: var(--label-muted);
-}
-
-/* 막대 호버 미묘한 피드백 */
-.bar:hover {
-  transform: translateY(-1px);
-}
-
-/* ===== 최대값 강조 / 0 값 회색 처리 ===== */
-.bar.is-max {
-  background: linear-gradient(180deg, #6aa3ff 0%, var(--bar-max) 100%);
-  box-shadow: 0 6px 16px rgba(47, 125, 255, 0.25);
-}
-
-.bar.is-zero {
-  background: var(--bar-zero);
-  outline: 1px solid var(--bar-outline);
-}
-
-/* 요일 텍스트 */
-.day,
-.day-name {
-  font-size: 0.8rem;
-  color: #666;
-}
-
-/* ===== 왼쪽 리스트 버튼 ===== */
-.lr-btn {
-  appearance: none;
-  border: 1px solid #d9e0ec;
-  background: #fff;
-  color: #1f2a44;
-  font-weight: 600;
-  font-size: 0.85rem;
-  padding: 0.45rem 0.8rem;
-  border-radius: 0.6rem;
-  cursor: pointer;
-  transition: background 0.15s ease, box-shadow 0.15s ease, transform 0.06s ease;
-}
-
-.lr-btn:hover {
-  background: #f4f7ff;
-}
-
-.lr-btn:active {
-  transform: translateY(1px);
-}
-
-.lr-btn:focus-visible {
-  outline: 0;
-  box-shadow: 0 0 0 3px rgba(77, 144, 254, 0.25);
-}
-
-.lr-btn[disabled] {
-  opacity: 0.55;
-  cursor: not-allowed;
-}
-
-/* 강조형(옵션) */
-.lr-btn--primary {
-  border-color: #2f7dff;
-  background: #2f7dff;
-  color: #fff;
-}
-
-.lr-btn--primary:hover {
-  background: #2a73ee;
-}
-
-/* 알약 상태색 */
-.lr-score-pill.is-good {
-  background: #e9f7ef;
-  color: #1b7a3a;
-  border-color: #c8ecd6;
-}
-
-.lr-score-pill.is-mid {
-  background: #fff7e6;
-  color: #9a6b00;
-  border-color: #fde1ae;
-}
-
-.lr-score-pill.is-bad {
-  background: #fdeaea;
-  color: #a23939;
-  border-color: #f5c5c5;
-}
-
-/* ===== 접근성: 모션 축소 선호 ===== */
-@media (prefers-reduced-motion: reduce) {
-  * {
-    animation-duration: 0.001ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.001ms !important;
-  }
-}
-
-/* ====== 반응형 브레이크포인트 ====== */
-@media (max-width: 1280px) {
-  .main-content-grid {
-    grid-template-columns: 1.5fr 1fr;
-  }
-}
-
-@media (max-width: 1024px) {
-  .main-content-grid {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-  }
-  .lr-container {
-    border-radius: 1rem;
-  }
-}
-
-@media (max-width: 820px) {
-  .main-content-grid {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-  }
-  .lr-left {
-    max-height: 360px;
-  }
-  .lr-top {
-    grid-template-columns: 1fr;
-  }
-  .lr-container .header {
-    padding: 8px 16px;
-  }
-}
-
-@media (max-width: 600px) {
-  .lr-title {
-    margin: 0.5rem 0 0.75rem;
-  }
-  .lr-chart {
-    gap: 10px;
-    height: clamp(160px, 32vw, 220px);
-    padding: 12px;
-  }
-  .bar-col {
-    gap: 6px;
-  }
-  .bar {
-    max-width: 32px;
-  }
-  .day,
-  .day-name {
-    font-size: 0.75rem;
-  }
-  .lr-mini {
-    width: 90px;
-  }
-  .lr-meta {
-    gap: 0.6rem;
-  }
-  .lr-score-pill {
-    font-size: 0.78rem;
-  }
-}
-
-@media (max-width: 420px) {
-  .lr-top {
-    gap: 0.6rem;
-  }
-  .lr-row {
-    padding: 0.5rem;
+/* 왼쪽 로고 영역 */
+.header-logo {
+    display: flex;
+    align-items: center;
     gap: 0.5rem;
-  }
-  .lr-chart {
-    gap: 8px;
-    padding: 10px;
-  }
-  .bar {
-    max-width: 28px;
-  }
-  .day,
-  .day-name {
-    white-space: nowrap;
-  }
 }
 
-/* 메타 박스: 날짜 + 점수 영역 */
-.lr-meta {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  min-width: 0; /* 긴 날짜 줄바꿈 대비 */
+/* 중앙 네비게이션 */
+.header-nav {
+    display: flex;
+    justify-content: center;
+    flex-grow: 1; /* 좌우 로고/유저 영역 사이에서 자동 확장 */
 }
 
-/* 날짜 */
-.lr-date {
-  font-weight: 600;
-  color: #1f2a44;
-  font-variant-numeric: tabular-nums; /* 숫자 정렬 */
-  white-space: nowrap;
+.header-nav ul {
+    display: flex;
+    gap: var(--nav-gap);
+    list-style: none;
+    padding: 0;
+    margin: 0;
 }
 
-/* 점수 래퍼: 알약 + 미니바를 수직 스택 */
-.lr-score-wrap {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 0.35rem;
+.header-nav ul a {
+    text-decoration: none;
+    font-weight: 500;
+    color: var(--text-light);
+    padding: 0 10px;
+    height: var(--header-button-height);
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
 }
 
-/* 점수 알약 */
-.lr-score-pill {
-  display: inline-block;
-  padding: 0.22rem 0.5rem;
-  border-radius: 999px;
-  font-size: 0.82rem;
-  font-weight: 700;
-  line-height: 1;
-  border: 1px solid transparent;
-  /* ↓ 둘 중 하나 선택 */
-  margin-top: 0.25rem; /* 간단히 아래로 */
-  /* transform: translateY(2px);*/ /* 미세 조정(대신 margin-top 주석) */
+.header-nav ul a.active {
+    color: var(--primary-color);
+    font-weight: 700;
+    border-bottom: 1px solid var(--primary-color);
+}
+
+/* 오른쪽 유저 정보 */
+.header-user {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.username {
+    font-weight: 500;
+    color: var(--text-dark);
+}
+
+.header-button, .logout-button {
+    cursor: pointer;
+    border: none;
+    font-family: inherit;
+    background-color: var(--secondary-color);
+    color: #fff;
+    padding: 0 15px;
+    height: var(--header-button-height);
+    border-radius: 8px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+}
+
+.header-button:hover {
+    background-color: #0056d2;
+}
+
+.logout-button {
+    background-color: var(--text-light);
+}
+
+.logout-button:hover {
+    background-color: #5a6268;
+}
+
+/* 반응형 */
+@media (max-width: 640px) {
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 10px 1rem;
+        height: auto;
+    }
+    .header-logo, .header-nav, .header-user {
+        width: 100%;
+        justify-content: flex-start;
+        margin-bottom: 0.5rem;
+    }
+    .header-nav {
+        justify-content: center;
+    }
+    .header-user {
+        justify-content: flex-end;
+    }
 }
