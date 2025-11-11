@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
 
 <!DOCTYPE html>
@@ -20,67 +20,66 @@
 <link rel="stylesheet" href="${ctx}/assets/css/header.css" />
 </head>
 <body>
-	<div class="app-wrap">
-		<!-- PAGE TITLE -->
-		<main class="container mypage-container">
-			<!-- NAV -->
-			<jsp:include page="/WEB-INF/views/header.jsp">
-				<jsp:param name="nav" value="mypage" />
-			</jsp:include>
-			<h1 class="page-title">마이페이지</h1>
+	<!-- PAGE TITLE -->
+	<div class="container">
+		<!-- NAV -->
+		<jsp:include page="/WEB-INF/views/header.jsp">
+			<jsp:param name="nav" value="mypage" />
+		</jsp:include>
+		
+		<div class="title">마이페이지</div>
 
-			<div class="grid">
-				<!-- Profile Card -->
-				<section class="card profile-card">
-					<div class="profile-card__row">
-						<div class="profile-meta">
-							<dl class="meta">
-								<div class="meta__row">
-									<dt>닉네임</dt>
-									<dd>${member.nickname}</dd>
-								</div>
-								<div class="meta__row">
-									<c:choose>
-										<c:when
-											test="${not empty member.memberId
+		<div class="grid">
+			<!-- Profile Card -->
+			<section class="card profile-card">
+				<div class="profile-card__row">
+					<div class="profile-meta">
+						<dl class="meta">
+							<div class="meta__row">
+								<dt>닉네임</dt>
+								<dd>${member.nickname}</dd>
+							</div>
+							<div class="meta__row">
+								<c:choose>
+									<c:when
+										test="${not empty member.memberId
                  							and fn:startsWith(fn:toLowerCase(fn:trim(member.memberId)), 'kakao_')}">
-											<dt>이메일</dt>
-											<dd>카카오 이메일은 준비중입니다.</dd>
-										</c:when>
-										<c:otherwise>
-											<dt>이메일</dt>
-											<dd>${member.email}</dd>
-										</c:otherwise>
-									</c:choose>
+										<dt>이메일</dt>
+										<dd>카카오 이메일은 준비중입니다.</dd>
+									</c:when>
+									<c:otherwise>
+										<dt>이메일</dt>
+										<dd>${member.email}</dd>
+									</c:otherwise>
+								</c:choose>
 
-								</div>
-							</dl>
-						</div>
+							</div>
+						</dl>
 					</div>
+				</div>
 
-					<div class="stat">
-						<div class="stat__item">
-							<div class="stat__label">누적 점수</div>
-							<div class="stat__value">${memberScoreRank.totalScore}</div>
-						</div>
-						<div class="stat__divider" aria-hidden="true"></div>
-						<div class="stat__item">
-							<div class="stat__label">현재 랭킹</div>
-							<div class="stat__value">${memberScoreRank.rankNo}위</div>
-						</div>
+				<div class="stat">
+					<div class="stat__item">
+						<div class="stat__label">누적 점수</div>
+						<div class="stat__value">${memberScoreRank.totalScore}</div>
 					</div>
-				</section>
+					<div class="stat__divider" aria-hidden="true"></div>
+					<div class="stat__item">
+						<div class="stat__label">현재 랭킹</div>
+						<div class="stat__value">${memberScoreRank.rankNo}위</div>
+					</div>
+				</div>
+			</section>
 
-				<!-- Shortcut Card -->
-				<section class="card mypage-card profile-wrap">
-					<div class="quick-list">
-						<a class="btn btn--xl btn--primary" href="GoLastResult.do">지난
-							학습결과</a> <a class="btn btn--xl btn--success" href="GomemberUpdate.do">회원
-							정보 수정</a>
-					</div>
-				</section>
-			</div>
-		</main>
+			<!-- Shortcut Card -->
+			<section class="card mypage-card profile-wrap">
+				<div class="quick-list">
+					<a class="btn btn--xl btn--primary" href="GoLastResult.do">지난
+						학습결과</a> <a class="btn btn--xl btn--success" href="GomemberUpdate.do">회원
+						정보 수정</a>
+				</div>
+			</section>
+		</div>
 	</div>
 
 

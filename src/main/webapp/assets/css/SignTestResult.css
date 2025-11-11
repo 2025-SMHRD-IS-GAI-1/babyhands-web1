@@ -26,17 +26,6 @@ body {
   color: #333;
 }
 
-/* ===== 컨테이너 ===== */
-.container {
-    width: 100%;
-    max-width: 1400px;
-    background-color: var(--container-bg);
-    border-radius: 1.5rem;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
-    overflow: hidden;
-    padding: 20px;
-}
-
 /* [수정] Grid Container 역할을 할 새로운 래퍼 */
 .main-content-grid {
   display: grid;

@@ -46,17 +46,6 @@ button {
 	--hover-color: #aab0ffc2;
 }
 
-/* --- Main Layout --- */
-.container {
-	width: 100%;
-	max-width: 1400px;
-	background-color: var(--container-bg);
-	border-radius: 1.5rem;
-	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
-	overflow: hidden;
-	padding: 1.5rem 2.5rem;
-}
-
 .logout-btn {
 	background-color: var(--secondary-color);
 	color: white;

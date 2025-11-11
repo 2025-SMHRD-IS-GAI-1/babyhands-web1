@@ -70,10 +70,10 @@ body {
     position: relative; 
     
     /* [수정] 헤더 영역 높이만 padding으로 확보하고, 나머지는 flex/grid가 관리하도록 */
-    padding-top: var(--header-height); 
+    padding-top: 1.5rem;
     padding-left: var(--container-padding-x);
     padding-right: var(--container-padding-x);
-    padding-bottom: 1.5rem; 
+    padding-bottom: 1.5rem;
 
     /* 컨테이너 내부의 콘텐츠 영역을 유연하게 채우기 위한 설정 추가 */
     display: flex;
