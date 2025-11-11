@@ -8,57 +8,41 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>수어 학습 테스트</title>
-<!-- Bootstrap CSS (오타 수정 완료) -->
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
 	rel="stylesheet"
 	integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
 	crossorigin="anonymous">
 
-<!-- Google Fonts (Noto Sans KR) -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link
 	href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap"
 	rel="stylesheet">
 
-<!-- Bootstrap CSS (integrity 오타 수정) -->
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-	rel="stylesheet"
-	xintegrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
-	crossorigin="anonymous">
-
-<!-- Custom CSS -->
 <link rel="stylesheet" href="${ctx}/assets/css/header.css" />
 <link rel="stylesheet" href="${ctx}/assets/css/Sl-test.css" />
 </head>
 <body>
 
 	<div class="container">
-		<!-- 헤더 jsp:include 부분 -->
 		<jsp:include page="/WEB-INF/views/header.jsp">
 			<jsp:param name="nav" value="test" />
 		</jsp:include>
 
-		<!-- 2. 페이지 전체 제목 (중앙 정렬) -->
 		<div class="page-title-header">
 			<h1 class="page-title">수어 학습 테스트</h1>
 		</div>
 
-		<!-- 4. 메인 컨텐츠 (박스 2개) -->
 		<main class="main-content-test">
 
-			<!-- 4-1. 좌측 영상 패널 -->
 			<section class="test-panel">
 
-				<!-- 박스 내부 제목 -->
 				<div class="section-header">
 					<div class="section-subtitle" id="question-subtitle">문제 영상 1
 						/ 10</div>
 				</div>
 
-				<!-- 비디오 박스 구조 -->
 				<div class="video-placeholder-test video-box">
 					<div class="video-placeholder">
 						<video id="question_video" controls>
@@ -68,10 +52,8 @@
 				</div>
 			</section>
 
-			<!-- 4-2. 우측 정답 패널 -->
 			<section class="answer-panel">
 
-				<!-- 박스 내부 제목 -->
 				<div class="section-header">
 					<p class="section-subtitle">정답 선택</p>
 				</div>
@@ -100,15 +82,10 @@
 
 		</main>
 	</div>
-	<!-- /container -->
-
-	<!-- Bootstrap JS (integrity 오타 수정) -->
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-		xintegrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
 		crossorigin="anonymous" defer></script>
 
-	<!-- Custom JS -->
 	<script>
 		window.APP_CTX = '${ctx}';
 	</script>
