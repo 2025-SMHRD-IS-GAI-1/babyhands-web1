@@ -127,6 +127,7 @@ body {
     display: flex;
     align-items: center;
     gap: 10px;
+    
 }
 
 /* ===== 메달 아이콘 ===== */
@@ -232,7 +233,7 @@ body {
 
 
 /* Ranking.css */
-.rk-board { max-height: calc(100vh - 220px); overflow-y: auto; }
+.rk-board { max-height: calc(100vh - 220px); overflow-y: auto; padding: 24px 32px 24px 32px;  }
 
 
 
@@ -244,7 +245,8 @@ body {
   padding-right: 6px;    /* 스크롤바 겹침 방지(선택) */
   scroll-behavior: smooth;
     /* sticky 하단 박스만큼 여유 공간을 줘서 절대 가리지 않게 */
-  padding-bottom: calc(var(--my-rank-h, 96px) + var(--my-rank-offset, 0px));
+  padding-top: 2rem;
+  padding-bottom: 0;
   /* scrollIntoView 쓸 때도 딱 맞게 보이도록 */
   scroll-padding-bottom: calc(var(--my-rank-h, 96px) + var(--my-rank-offset, 0px));
 }

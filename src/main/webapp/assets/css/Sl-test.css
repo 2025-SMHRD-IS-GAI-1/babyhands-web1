@@ -7,12 +7,13 @@
 /* --- Page Title Header (네비바 아래 바로 오는 페이지 제목 영역) --- */
 .container > .page-title-header { /* [수정] .container의 직계 자식으로 변경 */
     text-align: center;
-    padding: 1.2rem 0; 
-    margin-bottom: 1.5rem; 
+    padding: 1.2rem 0;     
+    /* 최소 높이 지정 (깜빡임 방지용) */
+    min-height: 50px; 
     flex-shrink: 0; 
 }
 .container > .page-title-header .page-title { 
-    font-size: 2.2rem;
+    font-size: 2rem;
     font-weight: 600;
     color: var(--text-dark);
 }
@@ -41,29 +42,68 @@
 
 /* --- 문제 번호 / 제목 --- */
 .main-content-test .test-panel .section-header .section-subtitle { /* [수정] 선택자 정리 */
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     font-weight: 500;
+    text-align:center;
     color: var(--text-light);
-    margin-bottom: 1rem;
+    padding-bottom : 1rem;
 }
 
 /* --- 비디오 박스 --- */
+.main-content-test .test-panel .video-placeholder-test.video-box {
+    display: flex;
+    flex-direction: column; /* 비디오와 버튼을 세로로 정렬 */
+    flex-grow: 1; 
+    background: #f0f0f0;
+    border-radius: 0.75rem;
+    overflow: hidden;
+}
+
 .main-content-test .test-panel .video-placeholder-test.video-box .video-placeholder { /* [수정] 선택자 정리 */
     flex-grow: 1; 
-    border-radius: 0.75rem;
-    background: #f0f0f0;
+    /* border-radius는 부모로 옮겨서 버튼과 함께 묶이도록 */
+    /* background는 부모로 옮겨서 버튼과 함께 묶이도록 */
     overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
+    aspect-ratio: 16 / 9; /* 깜빡임 방지 */
 }
 #question_video { 
     width: 100%;
     height: 100%;
     object-fit: contain; 
-    border-radius: 0.75rem;
+    border-radius: 0.75rem; /* 비디오 자체에만 둥근 모서리 적용 */
     background: #000;
 }
+
+/* --- 비디오 컨트롤 버튼 (가상의 이전/다음 버튼) --- */
+.main-content-test .test-panel .video-placeholder-test.video-box .video-controls {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.75rem 1rem; /* 버튼 패딩 */
+    background: #fff; /* 버튼 영역 배경색 */
+    border-top: 1px solid var(--border-color); /* 비디오와의 구분선 */
+    border-radius: 0 0 0.75rem 0.75rem; /* 아래쪽만 둥글게 */
+    flex-shrink: 0; /* 크기가 줄어들지 않도록 */
+}
+
+.main-content-test .test-panel .video-placeholder-test.video-box .video-controls button {
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 0.5rem;
+    background-color: #f0f0f0;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text-dark);
+    transition: background-color 0.2s ease;
+}
+
+.main-content-test .test-panel .video-placeholder-test.video-box .video-controls button:hover {
+    background-color: #e0e0e0;
+}
+
 
 /* --- 우측 정답 패널 --- */
 .main-content-test .answer-panel { /* [수정] 선택자 정리 */
@@ -78,25 +118,29 @@
 }
 /* --- "정답 선택" 제목 --- */
 .main-content-test .answer-panel .section-header .section-subtitle { /* [수정] 선택자 정리 */
-    font-size: 1.1rem;
+    font-size: 1.5rem;
     font-weight: 500;
     color: var(--text-dark);
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
+    text-align: center;
 }
 .main-content-test .answer-panel .answer-form { /* [수정] 선택자 정리 */
     display: flex;
     flex-direction: column;
     flex: 1;
-    height: 100%; /* [개선] 스크롤되는 answer-list의 부모에게 높이 컨텍스트 제공 */
+    height: 100%; 
 }
 
 /* --- 정답 리스트 --- */
 .main-content-test .answer-panel .answer-form .answer-list { /* [수정] 선택자 정리 */
     display: flex;
     flex-direction: column;
-    gap: 0.9rem;
+    gap: 2rem;
     margin-bottom: 1.5rem;
     overflow-y: auto; 
+    /* ⭐ 추가: 글머리 기호 제거 */
+    list-style-type: none; 
+    padding-left: 0; 
 }
 .main-content-test .answer-panel .answer-form .answer-list input[type="radio"] {
     position: absolute;
@@ -106,13 +150,15 @@
 }
 .main-content-test .answer-panel .answer-form .answer-list label {
     display: flex;
+    /* ⭐ 수정: 텍스트 중앙 정렬 */
     align-items: center;
-    justify-content: flex-start;
-    padding: 0.75rem 1rem;
+    justify-content: center; 
+    /* ⭐ 수정: 높이 및 패딩 키우기 */
+    padding: 1.2rem 1rem; 
     border: 1px solid var(--border-color);
     border-radius: 0.75rem;
-    height: 46px;
-    font-size: 1.1rem;
+    height: 65px; /* 정답 상자 높이 키움 */
+    font-size: 1.2rem; /* 글꼴 크기 조정 */
     font-weight: 600;
     cursor: pointer;
     transition: all 0.2s ease;
@@ -121,13 +167,8 @@
     filter: brightness(1.02);
 }
 .main-content-test .answer-panel .answer-form .answer-list label::before {
-    content: '';
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    border: 2px solid var(--border-color);
-    margin-right: 1rem;
-    flex-shrink: 0;
+    /* ⭐ 수정: 라디오 버튼(::before) 제거 */
+    content: none; 
 }
 .main-content-test .answer-panel .answer-form .answer-list input[type="radio"]:checked + label {
     border-color: var(--primary-color);
@@ -135,9 +176,8 @@
     font-weight: 700;
 }
 .main-content-test .answer-panel .answer-form .answer-list input[type="radio"]:checked + label::before {
-    border-color: var(--primary-color);
-    background-color: var(--primary-color);
-    border-width: 4px; 
+    /* ⭐ 수정: 라디오 버튼(::before) 제거 */
+    content: none;
 }
 
 /* --- 제출 버튼 / 액션 --- */
@@ -204,7 +244,7 @@
         font-size: 1.6rem;
     }
     .container > .page-title-header {
-        padding: 1rem 0 0.5rem;
+        padding: 1rem 0 1rem 0;
     }
     .main-content-test .test-panel .video-placeholder-test.video-box .video-placeholder {
         height: 200px;
@@ -214,14 +254,15 @@
         gap: 0.75rem;
     }
     .main-content-test .answer-panel .answer-form .answer-list label {
-        font-size: 1rem;
-        height: 42px;
+        /* ⭐ 수정: 모바일 높이 키우기 */
+        font-size: 1.1rem;
+        height: 55px; 
     }
+    /* ⭐ 수정: 모바일에서도 ::before 제거 */
     .main-content-test .answer-panel .answer-form .answer-list input[type="radio"]:checked + label::before {
-        border-width: 3px;
+        content: none;
     }
     .main-content-test .answer-panel .answer-form .answer-list label::before {
-        width: 16px;
-        height: 16px;
+        content: none;
     }
 }

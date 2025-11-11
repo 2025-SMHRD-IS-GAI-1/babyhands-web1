@@ -160,11 +160,13 @@ button {
 	font-weight: 700;
 	color: var(--text-dark);
 	margin-bottom: 0.25rem;
+	text-align: center;
 }
 
 .section-subtitle {
 	font-size: 1.1rem;
 	color: var(--text-light);
+	text-align: center;
 }
 
 .video-containers {
@@ -190,6 +192,7 @@ button {
 	font-size: 1.1rem;
 	font-weight: 500;
 	margin-bottom: 1rem;
+	text-align: center;
 }
 
 .video-placeholder {
