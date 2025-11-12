@@ -32,28 +32,12 @@ if (kakaoLoginButton) {
 
 // 구글 로그인 비동기 함수
 function handleGoogleLogin() {
-	const googleOriginalContent = googleLoginButton
-		? googleLoginButton.innerHTML
-		: "";
-
-	if (googleLoginButton) {
-		googleLoginButton.disabled = true;
-		googleLoginButton.style.opacity = "0.6";
-		googleLoginButton.style.cursor = "not-allowed";
-	}
 
 	// 구글 클라이언트 ID (JSP에서 전달받은 값 사용)
 	const GOOGLE_CLIENT_ID = window.GOOGLE_CLIENT_ID;
 
 	if (!GOOGLE_CLIENT_ID) {
 		alert("구글 로그인 설정이 완료되지 않았습니다. 관리자에게 문의하세요.");
-		console.error("구글 클라이언트 ID가 설정되지 않았습니다.");
-		if (googleLoginButton) {
-			googleLoginButton.disabled = false;
-			googleLoginButton.style.opacity = "1";
-			googleLoginButton.style.cursor = "pointer";
-			googleLoginButton.innerHTML = googleOriginalContent;
-		}
 		return;
 	}
 
@@ -73,15 +57,9 @@ function handleGoogleLogin() {
 					console.log("구글 로그인 응답:", response); // 디버깅용
 					// 토큰을 받았으면 서버로 전송
 					if (response.access_token) {
-						sendTokenToServer(response.access_token, googleOriginalContent);
+						sendTokenToServer(response.access_token);
 					} else {
 						alert("구글 로그인에 실패했습니다.");
-						if (googleLoginButton) {
-							googleLoginButton.disabled = false;
-							googleLoginButton.style.opacity = "1";
-							googleLoginButton.style.cursor = "pointer";
-							googleLoginButton.innerHTML = googleOriginalContent;
-						}
 					}
 				},
 			});
@@ -108,25 +86,15 @@ function handleGoogleLogin() {
 		setTimeout(function() {
 			clearInterval(checkGoogle);
 			alert("구글 로그인을 초기화할 수 없습니다. 페이지를 새로고침해주세요.");
-			if (googleLoginButton) {
-				googleLoginButton.disabled = false;
-				googleLoginButton.style.opacity = "1";
-				googleLoginButton.style.cursor = "pointer";
-				googleLoginButton.innerHTML = googleOriginalContent;
-			}
 		}, 10000);
 	} else {
 		initGoogleAuth();
 	}
-	
-	googleLoginButton.disabled = false;
-	googleLoginButton.innerHTML = googleOriginalContent;
 }
 
 // 서버로 토큰 전송
-function sendTokenToServer(accessToken, originalContent) {
+function sendTokenToServer(accessToken) {
 	const body = new URLSearchParams({ accessToken: accessToken });
-	let loginSuccess = false;
 
 	fetch(`${APP_CTX}/GoogleLogin.do`, {
 		method: "POST",
@@ -142,7 +110,6 @@ function sendTokenToServer(accessToken, originalContent) {
 		.then(function(data) {
 			if (data && data.ok) {
 				loginSuccess = true;
-				alert("구글 로그인 성공");
 				location.replace(data.redirect);
 			} else {
 				alert(data.message || "구글 로그인 실패");
@@ -156,21 +123,11 @@ function sendTokenToServer(accessToken, originalContent) {
 			googleLoginButton.disabled = false;
 			googleLoginButton.style.opacity = "1";
 			googleLoginButton.style.cursor = "pointer";
-			googleLoginButton.innerHTML = originalContent;
 		});
 }
 
 // 네이버 로그인 비동기 함수
 function handleNaverLogin() {
-	const naverOriginalContent = naverLoginButton
-		? naverLoginButton.innerHTML
-		: "";
-
-	if (naverLoginButton) {
-		naverLoginButton.disabled = true;
-		naverLoginButton.style.opacity = "0.6";
-		naverLoginButton.style.cursor = "not-allowed";
-	}
 
 	// 백엔드 서비스를 통해 네이버 OAuth 시작 (state는 백엔드에서 생성하고 세션에 저장)
 	// 팝업 창 열기
@@ -193,16 +150,6 @@ function handleNaverLogin() {
 		",resizable=yes,scrollbars=yes"
 	);
 
-	// 버튼 상태 복원 함수
-	const restoreButton = function() {
-		if (naverLoginButton) {
-			naverLoginButton.disabled = false;
-			naverLoginButton.style.opacity = "1";
-			naverLoginButton.style.cursor = "pointer";
-			naverLoginButton.innerHTML = naverOriginalContent;
-		}
-	};
-
 	// 팝업에서 메시지 받기 (OAuth 완료 후)
 	const messageListener = function(event) {
 		if (event.origin !== window.location.origin) return;
@@ -212,7 +159,6 @@ function handleNaverLogin() {
 			popup.close();
 			// 서버에서 이미 로그인 처리 완료, 리다이렉트만 수행
 			if (event.data.redirect) {
-				alert("네이버 로그인 성공");
 				location.replace(event.data.redirect);
 			} else {
 				alert("네이버 로그인 성공");
@@ -225,7 +171,6 @@ function handleNaverLogin() {
 				"네이버 로그인에 실패했습니다: " +
 				(event.data.error || "알 수 없는 오류")
 			);
-			restoreButton();
 		}
 	};
 
@@ -236,22 +181,12 @@ function handleNaverLogin() {
 		if (popup.closed) {
 			clearInterval(checkClosed);
 			window.removeEventListener("message", messageListener);
-			restoreButton();
 		}
 	}, 500);
 }
 
 // 카카오 로그인 비동기 함수
 function handleKakaoLogin() {
-	const kakaoOriginalContent = kakaoLoginButton
-		? kakaoLoginButton.innerHTML
-		: "";
-
-	if (kakaoLoginButton) {
-		kakaoLoginButton.disabled = true;
-		kakaoLoginButton.style.opacity = "0.6";
-		kakaoLoginButton.style.cursor = "not-allowed";
-	}
 
 	// 백엔드 서비스를 통해 카카오 OAuth 시작 (state는 백엔드에서 생성하고 세션에 저장)
 	// 팝업 창 열기
@@ -274,15 +209,6 @@ function handleKakaoLogin() {
 		",resizable=yes,scrollbars=yes"
 	);
 
-	// 버튼 상태 복원 함수
-	const restoreButton = function() {
-		if (kakaoLoginButton) {
-			kakaoLoginButton.disabled = false;
-			kakaoLoginButton.style.opacity = "1";
-			kakaoLoginButton.style.cursor = "pointer";
-			kakaoLoginButton.innerHTML = kakaoOriginalContent;
-		}
-	};
 
 	// 팝업에서 메시지 받기 (OAuth 완료 후)
 	const messageListener = function(event) {
@@ -293,10 +219,8 @@ function handleKakaoLogin() {
 			popup.close();
 			// 서버에서 이미 로그인 처리 완료, 리다이렉트만 수행
 			if (event.data.redirect) {
-				alert("카카오 로그인 성공");
 				location.replace(event.data.redirect);
 			} else {
-				alert("카카오 로그인 성공");
 				location.replace(APP_CTX + "/Gomain.do");
 			}
 		} else if (event.data.type === "KAKAO_AUTH_ERROR") {
@@ -306,7 +230,6 @@ function handleKakaoLogin() {
 				"카카오 로그인에 실패했습니다: " +
 				(event.data.error || "알 수 없는 오류")
 			);
-			restoreButton();
 		}
 	};
 
@@ -317,7 +240,6 @@ function handleKakaoLogin() {
 		if (popup.closed) {
 			clearInterval(checkClosed);
 			window.removeEventListener("message", messageListener);
-			restoreButton();
 		}
 	}, 500);
 }
@@ -342,7 +264,6 @@ function sendNaverCodeToServer(code, state) {
 		})
 		.then(function(data) {
 			if (data && data.ok) {
-				alert("네이버 로그인 성공");
 				location.replace(data.redirect);
 			} else {
 				alert(data.message || "네이버 로그인 실패");
@@ -388,7 +309,6 @@ loginForm.addEventListener("submit", function(e) {
 		})
 		.then((data) => {
 			if (data && data.ok) {
-				alert("로그인 성공");
 				location.replace(data.redirect);
 			} else {
 				alert(data.message || "로그인 실패");
