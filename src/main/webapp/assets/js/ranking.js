@@ -62,7 +62,9 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   async function fetchMore() {
-    if (loading || ended) return;
+    if (loading || ended) {
+      return;
+    }
     loading = true;
     loaderEl.style.display = "block";
 
@@ -73,33 +75,49 @@ document.addEventListener("DOMContentLoaded", () => {
       const data = await res.json();
 
       const items = Array.isArray(data.items) ? data.items : [];
+      
+      // ✅ 중복 체크하면서 추가
+      let addedCount = 0;
       for (let i = 0; i < items.length; i++) {
         const it = items[i];
         const key = String(it.memberId || "");
-        if (!key || seen.has(key)) continue;
+        if (!key || seen.has(key)) continue;  // 중복이면 스킵
         seen.add(key);
         listEl.appendChild(createRow(it));
+        addedCount++;
       }
 
-	    offset += items.length;  // ✅ 여기까지 기존 코드
+      // ✅ 중요: 서버가 반환한 개수만큼 offset 증가 (중복과 무관하게)
+      offset += items.length;
 
-	    // ✅ 이 아래에 새로 추가!
-	    const total = typeof data.total === "number" ? data.total : totalCount;
+      const total = typeof data.total === "number" ? data.total : totalCount;
 
-	    if (offset >= total || items.length < limit) {
-	      ended = true;
-	      loaderEl.style.display = "none";
-	      endEl.style.display = "block";
-	      if (dotsEl) dotsEl.style.display = "none"; // 🔥 마지막이면 점 숨기기
-	    } else {
-	      if (dotsEl) dotsEl.style.display = "flex"; // 👀 아직 더 있을 땐 다시 보이게
-	    }
+      // ✅ 종료 조건: 서버가 limit보다 적게 반환했거나, offset이 total 이상이면 종료
+      if (items.length === 0 || offset >= total || items.length < limit) {
+        ended = true;
+        loaderEl.style.display = "none";
+        endEl.style.display = "block";
+        if (dotsEl) dotsEl.style.display = "none";
+      } else {
+        if (dotsEl) dotsEl.style.display = "flex";
+      }
 
-	  } catch (e) {
-	    console.error("[ranking.js] 로드 실패:", e);
-	  } finally {
-	    loading = false;
-	  }
+    } catch (e) {
+      console.error("[ranking.js] 로드 실패:", e);
+    } finally {
+      loading = false;
+      
+      // ✅ 중요: 아이템 추가 후 스크롤 상태를 다시 확인하여 다음 로드를 트리거
+      if (!ended) {
+        // 약간의 지연 후 스크롤 이벤트를 다시 확인
+        setTimeout(() => {
+          const { st, ch, sh } = getScrollState();
+          if (st + ch >= sh - 1) {
+            fetchMore();
+          }
+        }, 100);
+      }
+    }
   }
 
   // ---------- 무한 스크롤 트리거 (초기 강제 로드 없음) ----------
@@ -130,10 +148,16 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function onScroll() {
-    if (ended || loading) return;
-    if (!activated) return;                            // 스크롤 시도 전이면 동작 X
+    if (ended || loading) {
+      return;
+    }
+    if (!activated) {
+      return;
+    }
     const { st, ch, sh } = getScrollState();
-    if (st + ch >= sh - 1) fetchMore();
+    if (st + ch >= sh - 1) {
+      fetchMore();
+    }
   }
 
   function firstKick() {
