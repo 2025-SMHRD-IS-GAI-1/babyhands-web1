@@ -22,7 +22,7 @@
 	<select id="getOverallProgress" parameterType="string"
 		resultType="int">
 		<![CDATA[
-			SELECT COUNT(DISTINCT(SL_LEARN_ID))
+			SELECT COUNT(DISTINCT(SL_ID))
 			FROM SL_LEARN
 			WHERE MEMBER_ID = #{memberId}
 		]]>
