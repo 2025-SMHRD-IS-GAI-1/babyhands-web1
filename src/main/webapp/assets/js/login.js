@@ -38,7 +38,8 @@ function handleGoogleLogin() {
 
 	if (googleLoginButton) {
 		googleLoginButton.disabled = true;
-		googleLoginButton.innerHTML = "<span>로그인 중...</span>";
+		googleLoginButton.style.opacity = "0.6";
+		googleLoginButton.style.cursor = "not-allowed";
 	}
 
 	// 구글 클라이언트 ID (JSP에서 전달받은 값 사용)
@@ -49,6 +50,8 @@ function handleGoogleLogin() {
 		console.error("구글 클라이언트 ID가 설정되지 않았습니다.");
 		if (googleLoginButton) {
 			googleLoginButton.disabled = false;
+			googleLoginButton.style.opacity = "1";
+			googleLoginButton.style.cursor = "pointer";
 			googleLoginButton.innerHTML = googleOriginalContent;
 		}
 		return;
@@ -75,6 +78,8 @@ function handleGoogleLogin() {
 						alert("구글 로그인에 실패했습니다.");
 						if (googleLoginButton) {
 							googleLoginButton.disabled = false;
+							googleLoginButton.style.opacity = "1";
+							googleLoginButton.style.cursor = "pointer";
 							googleLoginButton.innerHTML = googleOriginalContent;
 						}
 					}
@@ -105,6 +110,8 @@ function handleGoogleLogin() {
 			alert("구글 로그인을 초기화할 수 없습니다. 페이지를 새로고침해주세요.");
 			if (googleLoginButton) {
 				googleLoginButton.disabled = false;
+				googleLoginButton.style.opacity = "1";
+				googleLoginButton.style.cursor = "pointer";
 				googleLoginButton.innerHTML = googleOriginalContent;
 			}
 		}, 10000);
@@ -147,6 +154,8 @@ function sendTokenToServer(accessToken, originalContent) {
 		})
 		.finally(function() {
 			googleLoginButton.disabled = false;
+			googleLoginButton.style.opacity = "1";
+			googleLoginButton.style.cursor = "pointer";
 			googleLoginButton.innerHTML = originalContent;
 		});
 }
@@ -159,7 +168,8 @@ function handleNaverLogin() {
 
 	if (naverLoginButton) {
 		naverLoginButton.disabled = true;
-		naverLoginButton.innerHTML = "<span>로그인 중...</span>";
+		naverLoginButton.style.opacity = "0.6";
+		naverLoginButton.style.cursor = "not-allowed";
 	}
 
 	// 백엔드 서비스를 통해 네이버 OAuth 시작 (state는 백엔드에서 생성하고 세션에 저장)
@@ -187,6 +197,8 @@ function handleNaverLogin() {
 	const restoreButton = function() {
 		if (naverLoginButton) {
 			naverLoginButton.disabled = false;
+			naverLoginButton.style.opacity = "1";
+			naverLoginButton.style.cursor = "pointer";
 			naverLoginButton.innerHTML = naverOriginalContent;
 		}
 	};
@@ -237,7 +249,8 @@ function handleKakaoLogin() {
 
 	if (kakaoLoginButton) {
 		kakaoLoginButton.disabled = true;
-		kakaoLoginButton.innerHTML = "<span>로그인 중...</span>";
+		kakaoLoginButton.style.opacity = "0.6";
+		kakaoLoginButton.style.cursor = "not-allowed";
 	}
 
 	// 백엔드 서비스를 통해 카카오 OAuth 시작 (state는 백엔드에서 생성하고 세션에 저장)
@@ -265,6 +278,8 @@ function handleKakaoLogin() {
 	const restoreButton = function() {
 		if (kakaoLoginButton) {
 			kakaoLoginButton.disabled = false;
+			kakaoLoginButton.style.opacity = "1";
+			kakaoLoginButton.style.cursor = "pointer";
 			kakaoLoginButton.innerHTML = kakaoOriginalContent;
 		}
 	};

@@ -138,18 +138,44 @@ body{
 
 .btn-accent:active{ background:var(--accent-pressed); }
 
+/* 소셜 로그인 버튼 컨테이너 */
+.social-login-container {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+/* 원형 소셜 로그인 버튼 */
+.btn-social {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform .15s ease, box-shadow .15s ease;
+  padding: 0;
+}
+
+.btn-social:active {
+  transform: scale(0.95);
+}
+
+.btn-social svg {
+  display: block;
+}
+
 .btn-google{
   background:#ffffff;
-  color:#3c4043;
   border:1px solid #dadce0;
-  margin-top:12px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  box-shadow: 0 2px 4px rgba(0,0,0,.1);
 }
 .btn-google:hover{ 
   background:#f8f9fa;
-  box-shadow:0 1px 3px rgba(0,0,0,.1);
+  box-shadow:0 4px 8px rgba(0,0,0,.15);
 }
 .btn-google:active{ 
   background:#f1f3f4;
@@ -157,16 +183,11 @@ body{
 
 .btn-naver{
   background:#03C75A;
-  color:#ffffff;
-  border:none;
-  margin-top:12px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  box-shadow: 0 2px 4px rgba(3,199,90,.3);
 }
 .btn-naver:hover{ 
   background:#02b350;
-  box-shadow:0 1px 3px rgba(0,0,0,.1);
+  box-shadow:0 4px 8px rgba(3,199,90,.4);
 }
 .btn-naver:active{ 
   background:#029e47;
@@ -174,16 +195,11 @@ body{
 
 .btn-kakao{
   background:#FEE500;
-  color:#3C1E1E;
-  border:none;
-  margin-top:12px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  box-shadow: 0 2px 4px rgba(254,229,0,.3);
 }
 .btn-kakao:hover{ 
   background:#FDD835;
-  box-shadow:0 1px 3px rgba(0,0,0,.1);
+  box-shadow:0 4px 8px rgba(254,229,0,.4);
 }
 .btn-kakao:active{ 
   background:#FBC02D;
