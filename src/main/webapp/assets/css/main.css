@@ -12,7 +12,7 @@
 }
 .card__title {
     margin-bottom:12px;
-    font-size:35px;
+    font-size:28px;
     font-weight:800;
     text-align:center;
     color:var(--text-dark);
@@ -101,9 +101,9 @@
 .cal__titlebar{
     display:flex;
     justify-content:space-between;
-    margin-bottom:5px;
+    margin-bottom:1px;
     position:relative;
-    padding-right: 50px; /* '오늘' 버튼 공간 확보 */
+    padding-right: 10px; /* '오늘' 버튼 공간 확보 */
 }
 .today-btn {
     position:absolute;

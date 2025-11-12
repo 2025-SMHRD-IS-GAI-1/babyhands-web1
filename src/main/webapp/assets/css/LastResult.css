@@ -63,9 +63,10 @@ body, input, button, select, textarea {
 .lr-title {
   font-size: var(--title);
   font-weight: 700;
-  margin: 1rem 0 1rem;
+  margin: 1rem 0 0 0;
   color: #1a2c3a;
   grid-column: 1/-1;
+  text-align: center;
 }
 
 /* ===== 요약칩 ===== */
@@ -85,6 +86,7 @@ body, input, button, select, textarea {
   border-radius: 0.75rem;
   font-weight: 500;
   font-size: var(--text-base);
+  text-align:center;
 }
 
 .lr-chip strong {
@@ -141,7 +143,7 @@ body, input, button, select, textarea {
   font-weight: 700;
   margin: 0.25rem 0 1rem;
   color: #333;
-  font-size: var(--title);
+  
 }
 
 .lr-right .lr-chart,
@@ -191,6 +193,7 @@ body, input, button, select, textarea {
   color: var(--label);
   pointer-events: none;
   opacity: 0.9;
+  
 }
 
 .bar.is-zero::before {
