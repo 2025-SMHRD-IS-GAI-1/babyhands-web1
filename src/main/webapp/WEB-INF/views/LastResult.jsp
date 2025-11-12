@@ -25,7 +25,7 @@
 
 		<!-- 상단바 (헤더는 컨테이너 안, 최상단) -->
 		<jsp:include page="/WEB-INF/views/header.jsp">
-			<jsp:param name="nav" value="learn" />
+			<jsp:param name="nav" value="" />
 		</jsp:include>
 
 		<div class="main-content-grid">
