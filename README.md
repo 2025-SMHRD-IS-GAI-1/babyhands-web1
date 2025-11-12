@@ -59,7 +59,6 @@
     <td><b>Frontend 사용언어</b></td>
     <td>
       <img src="https://img.shields.io/badge/CSS-1572B6?style=for-the-badge&logo=css3&logoColor=white">
-      <img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=black">
     </td>
   </tr>
 
