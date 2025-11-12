@@ -26,7 +26,7 @@
 		</jsp:include>
 
 		<div class="rk-wrapper">
-			<div class="title">랭킹</div>
+			<div class="title">랭 킹</div>
 
 			<div class="rk-board">
 				<div class="rk-header-row">
