@@ -2,251 +2,251 @@
 
 /* ===== 기본 리셋 ===== */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "Noto Sans KR", sans-serif;
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: "Noto Sans KR", sans-serif;
 }
 
 /* ===== 색상 및 폭 변수 ===== */
 :root {
-    --SHELL: 1180px;         /* 카드 최대 폭 */
-    --border: #dee2e6;       /* 테두리 색상 */
-    --bg: #f4f7f6;           /* 배경색 */
-    --card: #fff;            /* 카드 배경색 */
+	--SHELL: 1180px; /* 카드 최대 폭 */
+	--border: #dee2e6; /* 테두리 색상 */
+	--bg: #f4f7f6; /* 배경색 */
+	--card: #fff; /* 카드 배경색 */
 }
 
 /* ===== 전체 배경 및 텍스트 색상 ===== */
 body {
-    background: var(--bg);
-    color: #333;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
+	background: var(--bg);
+	color: #333;
+	display: flex; /* 👈 (수정) body에서 flex 대신 align-items 사용 */
+	justify-content: center;
+	align-items: flex-start; /* 👈 (수정) 'center' -> 'flex-start' (페이지가 길어지므로) */
+	min-height: 100vh;
+	padding-top: 4rem; /* 👈 (추가) 상단 여백 */
+	padding-bottom: 4rem; /* 👈 (추가) 하단 여백 */
 }
 
 /* ===== 화면 가운데 정렬용 래퍼 ===== */
 .rk-viewport {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 2rem 1rem;
-    box-sizing: border-box;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 2rem 1rem;
+	box-sizing: border-box;
 }
 
 /* ===== 내부 콘텐츠 래퍼 ===== */
 .rk-wrapper {
-    width: 100%;
+	width: 100%;
+	max-width: 800px; 
+	margin: 0 auto; 
 }
 
 /* ===== 페이지 제목 ===== */
 .title {
-    font-size: 1.8rem;
-    font-weight: 700;
-    text-align: center;
-    color: #1a2c3a;
-    margin: 0.5rem 0 1rem;
+	font-size: 1.8rem;
+	font-weight: 700;
+	text-align: center;
+	color: #1a2c3a;
+	margin: 1.5rem 0 0 0;
 }
 
-/* ===== 랭킹 보드 ===== */
+
+/* * 🚨 [수정됨] 랭킹 보드
+ * - 페이지 전체 스크롤을 위해 max-height, overflow, flex 모두 제거.
+ * - 단순한 흰색 카드 역할만 하도록 되돌립니다.
+ */
 .rk-board {
-    background: #fff;
-    border-radius: 16px;	
-    padding: 1.5rem 2rem;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, .05);
-
-    /* ✅ 스크롤 추가: 화면 밖으로 안 빠지게 */
-    max-height: 480px;
-    overflow-y: auto;
-    
-      /* sticky 바가 내용을 가리지 않게 여유 공간 */
-  padding-bottom: 80px; /* rk-my 높이(+여유)만큼 */
-  position: relative;   /* sticky 기준 컨테이너 */
-  
+	background: #fff;
+	border-radius: 16px;
+	padding: 0.5rem;
+	box-shadow: 0 4px 15px rgba(0, 0, 0, .05);
+	
+	/* ❌ (제거) 스크롤 관련 속성을 모두 제거 (페이지가 스크롤되도록) */
+	/* display: flex; */
+	/* flex-direction: column; */
+	/* max-height: calc(100vh - 220px); */
+	/* padding-bottom: 80px; */
+	/* position: relative; */
 }
 
-/* ===== 랭킹 헤더 및 행 ===== */
-.rk-header-row,
-.rk-row {
-    display: grid;
-    grid-template-columns: 120px 1fr 130px;
-    align-items: center;
-}
-
+/* * 🚨 [수정됨] 랭킹 헤더
+ * - flex-shrink 제거
+ * - (선택) 페이지 스크롤 시 헤더를 상단에 고정
+ */
 .rk-header-row {
-    border-bottom: 1px solid #eee;
-    font-weight: 600;
-    color: #444;
-    padding: 10px 15px;
-    background: #fafafa;
-    border-radius: 10px;
+	border-bottom: 1px solid #eee;
+	font-weight: 600;
+	color: #444;
+	padding: 10px 15px;
+	background: #fafafa;
+	border-radius: 10px;
+	text-align: center;
+	
+	/* ❌ (제거) */
+	/* flex-shrink: 0; */
+	
+	/* ✅ (선택적 추가) 페이지 스크롤 시 헤더를 상단에 고정합니다. */
+	position: sticky;
+	top: 80px; /* 👈 header.jsp의 높이에 따라 조절 필요 */
+	z-index: 5;
+}
+
+
+.rk-header-row, .rk-row {
+	display: grid;
+	grid-template-columns: 120px 1fr 130px;
+	align-items: center;
 }
 
 /* ===== 랭킹 행 스타일 ===== */
 .rk-row {
-    margin-top: 10px;
-    background: #fff;
-    border-radius: 14px;
-    min-height: 55px;
-    padding: 0 15px;
-    border: 1px solid #eee;
-    transition: background-color .2s ease;
+	margin-top: 10px;
+	background: #fff;
+	border-radius: 14px;
+	min-height: 55px;
+	padding: 0 15px;
+	border: 1px solid #eee;
+	transition: background-color .2s ease;
+	text-align: center;
 }
 
 .rk-row:hover {
-    background: #f6f9ff;
+	background: #f6f9ff;
 }
 
 /* ===== 상위 랭커 강조 색상 ===== */
-.rk-top1 {
-    background: #e9ffe4;
-    border-color: #b8ecb5;
-}
-
-.rk-top2 {
-    background: #f1ffe9;
-    border-color: #cceac3;
-}
-
-.rk-top3 {
-    background: #f9ffef;
-    border-color: #e3f3cc;
-}
+.rk-top1 { background: #e9ffe4; border-color: #b8ecb5; }
+.rk-top2 { background: #f1ffe9; border-color: #cceac3; }
+.rk-top3 { background: #f9ffef; border-color: #e3f3cc; }
 
 /* ===== 순위 번호 ===== */
 .rk-rank-num {
-    font-size: 18px;
-    font-weight: 700;
-    color: #333;
+	font-size: 18px;
+	font-weight: 700;
+	color: #333;
 }
 
 /* ===== 닉네임 영역 ===== */
 .rk-nick-wrap {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	justify-content: center;
 }
 
 /* ===== 메달 아이콘 ===== */
 .rk-medal {
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 14px;
+	width: 28px;
+	height: 28px;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 14px;
 }
 
-.rk-gold {
-    background: #ffb300;
-    color: #fff;
-}
-
-.rk-silver {
-    background: #d0d5de;
-    color: #fff;
-}
-
-.rk-bronze {
-    background: #d79a5c;
-    color: #fff;
-}
+.rk-gold { background: #ffb300; color: #fff; }
+.rk-silver { background: #d0d5de; color: #fff; }
+.rk-bronze { background: #d79a5c; color: #fff; }
 
 /* ===== 닉네임 텍스트 ===== */
 .rk-nickname {
-    font-size: 15px;
-    color: #222;
+	font-size: 15px;
+	color: #222;
+	text-align: center;
 }
 
-/* ===== 점수 영역 ===== */
+/* ===== 점수 영역 (중앙 정렬됨) ===== */
 .rk-score {
-    text-align: right;
-    font-weight: 600;
-    color: #0b4da3;
+	text-align: center; /* 👈 중앙 정렬 */
+	font-weight: 600;
+	color: #0b4da3;
 }
 
 /* ===== 하단 점 표시 ===== */
 .rk-dots {
-    display: flex;
-    justify-content: center;
-    gap: 12px;
-    margin: 20px 0;
+	display: flex;
+	justify-content: center;
+	gap: 12px;
+	margin: 20px 0;
 }
 
 .rk-dot {
-    width: 8px;
-    height: 8px;
-    background: #999;
-    border-radius: 50%;
+	width: 8px;
+	height: 8px;
+	background: #999;
+	border-radius: 50%;
 }
 
-/* ===== 로그인 사용자 랭킹 박스 ===== */
+/* * 🚨 [수정됨] 로그인 사용자 랭킹 박스
+ * - flex-shrink 제거
+ * - sticky가 페이지 하단을 기준으로 동작하도록 유지
+ */
 .rk-my {
-    background: #eaf3ff;
-    border-radius: 14px;
-    padding: 14px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-	margin-top: 1.5rem;   /* ⭕ 위쪽 여백만 */
-	margin-bottom: 0;     /* ❌ 아래쪽 여백은 제거 */
-    border: 1px solid #c5dbf6;
-    
-    
-       /* 💡 추가된 두 줄 */
-    position: sticky;   /* 스크롤 중에도 부모 영역 하단에 고정 */
-	bottom: var(--my-rank-offset, 0px); /* ⬅️ 여기 값이 클수록 더 위로 떠 */
-    
-        /* (선택) 다른 요소 위로 띄워주기 */
-    z-index: 10;
+	background: #eaf3ff;
+	border-radius: 14px;
+	padding: 14px 20px;
+	display: flex;
+	justify-content: center; /* 👈 중앙 정렬 */
+	gap: 24px; /* 👈 (추가) 텍스트 간격 */
+	align-items: center;
+	margin-top: 1.5rem; 
+	margin-bottom: 0; 
+	border: 1px solid #c5dbf6;
+	
+	/* ✅ 페이지 스크롤 시 하단에 고정됩니다. */
+	position: sticky; 
+	bottom: var(--my-rank-offset, 0px); /* 👈 JSP의 40px가 우선 적용될 수 있음 */
+	z-index: 10;
+	
+	/* ❌ (제거) */
+	/* flex-shrink: 0; */
 }
 
-.rk-my-left {
-    font-weight: 600;
-    color: #1a2c3a;
-}
-
-.rk-my-right {
-    font-weight: 700;
-    color: #0046c8;
-}
+.rk-my-left { font-weight: 600; color: #1a2c3a; }
+.rk-my-right { font-weight: 700; color: #0046c8; }
 
 /* ===== 반응형 처리 ===== */
-@media (max-width: 768px) {
-    .rk-container {
-        padding: 1.5rem;
-        border-radius: 1rem;
-    }
-    .rk-header-row,
-    .rk-row {
-        grid-template-columns: 80px 1fr 100px;
-        font-size: 14px;
-    }
-    .rk-board {
-        max-height: 400px;
-    }
+@media ( max-width : 768px) {
+	.rk-container {
+		padding: 1.5rem;
+		border-radius: 1rem;
+	}
+	.rk-header-row, .rk-row {
+		grid-template-columns: 80px 1fr 100px;
+		font-size: 14px;
+	}
+	/* ❌ (제거) 페이지가 스크롤되므로 max-height 제거 */
+	/* .rk-board { max-height: 400px; } */
 }
 
 
-/* Ranking.css */
-.rk-board { max-height: calc(100vh - 220px); overflow-y: auto; padding: 24px 32px 24px 32px;  }
+/* * ❌ (제거) 중복 규칙 삭제
+ */
+/*
+.rk-board { ... }
+*/
 
 
 
-
-/* 스크롤이 일어나는 내부 박스 */
-.rk-scroll{
-  max-height: 460px;     /* ← 네가 원하는 네모 박스 높이로 조절 */
-  overflow: auto;
-  padding-right: 6px;    /* 스크롤바 겹침 방지(선택) */
-  scroll-behavior: smooth;
-    /* sticky 하단 박스만큼 여유 공간을 줘서 절대 가리지 않게 */
-  padding-top: 2rem;
-  padding-bottom: 0;
-  /* scrollIntoView 쓸 때도 딱 맞게 보이도록 */
-  scroll-padding-bottom: calc(var(--my-rank-h, 96px) + var(--my-rank-offset, 0px));
+/* * [수정됨] 스크롤이 일어나는 내부 박스
+ * - 모든 스크롤/높이/flex 관련 속성을 제거합니다.
+ * - 이 div는 단순한 '목록' 컨테이너가 됩니다.
+ */
+.rk-scroll {
+	/* ❌ (제거) 이 속성들이 스크롤을 제한했습니다. */
+	/* flex-grow: 1; */
+	/* overflow: auto; */
+	/* min-height: 0; */
+	/* max-height: 460px; */ 
+	
+	padding-right: 6px; 
+	scroll-behavior: smooth;
+	padding-top: 2rem;
+	padding-bottom: 0;
+	/* scroll-padding-bottom: ...; */ /* 👈 페이지 스크롤이므로 의미 없음 */
 }
