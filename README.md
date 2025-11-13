@@ -165,13 +165,13 @@
 
 
 ## 9. 팀원 역할
-
+<img width="1417" height="916" alt="image" src= />
 
 <br>
 
 
 ## 10. 트러블 슈팅
-
+<img width="1417" height="916" alt="image" src= />
 
 <br>
 
