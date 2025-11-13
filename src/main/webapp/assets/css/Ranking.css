@@ -1,184 +1,246 @@
 @charset "UTF-8";
-
 /* ===== 기본 리셋 ===== */
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Noto Sans KR", sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Noto Sans KR", sans-serif;
 }
 
+/* ===== 색상 및 폭 변수 ===== */
 :root {
-  --bg: #f4f7f6;
-  --card: #fff;
-  --border: #e9e9ef;
-  --my-rank-h: 50px;
-  --my-rank-offset: 16px;
+    --SHELL: 1180px; /* 카드 최대 폭 */
+    --border: #dee2e6; /* 테두리 색상 */
+    --bg: #f4f7f6; /* 배경색 */
+    --card: #fff; /* 카드 배경색 */
 }
 
-/* ===== 랭킹 전용 wrapper ===== */
+/* ===== 전체 배경 및 텍스트 색상 ===== */
+body {
+    background: var(--bg);
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+}
+
+/* ===== 화면 가운데 정렬용 래퍼 ===== */
+.rk-viewport {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem 1rem;
+    box-sizing: border-box;
+}
+
+/* ===== 내부 콘텐츠 래퍼 ===== */
 .rk-wrapper {
-  width: 100%;
-  max-width: 750px;          /* ✅ 공통 컨테이너 폭 */
-  padding: 0 12px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 0 auto;            /* 중앙정렬 */
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
 }
 
-/* ===== 제목 ===== */
+/* ===== 페이지 제목 ===== */
 .title {
-  font-size: 1.6rem;
-  font-weight: 700;
-  text-align: center;
-  color: #1a2c3a;
-  margin-top: 24px;
-  margin-bottom: 36px;
-  width: 100%;
+    font-size: 1.8rem;
+    font-weight: 700;
+    text-align: center;
+    color: #1a2c3a;
+    margin: 1.5rem 0 0 0;
 }
 
-/* ===== 랭킹 박스 ===== */
+/* * 🚨 [수정됨] 랭킹 보드 (내부 스크롤 컨테이너) */
 .rk-board {
-  width: 100%;
-  max-width: 1500px;         /* ✅ 공통 컨테이너 높이/폭 맞춤 */
-  background: var(--card);
-  border-radius: 14px;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
-  height: 500px;
-  overflow: hidden;
-  position: relative;
+    background: #fff;
+    border-radius: 16px;
+    padding: 0.5rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, .05);
+    
+    /* ✅ (수정/추가) 내부 스크롤을 위한 설정 */
+    display: flex;
+    flex-direction: column;
+    max-height: calc(100vh - 220px); 
+    padding-bottom: 80px; 
+    position: relative;
 }
 
-/* ===== 헤더 ===== */
+/* * 🚨 [수정됨] 랭킹 헤더 (내부 sticky) */
 .rk-header-row {
-  display: grid;
-  grid-template-columns: 90px 1fr 110px;
-  align-items: center;
-  padding: 10px 14px;
-  background: #fafafa;
-  border-bottom: 1px solid var(--border);
-  font-weight: 600;
-  color: #444;
-  position: sticky;
-  top: 0;
-  z-index: 10;
-
-  text-align: center;   /* ✅ 모든 텍스트 중앙정렬 */
-}
-.rk-header-row > div {
-  text-align: center;
-}
-/* ✅ 누적점수 셀 내부 div까지 강제로 중앙정렬 */
-.rk-header-row > div > div {
-  text-align: center !important;
+    border-bottom: 1px solid #eee;
+    font-weight: 600;
+    color: #444;
+    padding: 10px 15px;
+    background: #fafafa;
+    border-radius: 10px;
+    text-align: center;
+    
+    /* ✅ (수정) .rk-board 내부 스크롤에 고정 */
+    position: sticky;
+    top: 0.5rem; 
+    z-index: 5;
 }
 
-/* ===== 내부 스크롤 ===== */
-.rk-scroll {
-  height: calc(100% - 48px - var(--my-rank-h) - var(--my-rank-offset));
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-  padding: 12px;
-  box-sizing: border-box;
+.rk-header-row, .rk-row {
+    display: grid;
+    grid-template-columns: 120px 1fr 130px;
+    align-items: center;
 }
-.rk-scroll::-webkit-scrollbar { width: 8px; }
-.rk-scroll::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.1); border-radius: 8px; }
 
-/* ===== 랭킹 행 ===== */
+/* ===== 랭킹 행 스타일 ===== */
 .rk-row {
-  display: grid;
-  grid-template-columns: 90px 1fr 110px;
-  align-items: center;
-  gap: 12px;
-  padding: 10px 12px;
-  background: #fff;
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  margin-bottom: 10px;
-  min-height: 52px;
-  box-sizing: border-box;
+    margin-top: 10px;
+    background: #fff;
+    border-radius: 14px;
+    min-height: 55px;
+    padding: 0 15px;
+    border: 1px solid #eee;
+    transition: background-color .2s ease;
+    text-align: center;
 }
-.rk-row:last-child { margin-bottom: 0px; }
-.rk-row:hover { background: #f6f9ff; }
 
-/* 상위 랭커 강조 */
-.rk-top1 { background: #fffef6; border-color: #f7e8b7; }
-.rk-top2 { background: #fbfcff; border-color: #dfe9ff; }
-.rk-top3 { background: #fff9f2; border-color: #f0d9c7; }
+.rk-row:hover {
+    background: #f6f9ff;
+}
 
-/* 순위 */
+/* ===== 상위 랭커 강조 색상 ===== */
+.rk-top1 {
+    background: #e9ffe4;
+    border-color: #b8ecb5;
+}
+
+.rk-top2 {
+    background: #f1ffe9;
+    border-color: #cceac3;
+}
+
+.rk-top3 {
+    background: #f9ffef;
+    border-color: #e3f3cc;
+}
+
+/* ===== 순위 번호, 닉네임, 메달 영역 (기존 유지) ===== */
 .rk-rank-num {
-  font-size: 16px;
-  font-weight: 700;
-  color: #222;
-  text-align: center;
+    font-size: 18px;
+    font-weight: 700;
+    color: #333;
 }
 
-/* 닉네임 영역 */
 .rk-nick-wrap {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  justify-content: center;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: center;
 }
+
+.rk-medal {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+}
+
+.rk-gold {
+    background: #ffb300;
+    color: #fff;
+}
+
+.rk-silver {
+    background: #d0d5de;
+    color: #fff;
+}
+
+.rk-bronze {
+    background: #d79a5c;
+    color: #fff;
+}
+
 .rk-nickname {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  max-width: 100%;
-  font-size: 15px;
-  color: #222;
-  text-align:center;
+    font-size: 15px;
+    color: #222;
+    text-align: center;
 }
 
-/* 점수 */
 .rk-score {
-  text-align: center;
-  font-weight: 700;
-  color: #0b4da3;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+    text-align: center;
+    font-weight: 600;
+    color: #0b4da3;
 }
 
-/* 하단 dot 표시 */
 .rk-dots {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  margin: 14px 0;
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin: 20px 0;
 }
+
 .rk-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: #bbb;
+    width: 8px;
+    height: 8px;
+    background: #999;
+    border-radius: 50%;
 }
 
-/* ===== 내 랭킹 박스 ===== */
+/* * 🚨 [수정됨] 로그인 사용자 랭킹 박스 (내부 sticky) */
 .rk-my {
-  background: #eaf3ff;
-  border: 1px solid #cfe0fb;
-  border-radius: 12px;
-  padding: 12px 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 12;
+    background: #eaf3ff;
+    border-radius: 14px;
+    padding: 14px 20px;
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    align-items: center;
+    margin-top: 1.5rem;
+    margin-bottom: 0;
+    border: 1px solid #c5dbf6;
+    
+    /* ✅ (수정) .rk-board 내부 스크롤 하단에 고정 */
+    position: sticky;
+    bottom: 0px; 
+    z-index: 10;
 }
 
-/* 반응형 */
-@media (max-width: 768px) {
-  .rk-board { height: 500px; }
-  .rk-header-row, .rk-row { grid-template-columns: 70px 1fr 90px; }
-  .rk-my { padding: 10px; }
+.rk-my-left {
+    font-weight: 600;
+    color: #1a2c3a;
+}
+
+.rk-my-right {
+    font-weight: 700;
+    color: #0046c8;
+}
+
+/* ===== 반응형 처리 (기존 유지) ===== */
+@media ( max-width : 768px) {
+    .rk-container {
+        padding: 1.5rem;
+        border-radius: 1rem;
+    }
+
+    .rk-header-row, .rk-row {
+        grid-template-columns: 80px 1fr 100px;
+        font-size: 14px;
+    }
+}
+
+/* * 🚨 [수정됨] 스크롤이 일어나는 내부 박스 (스크롤 영역) */
+.rk-scroll {
+    /* ✅ (추가) 스크롤바 생성 및 유연한 높이 설정 */
+    overflow-y: auto;
+    flex-grow: 1;
+    min-height: 0;
+    
+    /* ✅ (추가) 약 5개 행만 보이도록 높이 제한 */
+    max-height: 350px; 
+
+    padding-right: 6px;
+    scroll-behavior: smooth;
+    padding-top: 2rem;
+    padding-bottom: 0;
 }
