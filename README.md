@@ -180,7 +180,7 @@
 
 
 ## 11. 시연 영상
+([동영상 링크](https://youtu.be/hL2iqkVBzTc))
 
-https://youtu.be/hL2iqkVBzTc
 
 <br>
