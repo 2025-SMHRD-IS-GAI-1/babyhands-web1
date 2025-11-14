@@ -55,12 +55,6 @@
     </td>
   </tr>
 
-  <tr>
-    <td><b>Frontend 사용언어</b></td>
-    <td>
-      <img src="https://img.shields.io/badge/CSS-1572B6?style=for-the-badge&logo=css3&logoColor=white">
-    </td>
-  </tr>
 
   <tr>
     <td><b>Backend 프레임워크</b></td>
